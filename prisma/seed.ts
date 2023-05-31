@@ -191,7 +191,6 @@ async function seed() {
             owner: {connect: {id: user.id}},
             title: 'A Space Odyssey',
             description: 'The space frigate, Meritocracy, has encountered an unknown alien species... and they\'re ready to smooch',
-            firstPage: {connect: {id: page.id}}
         }
     })
 
@@ -200,7 +199,6 @@ async function seed() {
             owner: {connect: {id: user.id}},
             title: 'Wizard Academy',
             description: 'You and your arch-rival are destined by prophecy to fight to the death or fall in love trying.',
-            firstPage: {connect: {id: page.id}}
         }
     })
 

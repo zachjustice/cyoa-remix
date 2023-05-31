@@ -11,7 +11,7 @@ export async function loader({params}: DataFunctionArgs) {
         select: {
             id: true,
             title: true,
-            pageId: true,
+            firstPageId: true,
             description: true,
         },
     })
@@ -24,6 +24,7 @@ export async function loader({params}: DataFunctionArgs) {
 export default function GetStoryRoute() {
     const {story} = useLoaderData<typeof loader>()
 
+    let link = story.firstPageId ? `pages/${story.firstPageId}/`: `pages/new/`;
     return (
         <div className="flex h-full flex-col">
             <div className="flex-grow">
@@ -31,7 +32,7 @@ export default function GetStoryRoute() {
                 <p className="text-sm md:text-lg">{story.description}</p>
                 <div className="mt-10 flex gap-4">
                     <ButtonLink
-                        to={`pages/${story.pageId}`}
+                        to={link}
                         size="md"
                         variant="primary"
                         type="submit"

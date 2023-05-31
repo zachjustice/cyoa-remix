@@ -165,7 +165,7 @@ function Stories(props: {stories: StoriesProps}) {
 									})
 								}
 							>
-								+ New Note
+								+ New Story
 							</NavLink>
 						</li>
 						{stories.map(story => (
