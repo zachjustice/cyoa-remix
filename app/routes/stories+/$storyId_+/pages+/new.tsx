@@ -19,7 +19,6 @@ export async function loader({params, request}: DataFunctionArgs) {
 
 export default function CreatePage() {
     const data = useLoaderData<typeof loader>();
-    console.log(`## Create page ${JSON.stringify(data)}`)
     return <PageEditor page={{
         storyId: data?.storyId,
         parentChoiceId: data?.parentChoiceId

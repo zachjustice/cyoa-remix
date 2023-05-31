@@ -28,7 +28,6 @@ export async function action({request}: DataFunctionArgs) {
     if (submission.intent !== 'submit') {
         return json({status: 'idle', submission} as const)
     }
-    console.log(`## submission.intent ${submission.intent}`)
 
     if (!submission.value) {
         return json(
@@ -100,7 +99,6 @@ export async function action({request}: DataFunctionArgs) {
             where: {id: storyId},
             select: {firstPageId: true}
         });
-        console.log(`## existingstory: ${JSON.stringify(existingStory)}`)
 
         if (existingStory?.firstPageId) {
             return json(
@@ -131,7 +129,6 @@ export async function action({request}: DataFunctionArgs) {
         page = {id: story.firstPageId}
     }
 
-    console.log(`## redirect: /stories/${storyId}/pages/${page.id}/`)
     return redirect(`/stories/${storyId}/pages/${page.id}/`)
 }
 
