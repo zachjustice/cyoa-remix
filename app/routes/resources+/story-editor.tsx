@@ -129,11 +129,11 @@ export function StoryEditor({
 			/>
 			<ErrorList errors={form.errors} id={form.errorId} />
 			<div className="flex justify-end gap-4">
-				<Button size="md" variant="secondary" type="reset">
+				<Button size="sm" variant="secondary" type="reset">
 					Reset
 				</Button>
 				<Button
-					size="md"
+					size="sm"
 					variant="primary"
 					status={
 						storyEditorFetcher.state === 'submitting'

@@ -130,8 +130,7 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 				className="no-required-asterisk"
 				labelProps={{ htmlFor: fields.content.id, children: "More choices can be made..." }}
 				inputProps={{
-					...conform.input(fields.content),
-					autoComplete: 'content',
+					// ...conform.input(fields.content),
 				}}
 				errors={fields.content.errors}
 			/>

@@ -1,10 +1,15 @@
-import {type DataFunctionArgs, json} from "@remix-run/node";
+import {Story} from "@prisma/client";
+import {type DataFunctionArgs, json, SerializeFrom} from "@remix-run/node";
 import {Link, useLoaderData} from "@remix-run/react";
 import invariant from "tiny-invariant";
+import {CurrentStory, isCurrentStory, useStoryActivityDispatch} from "~/context/StoryActivityContext.tsx";
+import {loader as rootLoader} from "~/root.js";
 import {prisma} from "~/utils/db.server.ts";
 import {ButtonLink} from "~/utils/forms.tsx";
 import {getUserId} from "~/utils/auth.server.ts";
 import {formatPublishDate} from "~/utils/dateFormat.ts";
+
+type LoaderResponseType = { story: CurrentStory, isOwner: Boolean };
 
 export async function loader({params, request}: DataFunctionArgs) {
     invariant(params.storyId, 'Missing storyId')
@@ -19,6 +24,8 @@ export async function loader({params, request}: DataFunctionArgs) {
             firstPageId: true,
             description: true,
             createdAt: true,
+            updatedAt: true,
+            ownerId: true,
             owner: {
                 select: {
                     id: true,
@@ -32,9 +39,13 @@ export async function loader({params, request}: DataFunctionArgs) {
     }
     return json({story, isOwner: story.owner.id === userId})
 }
-
 export default function GetStoryRoute() {
     const {story, isOwner} = useLoaderData<typeof loader>()
+    const dispatch = useStoryActivityDispatch();
+
+    if(!isCurrentStory(story)) {
+        throw Error(`Expected current story but instead found ${JSON.stringify(story)}`)
+    }
 
     let link = story.firstPageId ? `pages/${story.firstPageId}/` : `pages/new/`;
     return (
@@ -49,7 +60,11 @@ export default function GetStoryRoute() {
                 <div className="mt-10 flex gap-4">
                     <ButtonLink
                         to={link}
-                        size="md"
+                        onClick={() => dispatch({
+                            type: 'begin-story',
+                            payload: story,
+                        })}
+                        size="sm"
                         variant="primary"
                         type="submit"
                     >
@@ -60,7 +75,7 @@ export default function GetStoryRoute() {
             {isOwner ? (
                 <div className="flex justify-end gap-4">
                     {/*<DeleteStory id={story.id} />*/}
-                    <ButtonLink size="md" variant="primary" to="edit">
+                    <ButtonLink size="sm" variant="primary" to="edit">
                         Edit
                     </ButtonLink>
                 </div>

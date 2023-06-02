@@ -5,5 +5,5 @@
 
 /* Removes the "*" on required form fields */
 .no-required-asterisk {
-    content: None;
+    content: '' !important;
 }

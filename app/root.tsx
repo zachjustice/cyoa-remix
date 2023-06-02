@@ -1,38 +1,16 @@
-import * as Checkbox from '@radix-ui/react-checkbox'
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import {cssBundleHref} from '@remix-run/css-bundle'
-import {
-    json,
-    type DataFunctionArgs,
-    type LinksFunction,
-    type V2_MetaFunction,
-} from '@remix-run/node'
-import {
-    Form,
-    Link,
-    Links,
-    LiveReload,
-    Meta, NavLink,
-    Outlet,
-    Scripts,
-    ScrollRestoration,
-    useFetcher,
-    useLoaderData,
-    useSubmit,
-} from '@remix-run/react'
-import {clsx} from 'clsx'
-import {useEffect, useState} from 'react'
+import {type DataFunctionArgs, json, type LinksFunction, type V2_MetaFunction,} from '@remix-run/node'
+import {Links, LiveReload, Meta, Scripts, ScrollRestoration, useLoaderData,} from '@remix-run/react'
+import {StoryNavigator} from "~/components/StoryNavigator.tsx";
+import {ThemeSwitch} from "~/components/ThemeSwitch.tsx";
+import {UserDropdown} from "~/components/UserDropDown.tsx";
+import {StoryActivityProvider} from "~/context/StoryActivityContext.tsx";
 import tailwindStylesheetUrl from './styles/tailwind.css'
 import {authenticator, getUserId} from './utils/auth.server.ts'
 import {prisma} from './utils/db.server.ts'
 import {getEnv} from './utils/env.server.ts'
 import {ButtonLink} from './utils/forms.tsx'
-import {getUserImgSrc} from './utils/misc.ts'
-import {useUser} from './utils/user.ts'
 import {useNonce} from './utils/nonce-provider.ts'
-import {useMatchesData} from "~/useMatchesData.ts";
-import GetPageRoute from "~/routes/stories+/$storyId_+/pages+/$pageId.js";
-import {PageViewer} from "~/routes/resources+/Page.tsx";
 
 export const links: LinksFunction = () => {
     return [
@@ -126,7 +104,9 @@ export default function App() {
         </header>
 
         <div className="flex-1">
-            <Stories stories={data.stories}/>
+            <StoryActivityProvider>
+                <StoryNavigator stories={data.stories}/>
+            </StoryActivityProvider>
         </div>
 
         <div className="container mx-auto flex justify-end">
@@ -143,208 +123,5 @@ export default function App() {
         <LiveReload nonce={nonce}/>
         </body>
         </html>
-    )
-}
-
-
-type StoriesProps = { id: string, title: string }[];
-
-function Stories(props: { stories: StoriesProps }) {
-    const {stories} = props;
-    let matchesData = useMatchesData(`routes/stories+/$storyId_+/pages+/$pageId`);
-    const [pages, setPages] = useState(matchesData?.page)
-    let [activeStoryId, setStoryId] = useState<string>();
-
-    useEffect(() => {
-        if (matchesData?.page) {
-            setPages((prevPages) => {
-                if (prevPages) {
-                    return [matchesData?.page, ...prevPages];
-                } else {
-                    return []
-                }
-            })
-        }
-    }, [matchesData?.page])
-    console.log(`## pages ${JSON.stringify(pages)}`)
-
-    // const ownerDisplayName = data?.owner?.name ?? data.owner.username
-    const navLinkDefaultClassName =
-        'line-clamp-2 block rounded-l-full py-2 pl-8 pr-6 text-base lg:text-xl'
-    return (
-        <div className="flex h-full pb-12">
-            <div className="mx-auto grid w-full flex-grow grid-cols-4 bg-night-500 pl-2 md:container md:rounded-3xl">
-                <div className="col-span-1 py-12">
-                    <ul>
-                        <li>
-                            <NavLink
-                                to="stories/new"
-                                className={({isActive}) =>
-                                    clsx(navLinkDefaultClassName, {
-                                        'bg-night-400': isActive,
-                                    })
-                                }
-                            >
-                                + New Story
-                            </NavLink>
-                        </li>
-                        {stories.map(story => (
-                            <li key={story.id}>
-                                <NavLink
-                                    to={`stories/${story.id}`}
-                                    onClick={() => setStoryId(story.id)}
-                                    className={({isActive}) =>
-                                        clsx(navLinkDefaultClassName, {
-                                            'bg-night-400': isActive,
-                                        })
-                                    }
-                                >
-                                    {story.title}
-                                </NavLink>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <main className="col-span-3 bg-night-400 px-10 py-12 md:rounded-r-3xl">
-                    <Outlet/>
-                    <ul>
-                        {pages && activeStoryId && pages.map(page => {
-                            return <PageViewer editable={false} page={page} storyId={activeStoryId} />
-                        })}
-                    </ul>
-                </main>
-            </div>
-        </div>
-    )
-}
-
-function ThemeSwitch() {
-    const fetcher = useFetcher()
-    const [mode, setMode] = useState<'system' | 'dark' | 'light'>('system')
-    const checked: boolean | 'indeterminate' =
-        mode === 'system' ? 'indeterminate' : mode === 'dark'
-    const theme = mode === 'system' ? 'dark' : mode
-    return (
-        <fetcher.Form>
-            <label>
-                <Checkbox.Root
-                    className={clsx('bg-gray-night-500 h-10 w-20 rounded-full p-1', {
-                        'bg-night-500': theme === 'dark',
-                        'bg-white': theme === 'light',
-                    })}
-                    checked={checked}
-                    name="theme"
-                    value={mode}
-                    onCheckedChange={() =>
-                        setMode(oldMode =>
-                            oldMode === 'system'
-                                ? 'light'
-                                : oldMode === 'light'
-                                    ? 'dark'
-                                    : 'system',
-                        )
-                    }
-                    aria-label={
-                        mode === 'system'
-                            ? 'System Theme'
-                            : mode === 'dark'
-                                ? 'Dark Theme'
-                                : 'Light Theme'
-                    }
-                >
-					<span
-                        className={clsx('flex justify-between rounded-full', {
-                            'bg-white': mode === 'system' && theme === 'dark',
-                            'theme-switch-light': mode === 'system' && theme === 'light',
-                        })}
-                    >
-						<span
-                            className={clsx(
-                                'theme-switch-light',
-                                'flex h-8 w-8 items-center justify-center rounded-full',
-                                {
-                                    'text-white': mode === 'light',
-                                },
-                            )}
-                        >
-							🔆
-						</span>
-						<span
-                            className={clsx(
-                                'theme-switch-dark',
-                                'flex h-8 w-8 items-center justify-center rounded-full',
-                                {
-                                    'text-white': mode === 'dark',
-                                },
-                            )}
-                        >
-							🌙
-						</span>
-					</span>
-                </Checkbox.Root>
-            </label>
-        </fetcher.Form>
-    )
-}
-
-function UserDropdown() {
-    const user = useUser()
-    const submit = useSubmit()
-    return (
-        <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild>
-                <Link
-                    to={`/users/${user.username}`}
-                    // this is for progressive enhancement
-                    onClick={e => e.preventDefault()}
-                    className="flex items-center gap-2 rounded-full bg-night-500 py-2 pl-2 pr-4 outline-none hover:bg-night-400 focus:bg-night-400 radix-state-open:bg-night-400"
-                >
-                    <img
-                        className="h-8 w-8 rounded-full object-cover"
-                        alt={user.name ?? user.username}
-                        src={getUserImgSrc(user.imageId)}
-                    />
-                    <span className="text-body-sm font-bold">
-						{user.name ?? user.username}
-					</span>
-                </Link>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Portal>
-                <DropdownMenu.Content
-                    sideOffset={8}
-                    align="start"
-                    className="flex flex-col rounded-3xl bg-[#323232]"
-                >
-                    <DropdownMenu.Item asChild>
-                        <Link
-                            prefetch="intent"
-                            to={`/users/${user.username}`}
-                            className="rounded-t-3xl px-7 py-5 outline-none hover:bg-night-500 radix-highlighted:bg-night-500"
-                        >
-                            Profile
-                        </Link>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item asChild>
-                        <Link
-                            prefetch="intent"
-                            to={`/users/${user.username}/notes`}
-                            className="px-7 py-5 outline-none hover:bg-night-500 radix-highlighted:bg-night-500"
-                        >
-                            Notes
-                        </Link>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item asChild>
-                        <Form
-                            action="/logout"
-                            method="POST"
-                            className="rounded-b-3xl px-7 py-5 outline-none radix-highlighted:bg-night-500"
-                            onClick={e => submit(e.currentTarget)}
-                        >
-                            <button type="submit">Logout</button>
-                        </Form>
-                    </DropdownMenu.Item>
-                </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-        </DropdownMenu.Root>
     )
 }

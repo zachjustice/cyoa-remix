@@ -10,6 +10,7 @@
 		"types": [],
 		"isolatedModules": true,
 		"esModuleInterop": true,
+		"experimentalDecorators": true,
 		"jsx": "react-jsx",
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
@@ -17,7 +18,7 @@
 		"target": "ES2022",
 		"strict": true,
 		"noImplicitAny": true,
-		"allowJs": true,
+		"allowJs": false,
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
 		"paths": {

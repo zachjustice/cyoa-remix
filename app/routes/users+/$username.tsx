@@ -10,7 +10,7 @@ import { Spacer } from '~/components/spacer.tsx'
 import { prisma } from '~/utils/db.server.ts'
 import { ButtonLink } from '~/utils/forms.tsx'
 import { getUserImgSrc } from '~/utils/misc.ts'
-import { useOptionalUser } from '~/utils/user.ts'
+import { useOptionalUser } from '~/hooks/useUser.ts'
 
 export async function loader({ params }: DataFunctionArgs) {
 	invariant(params.username, 'Missing username')

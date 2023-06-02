@@ -171,18 +171,18 @@ export function PageEditor(props: PageEditorProps) {
                 className="no-required-asterisk"
                 labelProps={{htmlFor: fields.content.id, children: "This page is blank..."}}
                 textareaProps={{
-                    ...conform.textarea(fields.content),
-                    autoComplete: 'content',
+                    // ...conform.textarea(fields.content),
+                    // autoComplete: 'content',
                 }}
                 errors={fields.content.errors}
             />
             <ErrorList errors={form.errors} id={form.errorId}/>
             <div className="flex justify-end gap-4">
-                <Button size="md" variant="secondary" type="reset">
+                <Button size="sm" variant="secondary" type="reset">
                     Reset
                 </Button>
                 <Button
-                    size="md"
+                    size="sm"
                     variant="primary"
                     status={
                         pageEditorFetcher.state === 'submitting'
