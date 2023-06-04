@@ -1,5 +1,7 @@
 import fs from 'fs'
 import {faker} from '@faker-js/faker'
+import {parseTestData} from "prisma/data-generators.ts";
+import {testData} from "prisma/testData.js";
 import {createPassword, createUser} from 'tests/db-utils.ts'
 import {prisma} from '~/utils/db.server.ts'
 import {deleteAllData} from 'tests/setup/utils.ts'
@@ -23,10 +25,8 @@ async function seed() {
         },
     })
     console.timeEnd(`👑 Created admin role/permission...`)
-    // hosts with ships and reviews
-    // renters with bookings and reviews
-    // hosts who are renters also
-    const totalUsers = 40
+
+    const totalUsers = 5
     console.time(`👤 Created ${totalUsers} users...`)
     const users = await Promise.all(
         Array.from({length: totalUsers}, async (_, index) => {
@@ -180,27 +180,27 @@ async function seed() {
     await prisma.story.create({
         data: {
             owner: {connect: {id: user.id}},
-            title: 'The Drugar\'s Fable',
-            description: 'A story in which you journey through far-off lands, kiss a prince, and marry a dragon.',
+            title: 'The Fable of Drugar',
+            description: 'Explore the entire everything forever as a cool demon smooching babes.',
             firstPage: {connect: {id: page.id}}
         }
     })
 
-    await prisma.story.create({
-        data: {
-            owner: {connect: {id: user.id}},
-            title: 'A Space Odyssey',
-            description: 'The space frigate, Meritocracy, has encountered an unknown alien species... and they\'re ready to smooch',
-        }
-    })
+    for (const {text, storyTitle, storyDescription} of testData) {
+        const parsedData = parseTestData(text, {connect: {id: user.id}});
+        const generatedPage = await prisma.page.create({
+            data: parsedData
+        })
 
-    await prisma.story.create({
-        data: {
-            owner: {connect: {id: user.id}},
-            title: 'Wizard Academy',
-            description: 'You and your arch-rival are destined by prophecy to fight to the death or fall in love trying.',
-        }
-    })
+        await prisma.story.create({
+            data: {
+                owner: {connect: {id: user.id}},
+                title: storyTitle,
+                description: storyDescription,
+                firstPage: {connect: {id: generatedPage.id}}
+            }
+        })
+    }
 
     console.timeEnd(`📚 Created pages and choices...`)
 
