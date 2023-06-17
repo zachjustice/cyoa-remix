@@ -2,7 +2,7 @@ import {Story} from "@prisma/client";
 import {type DataFunctionArgs, json, SerializeFrom} from "@remix-run/node";
 import {Link, useLoaderData} from "@remix-run/react";
 import invariant from "tiny-invariant";
-import {CurrentStory, isCurrentStory, useStoryActivityDispatch} from "~/context/StoryActivityContext.tsx";
+import {CurrentStory, isCurrentStory, useStoryActivityDispatch} from "~/context/story-activity-context.tsx";
 import {loader as rootLoader} from "~/root.js";
 import {prisma} from "~/utils/db.server.ts";
 import {ButtonLink} from "~/utils/forms.tsx";

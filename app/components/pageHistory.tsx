@@ -1,4 +1,4 @@
-import {useOptionalCurrentStory, usePageHistory} from "~/context/StoryActivityContext.tsx";
+import {useOptionalCurrentStory, usePageHistory} from "~/context/story-activity-context.tsx";
 import {PageViewer} from "~/routes/resources+/Page.tsx";
 
 export function PageHistory() {

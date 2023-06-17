@@ -1,6 +1,6 @@
 import {Outlet} from "@remix-run/react";
-import {PageHistory} from "~/components/PageHistory.tsx";
-import {StoryNavigatorSidebar} from "~/components/StoryNavigatorSidebar.tsx";
+import {PageHistory} from "~/components/pageHistory.tsx";
+import {StoryNavigatorSidebar} from "~/components/storyNavigatorSidebar.tsx";
 
 type StoryNavigatorProps = {stories: { id: string, title: string }[]};
 

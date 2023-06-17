@@ -4,7 +4,7 @@ import {Links, LiveReload, Meta, Scripts, ScrollRestoration, useLoaderData,} fro
 import {StoryNavigator} from "~/components/StoryNavigator.tsx";
 import {ThemeSwitch} from "~/components/ThemeSwitch.tsx";
 import {UserDropdown} from "~/components/UserDropDown.tsx";
-import {StoryActivityProvider} from "~/context/StoryActivityContext.tsx";
+import {StoryActivityProvider} from "~/context/story-activity-context.tsx";
 import tailwindStylesheetUrl from './styles/tailwind.css'
 import {authenticator, getUserId} from './utils/auth.server.ts'
 import {prisma} from './utils/db.server.ts'

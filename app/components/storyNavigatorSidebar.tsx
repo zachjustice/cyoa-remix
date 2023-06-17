@@ -1,6 +1,6 @@
 import {NavLink} from "@remix-run/react";
 import {clsx} from "clsx";
-import {useStoryActivityDispatch} from "~/context/StoryActivityContext.tsx";
+import {useStoryActivityDispatch} from "~/context/story-activity-context.tsx";
 
 type StorySidebarProps = {
     stories: { id: string, title: string }[]
