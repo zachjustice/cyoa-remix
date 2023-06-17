@@ -6,7 +6,6 @@ import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { Button, ErrorList, Field, TextareaField } from '~/utils/forms.tsx'
-import invariant from "tiny-invariant";
 import styles from './choice-editor.module.css'
 import {clsx} from "clsx";
 

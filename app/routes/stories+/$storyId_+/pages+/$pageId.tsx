@@ -1,9 +1,16 @@
+import {Choice, Page} from "@prisma/client";
 import invariant from "tiny-invariant";
 import {type DataFunctionArgs, json} from "@remix-run/node";
 import {getUserId} from "~/utils/auth.server.ts";
 import {prisma} from "~/utils/db.server.ts";
-import {Link, useLoaderData} from "@remix-run/react";
+import {useLoaderData} from "@remix-run/react";
 import {PageViewer} from "~/routes/resources+/Page.tsx";
+
+export type ViewedChoice = Pick<Choice, 'id' | 'content' | 'nextPageId'>;
+
+export interface ViewedPage extends Pick<Page, 'id' | 'content' | 'ownerId'> {
+    nextChoices: ViewedChoice[]
+}
 
 export async function loader({params, request}: DataFunctionArgs) {
     const userId = await getUserId(request)
@@ -33,7 +40,7 @@ export async function loader({params, request}: DataFunctionArgs) {
 }
 
 export default function GetPageRoute() {
-    const data = useLoaderData<typeof loader>();
+    const data: {page: ViewedPage, storyId: string, isOwner: boolean} = useLoaderData<typeof loader>();
 
     return <PageViewer page={data.page} storyId={data.storyId} editable={data.isOwner}/>
 }

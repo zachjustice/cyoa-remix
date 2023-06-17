@@ -1,5 +1,6 @@
-import {type Page} from "@prisma/client";
+import {Choice, type Page} from "@prisma/client";
 import React, {createContext, useContext, useReducer} from 'react';
+import {ViewedChoice, ViewedPage} from "~/routes/stories+/$storyId_+/pages+/$pageId.js";
 
 export type CurrentStory = {
     id: string,
@@ -21,9 +22,17 @@ export function isCurrentStory(currentStory: any): currentStory is CurrentStory 
     return currentStory && typeof currentStory === 'object' && typeof currentStory.id === 'string'
 }
 
+interface StoryActivityChoice extends ViewedChoice {
+    isChosen: Boolean | undefined;
+}
+
+interface StoryActivityPage extends Omit<ViewedPage, 'nextChoices'> {
+    nextChoices: StoryActivityChoice[]
+}
+
 type StoryActivityState = {
     currentStory: CurrentStory | null,
-    pageHistory: Page[]
+    pageHistory: StoryActivityPage[]
 }
 
 const initialState: StoryActivityState = {
@@ -62,7 +71,7 @@ export function useCurrentStory() {
     return maybeStory
 }
 
-export function usePageHistory(): Page[] {
+export function usePageHistory(): StoryActivityPage[] {
     return [...useContext(StoryActivityContext).pageHistory];
 }
 
@@ -73,8 +82,7 @@ export function useStoryActivityDispatch() {
 type ActionType =
     | { type: 'reset-story-activity' , payload: null }
     | { type: 'begin-story' , payload: CurrentStory }
-    | { type: 'add-to-page-history', payload: Page };
-
+    | { type: 'add-to-page-history', payload: StoryActivityPage };
 
 function storyActivityReducer(storyActivity: StoryActivityState, action: ActionType): StoryActivityState {
     console.log(`## storyReducer(${storyActivity}, ${JSON.stringify(action)})`)
