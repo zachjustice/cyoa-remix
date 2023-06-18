@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 import { useOptionalCurrentStory } from '~/context/story-activity-context.tsx'
 import { StoryEditor } from '~/routes/resources+/story-editor.tsx'
-import { type loader } from '~/routes/stories+/$storyId+/_index.js'
+import { type loader } from '~/routes/stories+/$storyId+/_index.tsx'
 
 export default function EditStoryRoute() {
 	const location = useLocation()
@@ -20,6 +20,8 @@ export default function EditStoryRoute() {
 	if (!currentStory && fetcher.data) {
 		currentStory = fetcher.data?.story
 	}
+
+	if (!fetcher.data?.isOwner) return null
 
 	return currentStory && <StoryEditor story={currentStory} />
 }

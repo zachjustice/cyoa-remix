@@ -42,15 +42,10 @@ export async function action({ request }: DataFunctionArgs) {
 	let page: { id: string }
 
 	const { content, id, parentChoiceId, storyId } = submission.value
-	console.log(`## submission.value ${submission.value}`)
 
 	const data = {
 		ownerId: userId,
 		content: content,
-	}
-
-	const select = {
-		id: true,
 	}
 
 	if (id) {
@@ -72,7 +67,9 @@ export async function action({ request }: DataFunctionArgs) {
 		page = await prisma.page.update({
 			where: { id },
 			data,
-			select,
+			select: {
+				id: true,
+			},
 		})
 	} else if (parentChoiceId) {
 		// not the first page in a story
@@ -124,7 +121,6 @@ export async function action({ request }: DataFunctionArgs) {
 				},
 			},
 		})
-		console.log(`## story: ${JSON.stringify(story)}`)
 
 		invariant(
 			story.firstPageId,
@@ -186,7 +182,7 @@ export function PageEditor(props: PageEditorProps) {
 			<ErrorList errors={form.errors} id={form.errorId} />
 			<div className="flex justify-end gap-4">
 				<Button size="sm" variant="secondary" type="reset">
-					Reset
+					cancel
 				</Button>
 				<Button
 					size="sm"
