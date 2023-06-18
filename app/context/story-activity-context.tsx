@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useReducer} from 'react';
-import {ViewedChoice, ViewedPage} from "~/routes/stories+/$storyId+/pages+/$pageId.tsx";
+import {type ViewedChoice, type ViewedPage} from "~/routes/stories+/$storyId+/pages+/$pageId.tsx";
 
 export type CurrentStory = {
     id: string,
