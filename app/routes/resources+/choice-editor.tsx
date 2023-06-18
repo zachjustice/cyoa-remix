@@ -1,4 +1,4 @@
-import { useForm } from '@conform-to/react'
+import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { type DataFunctionArgs, json, redirect } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
@@ -118,6 +118,7 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 		<choiceEditorFetcher.Form
 			method="post"
 			action="/resources/choice-editor"
+			autoComplete="off"
 			{...form.props}
 		>
 			<input name="id" type="hidden" value={choice?.id} />
@@ -131,11 +132,9 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 							htmlFor: fields.content.id,
 							children: 'More choices can be made...',
 						}}
-						inputProps={
-							{
-								// ...conform.input(fields.content),
-							}
-						}
+						inputProps={{
+							...conform.input(fields.content),
+						}}
 						errors={fields.content.errors}
 					/>
 					<ErrorList errors={form.errors} id={form.errorId} />

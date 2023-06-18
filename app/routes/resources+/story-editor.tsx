@@ -108,6 +108,7 @@ export function StoryEditor({ story }: StoryEditorProps) {
 		<storyEditorFetcher.Form
 			method="post"
 			action="/resources/story-editor"
+			autoComplete="off"
 			{...form.props}
 		>
 			<input name="id" type="hidden" value={story?.id} />
@@ -115,7 +116,6 @@ export function StoryEditor({ story }: StoryEditorProps) {
 				labelProps={{ htmlFor: fields.title.id, children: 'Title' }}
 				inputProps={{
 					...conform.input(fields.title),
-					autoComplete: 'title',
 				}}
 				errors={fields.title.errors}
 			/>
@@ -123,7 +123,6 @@ export function StoryEditor({ story }: StoryEditorProps) {
 				labelProps={{ htmlFor: fields.description.id, children: 'Description' }}
 				textareaProps={{
 					...conform.textarea(fields.description),
-					autoComplete: 'description',
 				}}
 				errors={fields.description.errors}
 			/>
