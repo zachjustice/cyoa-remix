@@ -1,13 +1,11 @@
-import { conform, useForm } from '@conform-to/react'
-import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import { json, redirect, type DataFunctionArgs } from '@remix-run/node'
-import { useFetcher } from '@remix-run/react'
-import { z } from 'zod'
-import { requireUserId } from '~/utils/auth.server.ts'
-import { prisma } from '~/utils/db.server.ts'
-import { Button, ErrorList, Field, TextareaField } from '~/utils/forms.tsx'
-import styles from './choice-editor.module.css'
-import {clsx} from "clsx";
+import {useForm} from '@conform-to/react'
+import {getFieldsetConstraint, parse} from '@conform-to/zod'
+import {type DataFunctionArgs, json, redirect} from '@remix-run/node'
+import {useFetcher} from '@remix-run/react'
+import {z} from 'zod'
+import {requireUserId} from '~/utils/auth.server.ts'
+import {prisma} from '~/utils/db.server.ts'
+import {Button, ErrorList, Field} from '~/utils/forms.tsx'
 
 export const ChoiceEditorSchema = z.object({
 	id: z.string().optional(),
@@ -149,7 +147,7 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 					type="submit"
 					disabled={choiceEditorFetcher.state !== 'idle'}
 				>
-					Submit
+					Save
 				</Button>
 			</div>
 		</choiceEditorFetcher.Form>

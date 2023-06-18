@@ -192,7 +192,7 @@ export function PageEditor(props: PageEditorProps) {
                     type="submit"
                     disabled={pageEditorFetcher.state !== 'idle'}
                 >
-                    Submit
+                    Save
                 </Button>
             </div>
         </pageEditorFetcher.Form>

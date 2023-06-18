@@ -1,10 +1,8 @@
-import {Link, NavLink} from "@remix-run/react";
-import {clsx} from "clsx";
-import React, {useState} from "react";
+import {Link} from "@remix-run/react";
+import React from "react";
 import {useStoryActivityDispatch} from "~/context/story-activity-context.tsx";
 import {ChoiceEditor} from "~/routes/resources+/choice-editor.tsx";
-import {ViewedPage} from "~/routes/stories+/$storyId_+/pages+/$pageId.tsx";
-import styles from './Page.module.css'
+import {type ViewedPage} from "~/routes/stories+/$storyId+/pages+/$pageId.tsx";
 
 type ChoiceListProps = {
     page: ViewedPage

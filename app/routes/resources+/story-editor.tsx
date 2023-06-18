@@ -83,11 +83,11 @@ export async function action({ request }: DataFunctionArgs) {
 	return redirect(`/stories/${story.id}`)
 }
 
-export function StoryEditor({
-	story,
-}: {
+type StoryEditorProps = {
 	story?: { id: string; title: string; description: string }
-}) {
+};
+
+export function StoryEditor({ story, }: StoryEditorProps) {
 	const storyEditorFetcher = useFetcher<typeof action>()
 
 	const [form, fields] = useForm({
@@ -143,7 +143,7 @@ export function StoryEditor({
 					type="submit"
 					disabled={storyEditorFetcher.state !== 'idle'}
 				>
-					Submit
+					Save
 				</Button>
 			</div>
 		</storyEditorFetcher.Form>

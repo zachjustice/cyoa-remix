@@ -1,6 +1,5 @@
-import {Choice, type Page} from "@prisma/client";
 import React, {createContext, useContext, useReducer} from 'react';
-import {ViewedChoice, ViewedPage} from "~/routes/stories+/$storyId_+/pages+/$pageId.js";
+import {ViewedChoice, ViewedPage} from "~/routes/stories+/$storyId+/pages+/$pageId.tsx";
 
 export type CurrentStory = {
     id: string,
@@ -11,10 +10,8 @@ export type CurrentStory = {
     updatedAt: string,
     ownerId: string,
     owner: {
-        select: {
-            id: string,
-            username: string,
-        }
+        id: string,
+        username: string,
     }
 }
 
@@ -85,7 +82,6 @@ type ActionType =
     | { type: 'add-to-page-history', payload: StoryActivityPage };
 
 function storyActivityReducer(storyActivity: StoryActivityState, action: ActionType): StoryActivityState {
-    console.log(`## storyReducer(${storyActivity}, ${JSON.stringify(action)})`)
     switch (action.type) {
         case 'reset-story-activity': {
             return {

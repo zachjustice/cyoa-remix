@@ -135,7 +135,7 @@ export function NoteEditor({
 					type="submit"
 					disabled={noteEditorFetcher.state !== 'idle'}
 				>
-					Submit
+					Save
 				</Button>
 			</div>
 		</noteEditorFetcher.Form>
