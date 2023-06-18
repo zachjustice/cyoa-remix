@@ -85,9 +85,9 @@ export async function action({ request }: DataFunctionArgs) {
 
 type StoryEditorProps = {
 	story?: { id: string; title: string; description: string }
-};
+}
 
-export function StoryEditor({ story, }: StoryEditorProps) {
+export function StoryEditor({ story }: StoryEditorProps) {
 	const storyEditorFetcher = useFetcher<typeof action>()
 
 	const [form, fields] = useForm({
@@ -129,9 +129,11 @@ export function StoryEditor({ story, }: StoryEditorProps) {
 			/>
 			<ErrorList errors={form.errors} id={form.errorId} />
 			<div className="flex justify-end gap-4">
-				<Button size="sm" variant="secondary" type="reset">
-					Reset
-				</Button>
+				{!story?.id && (
+					<Button size="sm" variant="secondary" type="reset">
+						Reset
+					</Button>
+				)}
 				<Button
 					size="sm"
 					variant="primary"

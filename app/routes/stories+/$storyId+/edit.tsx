@@ -9,24 +9,14 @@ export default function EditStoryRoute() {
 	const location = useLocation()
 	const fetcher = useFetcher<typeof loader>()
 	let currentStory = useOptionalCurrentStory()
-	const path = location.pathname?.replace('/edit', '')
 
+	const path = location.pathname?.replace('/edit', '')
 	useEffect(() => {
-		console.log(
-			`## useEffect fetcher.data=${JSON.stringify(
-				fetcher.data,
-			)} currentStory=${JSON.stringify(currentStory)}`,
-		)
 		if (!currentStory && fetcher.state === 'idle' && fetcher.data == null) {
 			fetcher.load(`${path}?index`)
 		}
 	}, [currentStory, path, fetcher])
 
-	console.log(
-		`## edit fetcher.data=${JSON.stringify(
-			fetcher.data,
-		)} currentStory=${JSON.stringify(currentStory)}`,
-	)
 	if (!currentStory && fetcher.data) {
 		currentStory = fetcher.data?.story
 	}

@@ -81,9 +81,10 @@ export default function GetStoryRoute() {
 						Begin
 					</ButtonLink>
 
+					{/*<DeleteStory id={story.id} />*/}
+
 					{isOwner ? (
-						<ButtonLink size="sm" variant="primary" to="edit">
-							{/*<DeleteStory id={story.id} />*/}
+						<ButtonLink size="sm" variant="secondary" to="edit">
 							Edit
 						</ButtonLink>
 					) : null}
