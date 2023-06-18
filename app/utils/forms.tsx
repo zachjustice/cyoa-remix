@@ -148,7 +148,7 @@ export function getButtonClassName({
 	variant,
 }: {
 	size: 'xs' | 'sm' | 'md' | 'md-wide' | 'pill'
-	variant: 'primary' | 'secondary'
+	variant: 'primary' | 'secondary' | 'danger'
 }) {
 	const baseClassName =
 		'flex justify-center items-center rounded-full font-bold outline-none transition-[background-color,color] duration-200 disabled:bg-night-500 disabled:text-night-200'
@@ -156,6 +156,8 @@ export function getButtonClassName({
 		'bg-accent-purple hover:bg-accent-yellow hover:text-night-700 focus:bg-accent-yellow focus:text-night-700 active:bg-accent-yellow-muted'
 	const secondaryClassName =
 		'border-[1.5px] border-night-400 bg-night-700 hover:border-accent-purple focus:border-accent-purple active:border-accent-purple-lighter'
+	const dangerClassName =
+		'bg-accent-red hover:bg-accent-yellow hover:text-night-700 focus:bg-accent-yellow focus:text-night-700 active:bg-accent-yellow-muted'
 	const extraSmallClassName = 'py-2 px-3 text-body-xs'
 	const smallClassName = 'px-10 py-[14px] text-body-xs'
 	const mediumClassName = 'px-14 py-5 text-lg'
@@ -164,6 +166,7 @@ export function getButtonClassName({
 	const className = clsx(baseClassName, {
 		[primaryClassName]: variant === 'primary',
 		[secondaryClassName]: variant === 'secondary',
+		[dangerClassName]: variant === 'danger',
 		[extraSmallClassName]: size === 'xs',
 		[smallClassName]: size === 'sm',
 		[mediumClassName]: size === 'md',

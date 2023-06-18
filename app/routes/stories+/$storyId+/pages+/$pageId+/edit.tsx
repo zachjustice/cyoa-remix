@@ -1,7 +1,6 @@
 import { useFetcher } from '@remix-run/react'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router'
-import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import { PageEditor } from '~/routes/resources+/page-editor.tsx'
 import { type loader } from '~/routes/stories+/$storyId+/pages+/$pageId+/_index.tsx'
 

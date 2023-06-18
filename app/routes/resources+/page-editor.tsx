@@ -6,7 +6,7 @@ import invariant from 'tiny-invariant'
 import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { Button, ErrorList, TextareaField } from '~/utils/forms.tsx'
+import { Button, ButtonLink, ErrorList, TextareaField } from '~/utils/forms.tsx'
 
 export const PageEditorSchema = z.object({
 	id: z.string().optional(),
@@ -180,23 +180,43 @@ export function PageEditor(props: PageEditorProps) {
 				errors={fields.content.errors}
 			/>
 			<ErrorList errors={form.errors} id={form.errorId} />
-			<div className="flex justify-end gap-4">
-				<Button size="sm" variant="secondary" type="reset">
-					cancel
-				</Button>
-				<Button
-					size="sm"
-					variant="primary"
-					status={
-						pageEditorFetcher.state === 'submitting'
-							? 'pending'
-							: pageEditorFetcher.data?.status ?? 'idle'
-					}
-					type="submit"
-					disabled={pageEditorFetcher.state !== 'idle'}
-				>
-					Save
-				</Button>
+			<div className="flex justify-between gap-4">
+				{page && (
+					<div className="flex">
+						<ButtonLink
+							size="sm"
+							variant="danger"
+							to={`/stories/${page.storyId}/pages/${page.id}/delete`}
+						>
+							Delete
+						</ButtonLink>
+					</div>
+				)}
+				<div className="flex gap-4">
+					{page && (
+						<ButtonLink
+							size="sm"
+							variant="secondary"
+							type="reset"
+							to={`/stories/${page.storyId}/pages/${page.id}`}
+						>
+							Cancel
+						</ButtonLink>
+					)}
+					<Button
+						size="sm"
+						variant="primary"
+						status={
+							pageEditorFetcher.state === 'submitting'
+								? 'pending'
+								: pageEditorFetcher.data?.status ?? 'idle'
+						}
+						type="submit"
+						disabled={pageEditorFetcher.state !== 'idle'}
+					>
+						Save
+					</Button>
+				</div>
 			</div>
 		</pageEditorFetcher.Form>
 	)
