@@ -1,23 +1,25 @@
-import {Outlet} from "@remix-run/react";
-import {PageHistory} from "~/components/pageHistory.tsx";
-import {StoryNavigatorSidebar} from "~/components/storyNavigatorSidebar.tsx";
+import { Outlet } from '@remix-run/react'
+import { PageHistory } from '~/components/pageHistory.tsx'
+import { StoryNavigatorSidebar } from '~/components/storyNavigatorSidebar.tsx'
 
-type StoryNavigatorProps = {stories: { id: string, title: string }[]};
+type StoryNavigatorProps = { stories: { id: string; title: string }[] }
 
 export function StoryNavigator(props: StoryNavigatorProps) {
-    const {stories} = props;
+	const { stories } = props
 
-    return (
-        <div className="flex h-full pb-12">
-            <div className="mx-auto grid w-full flex-grow grid-cols-4 bg-night-500 pl-2 md:container md:rounded">
-                <StoryNavigatorSidebar stories={stories}/>
-                <main className="col-span-3 bg-night-400 px-10 py-12 md:rounded">
-                    <Outlet/>
-                    <div className='mt-6'>
-                        <PageHistory />
-                    </div>
-                </main>
-            </div>
-        </div>
-    )
+	return (
+		<div className="flex h-full pb-12">
+			<div className="mx-auto grid w-full flex-grow grid-cols-4 bg-night-500 pl-2 md:container md:rounded">
+				<StoryNavigatorSidebar stories={stories} />
+				<main className="col-span-3 bg-night-400 px-10 py-12 md:rounded">
+					<div className="mb-6">
+						<Outlet />
+					</div>
+					<div>
+						<PageHistory />
+					</div>
+				</main>
+			</div>
+		</div>
+	)
 }

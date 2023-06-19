@@ -1,18 +1,13 @@
 import { Link } from '@remix-run/react'
 import { clsx } from 'clsx'
 import React from 'react'
+import EditIcon, { EditIconLink } from '~/components/EditIcon.tsx'
 import { useStoryActivityDispatch } from '~/context/story-activity-context.tsx'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import { type ViewedPage } from '~/routes/stories+/$storyId+/pages+/$pageId+/_index.tsx'
-import { ButtonLink } from '~/utils/forms.tsx'
 import styles from './Page.module.css'
 
-type ChoiceListProps = {
-	page: ViewedPage
-	storyId: string
-}
-
-function ChoiceList({ page, storyId }: ChoiceListProps) {
+function ChoiceList({ page, storyId, editable }: PageProps) {
 	const dispatch = useStoryActivityDispatch()
 
 	return page.nextChoices.map(choice => {
@@ -20,7 +15,12 @@ function ChoiceList({ page, storyId }: ChoiceListProps) {
 			? `/stories/${storyId}/pages/${choice.nextPageId}`
 			: `/stories/${storyId}/pages/new?parentChoiceId=${choice.id}`
 		return (
-			<li key={choice.id}>
+			<li key={choice.id} className="flex gap-2">
+				{editable && (
+					<div className="mb-2 justify-start">
+						<EditIconLink variant="outline" to="edit" />
+					</div>
+				)}
 				<Link
 					to={link}
 					className={clsx(
@@ -57,25 +57,28 @@ export function PageViewer({ page, storyId, editable = false }: PageProps) {
 	return (
 		<div className="flex flex-col">
 			<div className="flex-grow">
-				<p className="mb-5">{page.content}</p>
-				<ul key={page.id}>
-					{...ChoiceList({ page, storyId })}
-					{editable && page.nextChoices.length < 4 && (
+				<div
+					className={clsx(' flex gap-2', {
+						'mb-6': editable,
+						'mb-2': !editable,
+					})}
+				>
+					{editable && <EditIconLink to="edit" variant="outline" />}
+					<p>{page.content}</p>
+				</div>
+				<ul className="ml-12" key={page.id}>
+					{...ChoiceList({ page, storyId, editable })}
+				</ul>
+				{editable && page.nextChoices.length < 4 && (
+					<div className="mt-6">
 						<ChoiceEditor
 							choice={{
 								parentPageId: page.id,
 								storyId: storyId,
 							}}
 						/>
-					)}
-				</ul>
-				{editable ? (
-					<div className="flex gap-4">
-						<ButtonLink size="sm" variant="primary" to="edit">
-							Edit
-						</ButtonLink>
 					</div>
-				) : null}
+				)}
 			</div>
 		</div>
 	)
