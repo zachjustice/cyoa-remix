@@ -11,7 +11,7 @@ interface EditIconLinkProps extends EditIconProps {
 
 export function EditIconLink(props: EditIconLinkProps) {
 	return (
-		<Link to={props.to || 'edit'} className="hover:text-neutral-400">
+		<Link to={props.to || 'edit'}>
 			<EditIcon variant={props.variant} />
 		</Link>
 	)
@@ -48,5 +48,9 @@ export default function EditIcon(props: EditIconProps) {
 		),
 	}
 
-	return variants[props.variant || 'solid']
+	return (
+		<div className="hover:text-neutral-400">
+			{variants[props.variant || 'solid']}
+		</div>
+	)
 }

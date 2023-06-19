@@ -3,9 +3,11 @@ import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { type DataFunctionArgs, json, redirect } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
 import { z } from 'zod'
+import Check from '~/components/Check.tsx'
+import Xmark from '~/components/Xmark.tsx'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { Button, ErrorList, Field } from '~/utils/forms.tsx'
+import { Button, ButtonLink, ErrorList, Field } from '~/utils/forms.tsx'
 
 export const ChoiceEditorSchema = z.object({
 	id: z.string().optional(),
@@ -40,12 +42,6 @@ export async function action({ request }: DataFunctionArgs) {
 
 	const { content, id, parentPageId, storyId } = submission.value
 
-	const data = {
-		ownerId: userId,
-		content: content,
-		parentPageId,
-	}
-
 	const select = {
 		id: true,
 	}
@@ -66,6 +62,10 @@ export async function action({ request }: DataFunctionArgs) {
 			)
 		}
 
+		const data = {
+			content: content,
+		}
+
 		await prisma.choice.update({
 			where: { id },
 			data,
@@ -77,8 +77,8 @@ export async function action({ request }: DataFunctionArgs) {
 			data: {
 				nextChoices: {
 					create: {
-						owner: { connect: { id: data.ownerId } },
-						content: data.content,
+						owner: { connect: { id: userId } },
+						content,
 					},
 				},
 			},
@@ -95,14 +95,15 @@ type ChoiceEditorProps = {
 		parentPageId?: string
 		storyId?: string
 	}
+	submitHandler?: Function
 }
 
 export function ChoiceEditor(props: ChoiceEditorProps) {
-	const { choice } = props
+	const { choice, submitHandler } = props
 	const choiceEditorFetcher = useFetcher<typeof action>()
 
 	const [form, fields] = useForm({
-		id: 'choice-editor',
+		id: `choice-editor-${choice?.id}`,
 		constraint: getFieldsetConstraint(ChoiceEditorSchema),
 		lastSubmission: choiceEditorFetcher.data?.submission,
 		onValidate({ formData }) {
@@ -139,20 +140,33 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 					/>
 					<ErrorList errors={form.errors} id={form.errorId} />
 				</div>
-				<div className="flex-none">
-					<Button
-						size="sm"
-						variant="primary"
-						status={
-							choiceEditorFetcher.state === 'submitting'
-								? 'pending'
-								: choiceEditorFetcher.data?.status ?? 'idle'
-						}
-						type="submit"
-						disabled={choiceEditorFetcher.state !== 'idle'}
-					>
-						Save
-					</Button>
+				<div className="flex gap-2">
+					<div>
+						<Button
+							size="xs"
+							variant="primary"
+							status={
+								choiceEditorFetcher.state === 'submitting'
+									? 'pending'
+									: choiceEditorFetcher.data?.status ?? 'idle'
+							}
+							type="submit"
+							disabled={choiceEditorFetcher.state !== 'idle'}
+						>
+							<Check />
+						</Button>
+					</div>
+					{choice?.id && (
+						<div>
+							<ButtonLink
+								size="xs"
+								variant="secondary"
+								to={`/stories/${choice.storyId}/pages/${choice.parentPageId}/`}
+							>
+								<Xmark />
+							</ButtonLink>
+						</div>
+					)}
 				</div>
 			</div>
 		</choiceEditorFetcher.Form>

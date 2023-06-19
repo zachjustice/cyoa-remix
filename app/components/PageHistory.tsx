@@ -2,7 +2,7 @@ import {
 	useOptionalCurrentStory,
 	usePageHistory,
 } from '~/context/story-activity-context.tsx'
-import { PageViewer } from '~/routes/resources+/Page.tsx'
+import { PageViewer } from '~/routes/resources+/page-viewer.tsx'
 
 export function PageHistory() {
 	const currentStory = useOptionalCurrentStory()
