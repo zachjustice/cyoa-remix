@@ -12,7 +12,7 @@
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"jsx": "react-jsx",
-		"module": "nodenext",
+		"module": "NodeNext",
 		"moduleResolution": "nodenext",
 		"resolveJsonModule": true,
 		"target": "ES2022",

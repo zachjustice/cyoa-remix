@@ -3,6 +3,7 @@ import { clsx } from 'clsx'
 import React from 'react'
 import { EditIconLink } from '~/components/EditIcon.tsx'
 import { useStoryActivityDispatch } from '~/context/story-activity-context.tsx'
+import { useOptionalUser } from '~/hooks/useUser.ts'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import styles from '~/routes/resources+/Page.module.css'
 import {
@@ -21,6 +22,7 @@ type ChoiceProps = {
 export default function Choice(props: ChoiceProps) {
 	const { storyId, editable, page, choice } = props
 	const dispatch = useStoryActivityDispatch()
+	const optionalUser = useOptionalUser()
 
 	const onClickHandler = (page: ViewedPage, choice: ViewedChoice) => {
 		dispatch({
@@ -37,7 +39,9 @@ export default function Choice(props: ChoiceProps) {
 
 	let link = choice.nextPageId
 		? `/stories/${storyId}/pages/${choice.nextPageId}`
-		: `/stories/${storyId}/pages/new?parentChoiceId=${choice.id}`
+		: optionalUser
+		? `/stories/${storyId}/pages/new?parentChoiceId=${choice.id}`
+		: '/signup'
 
 	if (editable && choice.id === props.editChoiceId) {
 		return (
