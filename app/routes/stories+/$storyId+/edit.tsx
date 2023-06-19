@@ -21,7 +21,10 @@ export default function EditStoryRoute() {
 		currentStory = fetcher.data?.story
 	}
 
-	if (!fetcher.data?.isOwner) return null
-
-	return currentStory && <StoryEditor story={currentStory} />
+	return (
+		currentStory && (
+			// TODO fetcher.data?.isOwner &&
+			<StoryEditor story={currentStory} />
+		)
+	)
 }
