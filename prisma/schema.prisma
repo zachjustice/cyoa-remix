@@ -130,7 +130,7 @@ model Page {
 model Choice {
   id           String  @id @unique @default(cuid())
   content      String
-  parentPage   Page    @relation(name: "NextChoices", fields: [parentPageId], references: [id])
+  parentPage   Page    @relation(name: "NextChoices", fields: [parentPageId], references: [id], onDelete: Cascade)
   parentPageId String
   nextPage     Page?   @relation(name: "NextPage", fields: [nextPageId], references: [id])
   nextPageId   String?

@@ -181,7 +181,7 @@ export function PageEditor(props: PageEditorProps) {
 			/>
 			<ErrorList errors={form.errors} id={form.errorId} />
 			<div className="flex justify-between gap-4">
-				{page && (
+				{page?.id && (
 					<div className="flex">
 						<ButtonLink
 							size="sm"
@@ -193,7 +193,7 @@ export function PageEditor(props: PageEditorProps) {
 					</div>
 				)}
 				<div className="flex gap-4">
-					{page && (
+					{page?.id && (
 						<ButtonLink
 							size="sm"
 							variant="secondary"
