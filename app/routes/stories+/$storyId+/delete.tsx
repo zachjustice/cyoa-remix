@@ -8,72 +8,34 @@ import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { Button, ButtonLink } from '~/utils/forms.tsx'
 
-export const DeletePageSchema = z.object({
-	prevPageId: z.string().optional(),
-})
-
 export async function action({ params, request }: DataFunctionArgs) {
 	const userId = await requireUserId(request)
-	const formData = await request.formData()
 
 	invariant(params.storyId, 'Missing storyId')
-	invariant(params.pageId, 'Missing storyId')
-
-	const submission = parse(formData, {
-		schema: DeletePageSchema,
-		acceptMultipleErrors: () => true,
-	})
-
-	if (submission.intent !== 'submit') {
-		return json({ status: 'idle', submission } as const)
-	}
-
-	if (!submission.value) {
-		return json(
-			{
-				status: 'error',
-				submission,
-			} as const,
-			{ status: 400 },
-		)
-	}
-
-	const { prevPageId } = submission.value
 
 	// TODO specific "canDelete" role
-	const page = await prisma.page.findUnique({
-		where: { id: params.pageId },
+	const story = await prisma.story.findUnique({
+		where: { id: params.storyId },
 		select: {
 			ownerId: true,
 		},
 	})
 
-	if (!page) {
+	if (!story) {
 		throw new Response('not found', { status: 404 })
 	}
 
-	if (page.ownerId !== userId) {
+	if (story.ownerId !== userId) {
 		throw new Response('user is not allowed to perform this action', {
 			status: 401,
 		})
 	}
 
-	await prisma.choice.updateMany({
-		where: { nextPageId: params.pageId },
-		data: {
-			nextPageId: null,
-		},
+	await prisma.story.delete({
+		where: { id: params.storyId },
 	})
 
-	await prisma.page.delete({
-		where: { id: params.pageId },
-	})
-
-	if (prevPageId) {
-		return redirect(`/stories/${params.storyId}/pages/${prevPageId}`)
-	} else {
-		return redirect(`/stories/${params.storyId}`)
-	}
+	return redirect(`/`)
 }
 
 export default function DeletePageRoute() {
@@ -83,11 +45,8 @@ export default function DeletePageRoute() {
 
 	return (
 		<>
-			<p>Are you sure you want to delete this page?</p>
-			<p>
-				All the choices and pages that come after this page will be deleted,
-				too.
-			</p>
+			<p>Are you sure you want to delete this story?</p>
+			<p>This cannot be undone and all the work will be lost forever.</p>
 			<form method="post">
 				<input name="prevPageId" type="hidden" value={prevPage?.id} />
 				<div className="mt-10 flex gap-4">
@@ -111,7 +70,7 @@ export default function DeletePageRoute() {
 						type="submit"
 						// disabled={pageEditorFetcher.state !== 'idle'}
 					>
-						Yes, delete forever
+						Yes, delete it from existence
 					</Button>
 				</div>
 			</form>

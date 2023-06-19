@@ -5,7 +5,13 @@ import { useFetcher } from '@remix-run/react'
 import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { Button, ErrorList, Field, TextareaField } from '~/utils/forms.tsx'
+import {
+	Button,
+	ButtonLink,
+	ErrorList,
+	Field,
+	TextareaField,
+} from '~/utils/forms.tsx'
 
 export const StoryEditorSchema = z.object({
 	id: z.string().optional(),
@@ -127,25 +133,42 @@ export function StoryEditor({ story }: StoryEditorProps) {
 				errors={fields.description.errors}
 			/>
 			<ErrorList errors={form.errors} id={form.errorId} />
-			<div className="flex justify-end gap-4">
-				{!story?.id && (
-					<Button size="sm" variant="secondary" type="reset">
-						Reset
-					</Button>
+			<div className="flex justify-between gap-4">
+				{story?.id && (
+					<div className="flex">
+						<ButtonLink
+							size="sm"
+							variant="danger"
+							to={`/stories/${story.id}/delete`}
+						>
+							Delete
+						</ButtonLink>
+					</div>
 				)}
-				<Button
-					size="sm"
-					variant="primary"
-					status={
-						storyEditorFetcher.state === 'submitting'
-							? 'pending'
-							: storyEditorFetcher.data?.status ?? 'idle'
-					}
-					type="submit"
-					disabled={storyEditorFetcher.state !== 'idle'}
-				>
-					Save
-				</Button>
+				<div className="flex gap-4">
+					{story?.id && (
+						<ButtonLink
+							size="sm"
+							variant="secondary"
+							to={`/stories/${story.id}`}
+						>
+							Cancel
+						</ButtonLink>
+					)}
+					<Button
+						size="sm"
+						variant="primary"
+						status={
+							storyEditorFetcher.state === 'submitting'
+								? 'pending'
+								: storyEditorFetcher.data?.status ?? 'idle'
+						}
+						type="submit"
+						disabled={storyEditorFetcher.state !== 'idle'}
+					>
+						Save
+					</Button>
+				</div>
 			</div>
 		</storyEditorFetcher.Form>
 	)
