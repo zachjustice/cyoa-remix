@@ -2,7 +2,7 @@ import { type DataFunctionArgs, json } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import {
-	isCurrentStory,
+	type CurrentStory,
 	useStoryActivityDispatch,
 } from '~/context/story-activity-context.tsx'
 import { getUserId } from '~/utils/auth.server.ts'
@@ -10,6 +10,7 @@ import { formatPublishDate } from '~/utils/dateFormat.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { ButtonLink } from '~/utils/forms.tsx'
 
+// TODO this can probably be fetched from parent route that already gets the story
 export async function loader({ params, request }: DataFunctionArgs) {
 	invariant(params.storyId, 'Missing storyId')
 
@@ -39,20 +40,9 @@ export async function loader({ params, request }: DataFunctionArgs) {
 	return json({ story, isOwner: story.owner.id === userId })
 }
 
-export default function GetStoryRoute() {
+export default function GetStoryIntroductionRoute() {
 	const { story, isOwner } = useLoaderData<typeof loader>()
 	const dispatch = useStoryActivityDispatch()
-
-	if (!isCurrentStory(story)) {
-		throw Error(
-			`Expected current story but instead found ${JSON.stringify(story)}`,
-		)
-	}
-
-	dispatch({
-		type: 'begin-story',
-		payload: story,
-	})
 
 	return (
 		<div className="flex h-full flex-col">
@@ -72,16 +62,22 @@ export default function GetStoryRoute() {
 				<div className="mt-10 flex gap-4">
 					<ButtonLink
 						to={
-							story.firstPageId ? `pages/${story.firstPageId}/` : `pages/new/`
+							story.firstPageId
+								? `/stories/${story.id}/pages/${story.firstPageId}/`
+								: `/stories/${story.id}/pages/new/`
 						}
 						size="sm"
 						variant="primary"
 						type="submit"
+						onClick={() => {
+							dispatch({
+								type: 'view-story',
+								payload: story as CurrentStory,
+							})
+						}}
 					>
 						Begin
 					</ButtonLink>
-
-					{/*<DeleteStory id={story.id} />*/}
 
 					{isOwner ? (
 						<ButtonLink size="sm" variant="secondary" to="edit">

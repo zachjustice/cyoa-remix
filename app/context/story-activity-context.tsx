@@ -2,7 +2,7 @@ import React, { createContext, useContext, useReducer } from 'react'
 import {
 	type ViewedChoice,
 	type ViewedPage,
-} from '~/routes/stories+/$storyId+/pages+/$pageId+/_index.tsx'
+} from '~/routes/stories+/$storyId.pages.$pageId.tsx'
 
 export type CurrentStory = {
 	id: string
@@ -28,11 +28,11 @@ export function isCurrentStory(
 	)
 }
 
-interface StoryActivityChoice extends ViewedChoice {
-	isChosen: Boolean | undefined
+export interface StoryActivityChoice extends ViewedChoice {
+	isChosen?: Boolean | undefined
 }
 
-interface StoryActivityPage extends Omit<ViewedPage, 'nextChoices'> {
+export interface StoryActivityPage extends Omit<ViewedPage, 'nextChoices'> {
 	nextChoices: StoryActivityChoice[]
 }
 
@@ -93,30 +93,48 @@ export function useStoryActivityDispatch() {
 }
 
 type ActionType =
-	| { type: 'reset-story-activity'; payload: null }
-	| { type: 'begin-story'; payload: CurrentStory }
-	| { type: 'add-to-page-history'; payload: StoryActivityPage }
+	| { type: 'reset-history'; payload?: null }
+	| { type: 'view-story'; payload: CurrentStory }
+	| { type: 'view-page'; payload: StoryActivityPage }
+	| { type: 'make-choice'; payload: { pageId: string; choiceId: string } }
 
 function storyActivityReducer(
 	storyActivity: StoryActivityState,
 	action: ActionType,
 ): StoryActivityState {
 	switch (action.type) {
-		case 'reset-story-activity': {
+		case 'reset-history': {
 			return {
 				pageHistory: [],
 				currentStory: null,
 			}
 		}
-		case 'begin-story': {
+		case 'view-story': {
 			return {
 				pageHistory: [],
 				currentStory: action.payload,
 			}
 		}
-		case 'add-to-page-history': {
-			let pastPageIndex = storyActivity.pageHistory.findIndex(
+		case 'view-page': {
+			// TODO is there a cleaner where to dispatch actions to manage this?
+			// users should see past and current page in the sidebar
+			// clicking a page in the sidebar should be a no-op
+			// maybe beginning a story and making a choice (kinda the same thing)
+			// mutate page history. then don't need this action really
+			let isInPageHistory = !!storyActivity.pageHistory.find(
 				page => page.id === action.payload.id,
+			)
+
+			return isInPageHistory
+				? storyActivity
+				: {
+						...storyActivity,
+						pageHistory: storyActivity.pageHistory.concat(action.payload),
+				  }
+		}
+		case 'make-choice': {
+			let pastPageIndex = storyActivity.pageHistory.findIndex(
+				page => page.id === action.payload.pageId,
 			)
 
 			pastPageIndex =
@@ -126,7 +144,17 @@ function storyActivityReducer(
 				...storyActivity,
 				pageHistory: storyActivity.pageHistory
 					.slice(0, pastPageIndex)
-					.concat(action.payload),
+					.map(page => {
+						return page.id === action.payload.pageId
+							? {
+									...page,
+									nextChoices: page.nextChoices.map(nextChoice => ({
+										...nextChoice,
+										isChosen: action.payload.choiceId === nextChoice.id,
+									})),
+							  }
+							: page
+					}),
 			}
 		}
 		default: {

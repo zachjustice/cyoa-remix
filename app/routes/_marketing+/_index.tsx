@@ -1,4 +1,5 @@
 import type { V2_MetaFunction } from '@remix-run/node'
+import { ButtonLink } from '~/utils/forms.tsx'
 import { kodyRocket, logos, stars } from './logos/logos.ts'
 
 export const meta: V2_MetaFunction = () => [
@@ -16,7 +17,7 @@ export default function Index() {
 							<div className="absolute inset-0 bg-[color:rgba(30,23,38,0.5)] mix-blend-multiply" />
 						</div>
 						<div className="lg:pt-18 relative px-4 pb-8 pt-8 sm:px-6 sm:pb-14 sm:pt-16 lg:px-8 lg:pb-20">
-							<h1 className="text-center text-lg font-extrabold tracking-tight sm:text-lg lg:text-lg">
+							<h1 className="text-center text-2xl font-extrabold tracking-tight sm:text-2xl lg:text-2xl">
 								<a href="/stories">Choose Your Own Adventure!</a>
 							</h1>
 							<div className="mx-auto mt-6 max-w-lg text-center text-xl text-white sm:max-w-3xl">
@@ -25,9 +26,9 @@ export default function Index() {
 									<a className="underline" href="/stories">
 										choose-your-own-adventure stories
 									</a>{' '}
+									from every genre.
 								</p>
-								<p>Start your own!</p>
-								<p>Or contribute to a story you love!</p>
+								<p>Start your own or contribute to a story you love!</p>
 							</div>
 							<a href="/stories">
 								{/* TODO get custom logo or something */}
@@ -37,6 +38,17 @@ export default function Index() {
 									className="mx-auto mt-8 w-full max-w-[12rem] md:max-w-[16rem]"
 								/>
 							</a>
+							<div className="flex justify-center gap-10">
+								<ButtonLink to="/sign-up" size="sm" variant="primary">
+									Sign Up
+								</ButtonLink>
+								<ButtonLink to="/login" size="sm" variant="secondary">
+									Log In
+								</ButtonLink>
+								<ButtonLink to="/stories" size="sm" variant="secondary">
+									Browse Stories
+								</ButtonLink>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -15,7 +15,6 @@ import {
 	ScrollRestoration,
 	useLoaderData,
 } from '@remix-run/react'
-import { StoryNavigator } from '~/components/StoryNavigator.tsx'
 import { ThemeSwitch } from '~/components/ThemeSwitch.tsx'
 import { UserDropdown } from '~/components/UserDropDown.tsx'
 import { StoryActivityProvider } from '~/context/story-activity-context.tsx'
@@ -96,8 +95,16 @@ export default function App() {
 			</head>
 			<body className="flex h-full flex-col justify-between bg-night-700 text-white">
 				<header className="container mx-auto py-6">
-					<nav className="flex justify-end">
+					<nav className="flex justify-between">
+						<div className="flex items-center">
+							<Link to="/">Choose Your Own Adventure!</Link>
+						</div>
 						<div className="flex items-center gap-10">
+							<div className="flex items-center gap-10">
+								<ButtonLink to="/stories" size="sm" variant="secondary">
+									Stories
+								</ButtonLink>
+							</div>
 							{user ? (
 								<UserDropdown />
 							) : (
@@ -110,7 +117,9 @@ export default function App() {
 				</header>
 
 				<div className="flex-1">
-					<Outlet />
+					<StoryActivityProvider>
+						<Outlet />
+					</StoryActivityProvider>
 				</div>
 
 				<div className="container mx-auto flex justify-end">

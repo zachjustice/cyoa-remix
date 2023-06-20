@@ -2,46 +2,53 @@ import { Link } from '@remix-run/react'
 import { clsx } from 'clsx'
 import React from 'react'
 import { EditIconLink } from '~/components/EditIcon.tsx'
-import { useStoryActivityDispatch } from '~/context/story-activity-context.tsx'
+import {
+	type StoryActivityChoice,
+	type StoryActivityPage,
+	useStoryActivityDispatch,
+} from '~/context/story-activity-context.tsx'
 import { useOptionalUser } from '~/hooks/useUser.ts'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import styles from '~/routes/resources+/Page.module.css'
 import {
 	type ViewedChoice,
 	type ViewedPage,
-} from '~/routes/stories+/$storyId+/pages+/$pageId+/_index.js'
+} from '~/routes/stories+/$storyId.pages.$pageId.tsx'
 
 type ChoiceProps = {
-	page: ViewedPage
+	page: ViewedPage | StoryActivityPage
 	storyId: string
 	editable: boolean
-	choice: ViewedChoice
+	choice: ViewedChoice | StoryActivityChoice
 	editChoiceId?: string
 }
 
-export default function Choice(props: ChoiceProps) {
+export default function EditableChoice(props: ChoiceProps) {
 	const { storyId, editable, page, choice } = props
 	const dispatch = useStoryActivityDispatch()
 	const optionalUser = useOptionalUser()
 
 	const onClickHandler = (page: ViewedPage, choice: ViewedChoice) => {
+		console.log(`Choice onClickHandler ${JSON.stringify(choice)}`)
 		dispatch({
-			type: 'add-to-page-history',
+			type: 'make-choice',
 			payload: {
-				...page,
-				nextChoices: page.nextChoices.map(nextChoice => ({
-					...nextChoice,
-					isChosen: choice.id === nextChoice.id,
-				})),
+				pageId: page.id,
+				choiceId: choice.id,
 			},
 		})
 	}
 
-	let link = choice.nextPageId
-		? `/stories/${storyId}/pages/${choice.nextPageId}`
-		: optionalUser
-		? `/stories/${storyId}/pages/new?parentChoiceId=${choice.id}`
-		: '/signup'
+	let link: string
+	if (choice.nextPageId) {
+		link = `/stories/${storyId}/pages/${choice.nextPageId}`
+	} else {
+		if (optionalUser) {
+			link = `/stories/${storyId}/pages/new?parentChoiceId=${choice.id}`
+		} else {
+			link = '/signup'
+		}
+	}
 
 	if (editable && choice.id === props.editChoiceId) {
 		return (
@@ -59,10 +66,9 @@ export default function Choice(props: ChoiceProps) {
 				)}
 				<Link
 					to={link}
-					className={clsx(
-						'hover:text-neutral-400',
-						{ [styles.selectedChoice]: choice.isChosen }, // TODO fix types
-					)}
+					className={clsx('hover:text-neutral-400', {
+						[styles.selectedChoice]: choice.isChosen,
+					})}
 					onClick={() => onClickHandler(page, choice)}
 				>
 					{choice.content}

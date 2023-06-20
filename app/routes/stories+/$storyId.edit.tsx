@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 import { useOptionalCurrentStory } from '~/context/story-activity-context.tsx'
 import { StoryEditor } from '~/routes/resources+/story-editor.tsx'
-import { type loader } from '~/routes/stories+/$storyId+/_index.tsx'
+import { type loader } from '~/routes/stories+/$storyId+/$storyId.tsx'
 
 export default function EditStoryRoute() {
 	const location = useLocation()
