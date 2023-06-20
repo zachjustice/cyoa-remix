@@ -172,7 +172,7 @@ export function PageEditor(props: PageEditorProps) {
 				className="no-required-asterisk"
 				labelProps={{
 					htmlFor: fields.content.id,
-					children: 'This page is blank...',
+					children: 'This page is blank... Do you want to continue the story?',
 				}}
 				textareaProps={{
 					...conform.textarea(fields.content),

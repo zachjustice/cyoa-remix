@@ -1,5 +1,5 @@
-import { useMatches } from "@remix-run/react";
-import { useMemo } from "react";
+import { useMatches } from '@remix-run/react'
+import { useMemo } from 'react'
 
 /**
  * This base hook is used in other hooks to quickly search for specific data
@@ -8,12 +8,15 @@ import { useMemo } from "react";
  * @returns {JSON|undefined} The router data or undefined if not found
  */
 export function useMatchesData(
-    id: string
+	id: string,
 ): Record<string, unknown> | undefined {
-    const matchingRoutes = useMatches();
-    const route = useMemo(
-        () => matchingRoutes.find((route) => route.id.startsWith(id)),
-        [matchingRoutes, id]
-    );
-    return route?.data;
+	const matchingRoutes = useMatches()
+	const route = useMemo(
+		() =>
+			matchingRoutes.find(
+				route => route.id.startsWith(id) || route.pathname.startsWith(id),
+			),
+		[matchingRoutes, id],
+	)
+	return route?.data
 }

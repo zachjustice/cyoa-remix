@@ -1,48 +1,19 @@
-import { type DataFunctionArgs, json } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
-import invariant from 'tiny-invariant'
+import { Link, useMatches, useParams } from '@remix-run/react'
 import {
 	type CurrentStory,
 	useStoryActivityDispatch,
 } from '~/context/story-activity-context.tsx'
-import { getUserId } from '~/utils/auth.server.ts'
+import { useMatchesData } from '~/hooks/useMatchesData.ts'
 import { formatPublishDate } from '~/utils/dateFormat.ts'
-import { prisma } from '~/utils/db.server.ts'
 import { ButtonLink } from '~/utils/forms.tsx'
 
-// TODO this can probably be fetched from parent route that already gets the story
-export async function loader({ params, request }: DataFunctionArgs) {
-	invariant(params.storyId, 'Missing storyId')
-
-	const userId = await getUserId(request)
-
-	const story = await prisma.story.findUnique({
-		where: { id: params.storyId },
-		select: {
-			id: true,
-			title: true,
-			firstPageId: true,
-			description: true,
-			createdAt: true,
-			updatedAt: true,
-			ownerId: true,
-			owner: {
-				select: {
-					id: true,
-					username: true,
-				},
-			},
-		},
-	})
-	if (!story) {
-		throw new Response('not found', { status: 404 })
-	}
-	return json({ story, isOwner: story.owner.id === userId })
-}
-
 export default function GetStoryIntroductionRoute() {
-	const { story, isOwner } = useLoaderData<typeof loader>()
 	const dispatch = useStoryActivityDispatch()
+	const params = useParams()
+	const { story, isOwner } = useMatchesData(`/stories/${params.storyId}`) as {
+		story: CurrentStory
+		isOwner: Boolean
+	}
 
 	return (
 		<div className="flex h-full flex-col">
@@ -80,7 +51,11 @@ export default function GetStoryIntroductionRoute() {
 					</ButtonLink>
 
 					{isOwner ? (
-						<ButtonLink size="sm" variant="secondary" to="edit">
+						<ButtonLink
+							size="sm"
+							variant="secondary"
+							to={`/stories/${story.id}/edit`}
+						>
 							Edit
 						</ButtonLink>
 					) : null}

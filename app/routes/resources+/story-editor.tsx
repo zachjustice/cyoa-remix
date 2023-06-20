@@ -150,7 +150,7 @@ export function StoryEditor({ story }: StoryEditorProps) {
 						<ButtonLink
 							size="sm"
 							variant="secondary"
-							to={`/stories/${story.id}`}
+							to={`/stories/${story.id}/introduction`}
 						>
 							Cancel
 						</ButtonLink>

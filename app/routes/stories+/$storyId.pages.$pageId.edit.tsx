@@ -2,9 +2,10 @@ import { useFetcher } from '@remix-run/react'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 import { PageEditor } from '~/routes/resources+/page-editor.tsx'
-import { type loader } from '~/routes/stories+/$storyId+/pages+/$pageId+/_index.tsx'
+import { type loader } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
 
 export default function EditPageRoute() {
+	console.log('## EditPageRoute')
 	const location = useLocation()
 	const fetcher = useFetcher<typeof loader>()
 
