@@ -1,5 +1,4 @@
 import fs from 'fs'
-import {faker} from '@faker-js/faker'
 import {parseTestData} from "prisma/data-generators.ts";
 import {testData} from "prisma/testData.js";
 import {createPassword, createUser} from 'tests/db-utils.ts'
@@ -28,164 +27,68 @@ async function seed() {
 
     const totalUsers = 5
     console.time(`👤 Created ${totalUsers} users...`)
-    const users = await Promise.all(
-        Array.from({length: totalUsers}, async (_, index) => {
-            const userData = createUser()
-            const user = await prisma.user.create({
+    const users =
+        await Promise.all([
+            await prisma.user.create({
                 data: {
-                    ...userData,
-                    password: {
-                        create: createPassword(userData.username),
-                    },
+                    email: 'kody@kcd.dev',
+                    username: 'kody',
+                    name: 'Kody',
+                    roles: {connect: {id: adminRole.id}},
                     image: {
                         create: {
-                            contentType: 'image/jpeg',
+                            contentType: 'image/png',
                             file: {
                                 create: {
                                     blob: await fs.promises.readFile(
-                                        `./tests/fixtures/images/user/${index % 10}.jpg`,
+                                        './tests/fixtures/images/user/kody.png',
                                     ),
                                 },
                             },
                         },
                     },
-                    notes: {
-                        create: Array.from({
-                            length: faker.datatype.number({min: 0, max: 10}),
-                        }).map(() => ({
-                            title: faker.lorem.sentence(),
-                            content: faker.lorem.paragraphs(),
-                        })),
-                    },
-                },
-            })
-            return user
-        }),
-    )
-    console.timeEnd(`👤 Created ${totalUsers} users...`)
-
-    console.time(
-        `🐨 Created user "kody" with the password "kodylovesyou" and admin role`,
-    )
-    const user = await prisma.user.create({
-        data: {
-            email: 'kody@kcd.dev',
-            username: 'kody',
-            name: 'Kody',
-            roles: {connect: {id: adminRole.id}},
-            image: {
-                create: {
-                    contentType: 'image/png',
-                    file: {
+                    password: {
                         create: {
-                            blob: await fs.promises.readFile(
-                                './tests/fixtures/images/user/kody.png',
-                            ),
+                            hash: await getPasswordHash('kodylovesyou'),
                         },
                     },
                 },
-            },
-            password: {
-                create: {
-                    hash: await getPasswordHash('kodylovesyou'),
-                },
-            },
-            notes: {
-                create: [
-                    {
-                        title: 'Basic Koala Facts',
-                        content:
-                            'Koalas are found in the eucalyptus forests of eastern Australia. They have grey fur with a cream-coloured chest, and strong, clawed feet, perfect for living in the branches of trees!',
+            }),
+            ...Array.from({length: totalUsers}, async (_, index) => {
+                const userData = createUser()
+                const user = await prisma.user.create({
+                    data: {
+                        ...userData,
+                        password: {
+                            create: createPassword(userData.username),
+                        },
+                        image: {
+                            create: {
+                                contentType: 'image/jpeg',
+                                file: {
+                                    create: {
+                                        blob: await fs.promises.readFile(
+                                            `./tests/fixtures/images/user/${index % 10}.jpg`,
+                                        ),
+                                    },
+                                },
+                            },
+                        },
                     },
-                    {
-                        title: 'Koalas like to cuddle',
-                        content:
-                            'Cuddly critters, koalas measure about 60cm to 85cm long, and weigh about 14kg.',
-                    },
-                    {
-                        title: 'Not bears',
-                        content:
-                            "Although you may have heard people call them koala 'bears', these awesome animals aren’t bears at all – they are in fact marsupials. A group of mammals, most marsupials have pouches where their newborns develop.",
-                    },
-                ],
-            },
-        },
-    })
-    console.timeEnd(
+                })
+                return user
+            })
+        ])
+    console.timeEnd(`👤 Created ${totalUsers} users...`)
+
+    const user = users[0]
+    console.log(
         `🐨 Created user "kody" with the password "kodylovesyou" and admin role`,
     )
 
     console.time(`📚 Created pages and choices...`)
 
-    const page = await prisma.page.create({
-        data: {
-            owner: {connect: {id: user.id}},
-            content: 'You wake in a forest surrounded by trees... What do you do?',
-            nextChoices: {
-                create: [
-                    {
-                        owner: {connect: {id: user.id}},
-                        content: "Look around.",
-                        nextPage: {
-                            create: {
-                                owner: {connect: {id: user.id}},
-                                content: 'There is a path going north and south in front of you.',
-                                nextChoices: {
-                                    create: [
-                                        {
-                                            owner: {connect: {id: user.id}},
-                                            content: 'Go North.',
-                                        },
-                                        {
-                                            owner: {connect: {id: user.id}},
-                                            content: 'Go South.',
-                                        }
-
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    {
-                        owner: {connect: {id: user.id}},
-                        content: "Go back to sleep.",
-                        nextPage: {
-                            create: {
-                                owner: {connect: {id: user.id}},
-                                content: 'It is now late evening. As you wake up you notice someone staring at you- a small hobbit!',
-                                nextChoices: {
-                                    create: [
-                                        {
-                                            owner: {connect: {id: user.id}},
-                                            content: 'Approach the small hobbit and introduce yourself'
-                                        },
-                                        {
-                                            owner: {connect: {id: user.id}},
-                                            content: 'Run away.'
-                                        },
-                                        {
-                                            owner: {connect: {id: user.id}},
-                                            content: 'Go back to sleep.'
-                                        },
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                ]
-            }
-        },
-    })
-
-    await prisma.story.create({
-        data: {
-            owner: {connect: {id: user.id}},
-            title: 'The Fable of Drugar',
-            description: 'Explore the entire everything forever as a cool demon smooching babes.',
-            firstPage: {connect: {id: page.id}}
-        }
-    })
-
+    let userNum = 0
     for (const {text, storyTitle, storyDescription} of testData) {
         const parsedData = parseTestData(text, {connect: {id: user.id}});
         const generatedPage = await prisma.page.create({
@@ -194,7 +97,7 @@ async function seed() {
 
         await prisma.story.create({
             data: {
-                owner: {connect: {id: user.id}},
+                owner: {connect: {id: users[userNum++ % users.length].id}},
                 title: storyTitle,
                 description: storyDescription,
                 firstPage: {connect: {id: generatedPage.id}}

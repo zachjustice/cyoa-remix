@@ -4,9 +4,11 @@ import { prisma } from '~/utils/db.server.ts'
 import { clsx } from 'clsx'
 import { getUserImgSrc } from '~/utils/misc.ts'
 import { requireUserId } from '~/utils/auth.server.ts'
+import invariant from "tiny-invariant";
 
 export async function loader({params, request}: DataFunctionArgs) {
-    await requireUserId(request, {redirectTo: null})
+    invariant(params.username, 'Missing username')
+
     const owner = await prisma.user.findUnique({
         where: {
             username: params.username,
@@ -18,10 +20,12 @@ export async function loader({params, request}: DataFunctionArgs) {
             imageId: true,
         },
     })
+
     if (!owner) {
         throw new Response('Not found', {status: 404})
     }
-    const notes = await prisma.story.findMany({
+
+    const stories = await prisma.story.findMany({
         where: {
             ownerId: owner.id,
         },
@@ -30,7 +34,7 @@ export async function loader({params, request}: DataFunctionArgs) {
             description: true,
         },
     })
-    return json({owner, notes})
+    return json({owner, stories})
 }
 
 export default function StoriesRoute() {
@@ -56,22 +60,23 @@ export default function StoriesRoute() {
                         </h1>
                     </Link>
                     <ul>
-                        <li>
-                            <NavLink
-                                to="new"
-                                className={({isActive}) =>
-                                    clsx(navLinkDefaultClassName, {
-                                        'bg-night-400': isActive,
-                                    })
-                                }
-                            >
-                                + New Note
-                            </NavLink>
-                        </li>
-                        {data.notes.map(story => (
+                        {/* TODO check if user is owner */}
+                        {/*<li>*/}
+                        {/*    <NavLink*/}
+                        {/*        to="new"*/}
+                        {/*        className={({isActive}) =>*/}
+                        {/*            clsx(navLinkDefaultClassName, {*/}
+                        {/*                'bg-night-400': isActive,*/}
+                        {/*            })*/}
+                        {/*        }*/}
+                        {/*    >*/}
+                        {/*        + New Note*/}
+                        {/*    </NavLink>*/}
+                        {/*</li>*/}
+                        {data.stories.map(story => (
                             <li key={story.id}>
                                 <NavLink
-                                    to={story.id}
+                                    to={`/stories/${story.id}/introduction`}
                                     className={({isActive}) =>
                                         clsx(navLinkDefaultClassName, {
                                             'bg-night-400': isActive,

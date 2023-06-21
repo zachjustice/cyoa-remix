@@ -1,5 +1,47 @@
 export const testData: { storyTitle: string, storyDescription: string, text: string }[] = [
     {
+        storyTitle: 'The Drugar\'s Fable',
+        storyDescription: 'Explore the entire everything forever as a cool demon smooching babes.',
+        text: `Page: You wake in a forest surrounded by trees... Your only belongings are the sword at your hip, worn chainmail that you wear over your dusty tunic, breeches, and well-traveled boots. What do you do?'
+    Choice: Look around.
+        Page: It is mid-day. The sun hangs midway in the sky. The forest is quiet- almost tranquil. Bird songs, the chirp of insects, and rustle of leaves in a light breeze reach your ears. There are no signs of human civilization as far as you can sense.
+            Choice: Travel North.
+                Page: You travel until you find a bathhouse.
+            Choice: Travel South.
+                Page: You travel until you find an abandoned camp.
+            Choice: Travel East.
+                Page: You travel until you find an abandoned tower, half-crumbled and over grown with vines.
+            Choice: Travel West.
+                Page: You travel until you find a stream.
+    Choice: Go back to sleep.
+        Page: Uninterested in your surroundings, you shrug your shoulders and go back to sleep. You sleep a dreamless slumber until the chill of the midnight air and rumbling of your empty stomach wakes you.
+            Choice: Search for food.
+                Page: You find a few things to eat. What should you eat first?
+                    Choice: Berry.
+                    Choice: Twig.
+                    Choice: Red Mushroom.
+                    Choice: Brown Mushroom
+            Choice: Ignore your hunger and go back to sleep.
+                Page: You die of hunger.
+            Choice: Wander aimlessly North.
+                Page: You travel until you find a bathhouse.
+            Choice: Wander aimlessly South.
+                Page: You travel until you find an abandoned camp.
+    Choice: Pray.
+        Page: What do you pray for?
+            Choice: Pray to remember your history.
+            Choice: Pray to be saved.
+            Choice: Pray to die.
+            Choice: Pray to be taken to heaven.
+    Choice: Cry out in despair.
+        Page: You cry out into the forest but nothing answers.
+            Choice: Pee your pants.
+            Choice: Poop yourself.
+            Choice: Rip out your hair.
+            Choice: Strip naked and run in a panic into the forest.
+        `
+    },
+    {
         storyTitle: 'The Dark Cave',
         storyDescription: 'Explore a dark cave',
         text: `Page: You find yourself in a dark cave. You see three tunnels in front of you. Which one will you choose?

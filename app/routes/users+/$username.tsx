@@ -67,14 +67,6 @@ export default function UsernameIndex() {
 						{isLoggedInUser ? (
 							<>
 								<ButtonLink
-									to="notes"
-									variant="primary"
-									size="md"
-									prefetch="intent"
-								>
-									My notes
-								</ButtonLink>
-								<ButtonLink
 									to="stories"
 									variant="primary"
 									size="md"
@@ -93,12 +85,12 @@ export default function UsernameIndex() {
 							</>
 						) : (
 							<ButtonLink
-								to="notes"
+								to="stories"
 								variant="primary"
 								size="md"
 								prefetch="intent"
 							>
-								{userDisplayName}'s notes
+								{userDisplayName}'s Stories
 							</ButtonLink>
 						)}
 					</div>
