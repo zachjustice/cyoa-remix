@@ -43,11 +43,7 @@ export default function EditableChoice(props: ChoiceProps) {
 	if (choice.nextPageId) {
 		link = `/stories/${storyId}/pages/${choice.nextPageId}`
 	} else {
-		if (optionalUser) {
-			link = `/stories/${storyId}/pages/new?parentChoiceId=${choice.id}`
-		} else {
-			link = '/signup'
-		}
+		link = `/stories/${storyId}/pages/new?parentChoiceId=${choice.id}`
 	}
 
 	if (editable && choice.id === props.editChoiceId) {

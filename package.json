@@ -15,7 +15,7 @@
     "db:seed": "npx prisma db seed",
     "db:push": "npx prisma db push",
     "db:migrate": "npx prisma db migrate",
-    "format": "prettier --write .",
+    "prettier:fix": "prettier --write .",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/eslint .",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed && playwright install",

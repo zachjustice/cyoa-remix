@@ -1,6 +1,6 @@
 import { type Choice, type Page } from '@prisma/client'
 import { type DataFunctionArgs, json } from '@remix-run/node'
-import { useLoaderData, useSearchParams } from '@remix-run/react'
+import { useLoaderData, useParams, useSearchParams } from '@remix-run/react'
 import { clsx } from 'clsx'
 import invariant from 'tiny-invariant'
 import EditableChoice from '~/components/EditableChoice.tsx'
@@ -42,13 +42,13 @@ export async function loader({ params, request }: DataFunctionArgs) {
 	}
 	return json({
 		page,
-		storyId: params.storyId,
 		isOwner: page.ownerId === userId,
 	})
 }
 
 export default function GetPageRoute() {
-	const { page, storyId, isOwner } = useLoaderData<typeof loader>()
+	const { storyId } = useParams()
+	const { page, isOwner } = useLoaderData<typeof loader>()
 
 	const [searchParams] = useSearchParams()
 	const editChoiceId = isOwner

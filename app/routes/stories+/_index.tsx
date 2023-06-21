@@ -41,10 +41,7 @@ export default function GetStoriesRoute() {
 							return (
 								<li key={story.id}>
 									<h2 className="text-body-md font-bold underline">
-										<Link
-											to={`/stories/${story.id}/introduction`}
-											onClick={() => dispatch({ type: 'reset-history' })}
-										>
+										<Link to={`/stories/${story.id}/introduction`}>
 											{story.title}
 										</Link>
 									</h2>

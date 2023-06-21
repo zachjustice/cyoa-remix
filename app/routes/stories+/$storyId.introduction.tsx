@@ -1,6 +1,8 @@
-import { Link, useMatches, useParams } from '@remix-run/react'
+import { Link, useParams } from '@remix-run/react'
 import {
 	type CurrentStory,
+	useOptionalCurrentStory,
+	usePageHistory,
 	useStoryActivityDispatch,
 } from '~/context/story-activity-context.tsx'
 import { useMatchesData } from '~/hooks/useMatchesData.ts'
@@ -8,11 +10,20 @@ import { formatPublishDate } from '~/utils/dateFormat.ts'
 import { ButtonLink } from '~/utils/forms.tsx'
 
 export default function GetStoryIntroductionRoute() {
+	const currentStory = useOptionalCurrentStory()
+	const pageHistory = usePageHistory()
 	const dispatch = useStoryActivityDispatch()
 	const params = useParams()
 	const { story, isOwner } = useMatchesData(`/stories/${params.storyId}`) as {
 		story: CurrentStory
 		isOwner: Boolean
+	}
+
+	if (currentStory?.id !== params.storyId) {
+		dispatch({
+			type: 'view-story',
+			payload: story as CurrentStory,
+		})
 	}
 
 	return (
@@ -31,24 +42,21 @@ export default function GetStoryIntroductionRoute() {
 				</p>
 				<p className="text-sm md:text-lg">{story.description}</p>
 				<div className="mt-10 flex gap-4">
-					<ButtonLink
-						to={
-							story.firstPageId
-								? `/stories/${story.id}/pages/${story.firstPageId}/`
-								: `/stories/${story.id}/pages/new/`
-						}
-						size="sm"
-						variant="primary"
-						type="submit"
-						onClick={() => {
-							dispatch({
-								type: 'view-story',
-								payload: story as CurrentStory,
-							})
-						}}
-					>
-						Begin
-					</ButtonLink>
+					{pageHistory.length === 0 && (
+						<ButtonLink
+							to={
+								story.firstPageId
+									? `/stories/${story.id}/pages/${story.firstPageId}/`
+									: `/stories/${story.id}/pages/new/`
+							}
+							size="sm"
+							variant="primary"
+							type="submit"
+							onClick={() => {}}
+						>
+							Begin
+						</ButtonLink>
+					)}
 
 					{isOwner ? (
 						<ButtonLink

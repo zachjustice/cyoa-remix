@@ -1,26 +1,16 @@
-import { useFetcher } from '@remix-run/react'
-import { useEffect } from 'react'
-import { useLocation } from 'react-router'
 import { PageEditor } from '~/routes/resources+/page-editor.tsx'
-import { type loader } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
+import { type ViewedPage } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
+import { useMatchesData } from '~/hooks/useMatchesData.ts'
+import { useParams } from '@remix-run/react'
 
 export default function EditPageRoute() {
-	console.log('## EditPageRoute')
-	const location = useLocation()
-	const fetcher = useFetcher<typeof loader>()
+	const params = useParams()
+	const { page, isOwner } = useMatchesData(
+		`/stories/${params.storyId}/pages/${params.pageId}`,
+	) as {
+		page: ViewedPage
+		isOwner: Boolean
+	}
 
-	const path = location.pathname?.replace('/edit', '')
-
-	useEffect(() => {
-		if (fetcher.state === 'idle' && fetcher.data == null) {
-			fetcher.load(`${path}?index`)
-		}
-	}, [path, fetcher])
-
-	const { page, storyId, isOwner } = fetcher.data ?? {}
-
-	if (!isOwner) return null
-	if (!page) return null
-
-	return <PageEditor page={{ ...page, storyId }} />
+	return <PageEditor page={{ ...page, storyId: params.storyId }} />
 }
