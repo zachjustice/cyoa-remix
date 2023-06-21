@@ -1,8 +1,13 @@
-export const testData: { storyTitle: string, storyDescription: string, text: string }[] = [
-    {
-        storyTitle: 'The Drugar\'s Fable',
-        storyDescription: 'Explore the entire everything forever as a cool demon smooching babes.',
-        text: `Page: You wake in a forest surrounded by trees... Your only belongings are the sword at your hip, worn chainmail that you wear over your dusty tunic, breeches, and well-traveled boots. What do you do?'
+export const testData: {
+	storyTitle: string
+	storyDescription: string
+	text: string
+}[] = [
+	{
+		storyTitle: "The Drugar's Fable",
+		storyDescription:
+			'Explore the entire everything forever as a cool demon smooching babes.',
+		text: `Page: You wake in a forest surrounded by trees... Your only belongings are the sword at your hip, worn chainmail that you wear over your dusty tunic, breeches, and well-traveled boots. What do you do?'
     Choice: Look around.
         Page: It is mid-day. The sun hangs midway in the sky. The forest is quiet- almost tranquil. Bird songs, the chirp of insects, and rustle of leaves in a light breeze reach your ears. There are no signs of human civilization as far as you can sense.
             Choice: Travel North.
@@ -39,12 +44,12 @@ export const testData: { storyTitle: string, storyDescription: string, text: str
             Choice: Poop yourself.
             Choice: Rip out your hair.
             Choice: Strip naked and run in a panic into the forest.
-        `
-    },
-    {
-        storyTitle: 'The Dark Cave',
-        storyDescription: 'Explore a dark cave',
-        text: `Page: You find yourself in a dark cave. You see three tunnels in front of you. Which one will you choose?
+        `,
+	},
+	{
+		storyTitle: 'The Dark Cave',
+		storyDescription: 'Explore a dark cave',
+		text: `Page: You find yourself in a dark cave. You see three tunnels in front of you. Which one will you choose?
     Choice: Enter the left tunnel.
         Page: You walk through the left tunnel and find a room filled with gold coins and precious gems.
             Choice: Take some coins and gems.
@@ -95,12 +100,12 @@ export const testData: { storyTitle: string, storyDescription: string, text: str
                 Page: You leave the chamber and continue walking until you come across a large underground river.
                     Choice: Try to swim across the river.
                     Choice: Follow the river downstream.
-                    Choice: Search for a way to cross the river without swimming.`
-    },
-    {
-        storyTitle: "The Forest",
-        storyDescription: 'Explore a forest',
-        text: `Page: You wake up in a forest surrounded by trees. You hear the sound of birds and the forest all around you. What do you do?
+                    Choice: Search for a way to cross the river without swimming.`,
+	},
+	{
+		storyTitle: 'The Forest',
+		storyDescription: 'Explore a forest',
+		text: `Page: You wake up in a forest surrounded by trees. You hear the sound of birds and the forest all around you. What do you do?
     Choice: Check your inventory.
         Page: You are wearing a t-shirt, pants, and sneakers. In your pockets, you have your cellphone, wallet, house keys, and a crumpled receipt from the corner store.
             Choice: Read the receipt.
@@ -151,12 +156,13 @@ export const testData: { storyTitle: string, storyDescription: string, text: str
                 Page: You run deeper into the forest, away from the hobbit. As you run, you come across a fork in the path with three different directions to choose from.
                     Choice: Take the left path.
                     Choice: Take the middle path.
-                    Choice: Take the right path.`
-    },
-    {
-        storyTitle: 'Space Frigate',
-        storyDescription: 'You are aboard the space frigate, Meritocracy, when suddenly the ship encounters an unknown alien species.',
-        text: `Page: You are aboard the space frigate, Meritocracy, when suddenly the ship encounters an unknown alien species. The aliens seem friendly and are eager to make contact. What do you do?
+                    Choice: Take the right path.`,
+	},
+	{
+		storyTitle: 'Space Frigate',
+		storyDescription:
+			'You are aboard the space frigate, Meritocracy, when suddenly the ship encounters an unknown alien species.',
+		text: `Page: You are aboard the space frigate, Meritocracy, when suddenly the ship encounters an unknown alien species. The aliens seem friendly and are eager to make contact. What do you do?
     Choice: Attempt to communicate with the aliens.
         Page: You open your ship's communication channels and try to establish contact with the aliens. They respond with a series of unusual sounds and gestures.
             Choice: Mimic their gestures.
@@ -171,12 +177,12 @@ export const testData: { storyTitle: string, storyDescription: string, text: str
         Page: You decide it's best to retreat and report the encounter to your headquarters. As your ship begins to move away, the aliens start to follow the Meritocracy.
             Choice: Increase speed and try to outrun the aliens.
             Choice: Stop the ship and attempt to communicate with the aliens.
-            Choice: Prepare the ship's defenses in case the aliens become hostile.`
-    },
-    {
-        storyTitle: 'Pirate Pirate Pirate',
-        storyDescription: 'Explore the ocean!',
-        text: `Page: You find yourself on a pirate ship in the middle of the ocean. The salty sea breeze fills your nostrils as the ship sways gently. What do you do?
+            Choice: Prepare the ship's defenses in case the aliens become hostile.`,
+	},
+	{
+		storyTitle: 'Pirate Pirate Pirate',
+		storyDescription: 'Explore the ocean!',
+		text: `Page: You find yourself on a pirate ship in the middle of the ocean. The salty sea breeze fills your nostrils as the ship sways gently. What do you do?
     Choice: Talk to the captain.
         Page: The captain, a grizzled old pirate with a wooden leg, greets you with a hearty laugh. He tells you about his plans to find a hidden treasure.
             Choice: Offer to help find the treasure.
@@ -191,12 +197,12 @@ export const testData: { storyTitle: string, storyDescription: string, text: str
         Page: You quietly enter the captain's quarters, filled with maps, trinkets, and a large wooden desk. On the desk, you find a map with a marked location.
             Choice: Steal the treasure map.
             Choice: Examine the captain's belongings.
-            Choice: Leave the captain's quarters before you're caught.`
-    },
-    {
-        storyTitle: "You're a pirate",
-        storyDescription: "Be a pirate",
-        text: `Page: You find yourself on a pirate ship in the middle of the ocean. The salty air fills your nostrils, and you hear the creaking of wooden planks beneath your feet. What do you do?
+            Choice: Leave the captain's quarters before you're caught.`,
+	},
+	{
+		storyTitle: "You're a pirate",
+		storyDescription: 'Be a pirate',
+		text: `Page: You find yourself on a pirate ship in the middle of the ocean. The salty air fills your nostrils, and you hear the creaking of wooden planks beneath your feet. What do you do?
     Choice: Talk to the nearby pirate.
         Page: The pirate introduces himself as Captain Blackbeard. He tells you that the ship is heading towards a hidden treasure island.
             Choice: Offer to help him find the treasure.
@@ -227,12 +233,13 @@ export const testData: { storyTitle: string, storyDescription: string, text: str
                 Page: Surprisingly, the sharks seem to understand your intentions and allow you to swim with them.
                     Choice: Ask the sharks to help you find the hidden treasure.
                     Choice: Ride the sharks back to the pirate ship.
-                    Choice: Explore the depths of the ocean with the sharks.`
-    },
-    {
-        storyTitle: 'Faires',
-        storyDescription: 'You find yourself in an enchanted forest filled with glowing fairies.',
-        text: `Page: You find yourself in an enchanted forest filled with glowing fairies. Their laughter fills the air as they dance around you. What do you do?
+                    Choice: Explore the depths of the ocean with the sharks.`,
+	},
+	{
+		storyTitle: 'Faires',
+		storyDescription:
+			'You find yourself in an enchanted forest filled with glowing fairies.',
+		text: `Page: You find yourself in an enchanted forest filled with glowing fairies. Their laughter fills the air as they dance around you. What do you do?
     Choice: Follow the fairies.
         Page: The fairies lead you to a beautiful, shimmering lake. The moonlight casts a magical glow over the water.
             Choice: Swim in the lake.
@@ -283,12 +290,12 @@ export const testData: { storyTitle: string, storyDescription: string, text: str
                 Page: Oberon, feeling slighted, casts a spell on you, turning you into a tiny, helpless creature.
                     Choice: Beg Oberon for forgiveness.
                     Choice: Try to break the spell yourself.
-                    Choice: Accept your fate and live as a tiny creature.`
-    },
-    {
-        storyTitle: 'Reality TV Show',
-        storyDescription: 'Single choice selection',
-        text: `Page: You find yourself on a reality TV show where all contestants are incredibly attractive people. The show is called "Love Island". What do you do?
+                    Choice: Accept your fate and live as a tiny creature.`,
+	},
+	{
+		storyTitle: 'Reality TV Show',
+		storyDescription: 'Single choice selection',
+		text: `Page: You find yourself on a reality TV show where all contestants are incredibly attractive people. The show is called "Love Island". What do you do?
     Choice: Flirt with another contestant.
         Page: You approach a stunning woman named Lara. As you chat, you find out that she loves adventure and has a passion for travel. What do you say next?
             Choice: Tell her about your own adventures.
@@ -327,6 +334,6 @@ export const testData: { storyTitle: string, storyDescription: string, text: str
                                                                                                                         Page: You and Lara join the marine biologist and other volunteers in cleaning up the beach, removing plastic bottles and other trash. What happens next?
                                                                                                                             Choice: The marine biologist organizes a fundraiser to support sea turtle conservation efforts.
                                                                                                                         Page: You and Lara help plan the fundraiser, which attracts a large crowd of supporters. What happens next?
-                                                                                                                    Choice: The fundraiser is a huge success, and you feel proud of your efforts.`
-    },
-];
+                                                                                                                    Choice: The fundraiser is a huge success, and you feel proud of your efforts.`,
+	},
+]
