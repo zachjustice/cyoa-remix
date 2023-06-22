@@ -8,6 +8,7 @@ import {
 import { useMatchesData } from '~/hooks/useMatchesData.ts'
 import { formatPublishDate } from '~/utils/dateFormat.ts'
 import { ButtonLink } from '~/utils/forms.tsx'
+import { useEffect } from 'react'
 
 export default function GetStoryIntroductionRoute() {
 	const currentStory = useOptionalCurrentStory()
@@ -19,12 +20,14 @@ export default function GetStoryIntroductionRoute() {
 		isOwner: Boolean
 	}
 
-	if (currentStory?.id !== params.storyId) {
-		dispatch({
-			type: 'view-story',
-			payload: story as CurrentStory,
-		})
-	}
+	useEffect(() => {
+		if (currentStory?.id !== params.storyId) {
+			dispatch({
+				type: 'view-story',
+				payload: story as CurrentStory,
+			})
+		}
+	})
 
 	return (
 		<div className="flex h-full flex-col">

@@ -29,7 +29,6 @@ export default function EditableChoice(props: ChoiceProps) {
 	const optionalUser = useOptionalUser()
 
 	const onClickHandler = (page: ViewedPage, choice: ViewedChoice) => {
-		console.log(`Choice onClickHandler ${JSON.stringify(choice)}`)
 		dispatch({
 			type: 'make-choice',
 			payload: {

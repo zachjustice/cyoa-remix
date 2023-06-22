@@ -50,6 +50,34 @@ export default function GetStoryRoute() {
 					<h1 className="mb-2 ml-8 text-h2">{story.title}</h1>
 					<p className="mb-1 ml-8">Table of Contents</p>
 					<ul>
+						<li>
+							<NavLink
+								to={`/stories/${story.id}/introduction`}
+								className={({ isActive }) =>
+									clsx(navLinkDefaultClassName, {
+										'bg-night-400': isActive,
+									})
+								}
+							>
+								Introduction
+							</NavLink>
+						</li>
+						{pageHistory.map((page, index) => {
+							return (
+								<li key={page.id}>
+									<NavLink
+										to={`/stories/${story.id}/pages/${page.id}`}
+										className={({ isActive }) =>
+											clsx(navLinkDefaultClassName, {
+												'bg-night-400': isActive,
+											})
+										}
+									>
+										Page {index + 1}
+									</NavLink>
+								</li>
+							)
+						})}
 						{location.pathname.includes('/pages/new') && (
 							<li>
 								<NavLink
@@ -64,34 +92,6 @@ export default function GetStoryRoute() {
 								</NavLink>
 							</li>
 						)}
-						{pageHistory.reverse().map((page, index) => {
-							return (
-								<li key={page.id}>
-									<NavLink
-										to={`/stories/${story.id}/pages/${page.id}`}
-										className={({ isActive }) =>
-											clsx(navLinkDefaultClassName, {
-												'bg-night-400': isActive,
-											})
-										}
-									>
-										Page {pageHistory.length - index}
-									</NavLink>
-								</li>
-							)
-						})}
-						<li>
-							<NavLink
-								to={`/stories/${story.id}/introduction`}
-								className={({ isActive }) =>
-									clsx(navLinkDefaultClassName, {
-										'bg-night-400': isActive,
-									})
-								}
-							>
-								Introduction
-							</NavLink>
-						</li>
 					</ul>
 				</div>
 				<main className="col-span-3 bg-night-400 px-10 py-12 md:rounded">

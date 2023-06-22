@@ -158,6 +158,15 @@ export function PageEditor(props: PageEditorProps) {
 		shouldRevalidate: 'onBlur',
 	})
 
+	let prompt: string
+	if (page?.content) {
+		prompt = 'What do you want to change?'
+	} else if (page?.parentChoiceId) {
+		prompt = 'This page is blank... Do you want to continue the story?'
+	} else {
+		prompt = 'This is the first page of your story. A blank page awaits you...'
+	}
+
 	return (
 		<pageEditorFetcher.Form
 			method="post"
@@ -172,9 +181,7 @@ export function PageEditor(props: PageEditorProps) {
 				className="no-required-asterisk"
 				labelProps={{
 					htmlFor: fields.content.id,
-					children: page?.parentChoiceId
-						? 'This page is blank... Do you want to continue the story?'
-						: 'This is the first page of your story. A blank page awaits you...',
+					children: prompt,
 				}}
 				textareaProps={{
 					...conform.textarea(fields.content),

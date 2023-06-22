@@ -1,6 +1,12 @@
 import { type Choice, type Page } from '@prisma/client'
 import { type DataFunctionArgs, json } from '@remix-run/node'
-import { useLoaderData, useParams, useSearchParams } from '@remix-run/react'
+import {
+	Link,
+	Outlet,
+	useLoaderData,
+	useParams,
+	useSearchParams,
+} from '@remix-run/react'
 import { clsx } from 'clsx'
 import invariant from 'tiny-invariant'
 import EditableChoice from '~/components/EditableChoice.tsx'
@@ -9,6 +15,7 @@ import { useStoryActivityDispatch } from '~/context/story-activity-context.tsx'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
+import { useEffect } from 'react'
 
 export type ViewedChoice = Pick<Choice, 'id' | 'content' | 'nextPageId'>
 
@@ -57,10 +64,12 @@ export default function GetPageRoute() {
 		: undefined
 
 	const dispatch = useStoryActivityDispatch()
-	dispatch({
-		type: 'view-page',
-		payload: page,
-	})
+	useEffect(() =>
+		dispatch({
+			type: 'view-page',
+			payload: page,
+		}),
+	)
 
 	return (
 		<div className="flex flex-col">
