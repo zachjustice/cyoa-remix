@@ -7,6 +7,7 @@ import {
 } from '~/context/story-activity-context.tsx'
 import { formatPublishDate } from '~/utils/dateFormat.ts'
 import { prisma } from '~/utils/db.server.ts'
+import { ButtonLink } from '~/utils/forms.tsx'
 
 export async function loader() {
 	const stories = await prisma.story.findMany({

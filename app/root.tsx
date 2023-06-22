@@ -101,6 +101,11 @@ export default function App() {
 						</div>
 						<div className="flex items-center gap-10">
 							<div className="flex items-center gap-10">
+								<ButtonLink to="new" size="sm" variant="primary">
+									Write a Story
+								</ButtonLink>
+							</div>
+							<div className="flex items-center gap-10">
 								<ButtonLink to="/stories" size="sm" variant="secondary">
 									Stories
 								</ButtonLink>
