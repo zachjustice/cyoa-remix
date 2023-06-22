@@ -210,8 +210,7 @@ export default function OnboardingPage() {
 					<CheckboxField
 						labelProps={{
 							htmlFor: fields.agreeToMailingList.id,
-							children:
-								'Would you like to receive special discounts and offers?',
+							children: 'Would you like to sign-up for the mailing list?',
 						}}
 						buttonProps={conform.input(fields.agreeToMailingList, {
 							type: 'checkbox',

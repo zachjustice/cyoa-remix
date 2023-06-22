@@ -54,7 +54,7 @@ export default function GetStoryIntroductionRoute() {
 							type="submit"
 							onClick={() => {}}
 						>
-							Begin
+							{story.firstPageId ? 'Begin' : 'Write the first page'}
 						</ButtonLink>
 					)}
 

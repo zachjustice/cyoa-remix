@@ -48,6 +48,7 @@ export async function loader({ params, request }: DataFunctionArgs) {
 
 export default function GetPageRoute() {
 	const { storyId } = useParams()
+	invariant(storyId, 'Missing storyId')
 	const { page, isOwner } = useLoaderData<typeof loader>()
 
 	const [searchParams] = useSearchParams()

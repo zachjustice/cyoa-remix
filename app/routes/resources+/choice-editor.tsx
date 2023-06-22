@@ -131,7 +131,7 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 						className="no-required-asterisk"
 						labelProps={{
 							htmlFor: fields.content.id,
-							children: 'More choices can be made...',
+							children: 'Provide the reader with a choice...',
 						}}
 						inputProps={{
 							...conform.input(fields.content),
@@ -165,6 +165,13 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 							>
 								<Xmark />
 							</ButtonLink>
+						</div>
+					)}
+					{!choice?.id && (
+						<div>
+							<Button size="xs" variant="secondary" type="reset">
+								<Xmark />
+							</Button>
 						</div>
 					)}
 				</div>

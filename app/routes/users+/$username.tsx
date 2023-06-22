@@ -69,7 +69,7 @@ export default function UsernameIndex() {
 								<ButtonLink
 									to="stories"
 									variant="primary"
-									size="md"
+									size="sm"
 									prefetch="intent"
 								>
 									My Stories
@@ -77,7 +77,7 @@ export default function UsernameIndex() {
 								<ButtonLink
 									to="/settings/profile"
 									variant="secondary"
-									size="md"
+									size="sm"
 									prefetch="intent"
 								>
 									Edit profile
@@ -87,7 +87,7 @@ export default function UsernameIndex() {
 							<ButtonLink
 								to="stories"
 								variant="primary"
-								size="md"
+								size="sm"
 								prefetch="intent"
 							>
 								{userDisplayName}'s Stories

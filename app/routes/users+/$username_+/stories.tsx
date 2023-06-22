@@ -31,6 +31,7 @@ export async function loader({ params, request }: DataFunctionArgs) {
 		},
 		select: {
 			id: true,
+			title: true,
 			description: true,
 		},
 	})
@@ -73,6 +74,18 @@ export default function StoriesRoute() {
 						{/*        + New Note*/}
 						{/*    </NavLink>*/}
 						{/*</li>*/}
+						<li>
+							<NavLink
+								to="new"
+								className={({ isActive }) =>
+									clsx(navLinkDefaultClassName, {
+										'bg-night-400': isActive,
+									})
+								}
+							>
+								+ New Story
+							</NavLink>
+						</li>
 						{data.stories.map(story => (
 							<li key={story.id}>
 								<NavLink
@@ -83,7 +96,7 @@ export default function StoriesRoute() {
 										})
 									}
 								>
-									{story.description}
+									{story.title}
 								</NavLink>
 							</li>
 						))}

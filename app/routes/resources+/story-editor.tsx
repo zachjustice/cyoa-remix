@@ -86,7 +86,7 @@ export async function action({ request }: DataFunctionArgs) {
 		story = await prisma.story.create({ data, select })
 	}
 
-	return redirect(`/stories/${story.id}`)
+	return redirect(`/stories/${story.id}/introduction`)
 }
 
 type StoryEditorProps = {

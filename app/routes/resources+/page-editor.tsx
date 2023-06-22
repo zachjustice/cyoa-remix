@@ -1,7 +1,7 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { type DataFunctionArgs, json, redirect } from '@remix-run/node'
-import { useFetcher } from '@remix-run/react'
+import { useFetcher, useSearchParams } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'
@@ -172,7 +172,9 @@ export function PageEditor(props: PageEditorProps) {
 				className="no-required-asterisk"
 				labelProps={{
 					htmlFor: fields.content.id,
-					children: 'This page is blank... Do you want to continue the story?',
+					children: page?.parentChoiceId
+						? 'This page is blank... Do you want to continue the story?'
+						: 'This is the first page of your story. A blank page awaits you...',
 				}}
 				textareaProps={{
 					...conform.textarea(fields.content),
