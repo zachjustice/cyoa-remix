@@ -18,7 +18,7 @@ export async function sendEmail(email: {
 
 	const body = new URLSearchParams({
 		...email,
-		from: 'hello@epicstack.dev',
+		from: `${process.env.MAILGUN_DOMAIN}`,
 	})
 
 	return fetch(
