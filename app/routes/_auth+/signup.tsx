@@ -4,7 +4,7 @@ import {
 	type DataFunctionArgs,
 	type V2_MetaFunction,
 } from '@remix-run/node'
-import { useFetcher } from '@remix-run/react'
+import { Link, useFetcher } from '@remix-run/react'
 import { z } from 'zod'
 import { GeneralErrorBoundary } from '~/components/error-boundary.tsx'
 import { prisma } from '~/utils/db.server.ts'
@@ -211,6 +211,10 @@ export default function SignupRoute() {
 							Launch
 						</Button>
 					</signupFetcher.Form>
+					<div className="flex items-center justify-center gap-2 pt-6">
+						<span className="text-night-200">Already have an account?</span>
+						<Link to="/login">Log in</Link>
+					</div>
 				</>
 			)}
 		</div>

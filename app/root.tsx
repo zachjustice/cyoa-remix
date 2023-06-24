@@ -100,11 +100,13 @@ export default function App() {
 							<Link to="/">Choose Your Own Adventure!</Link>
 						</div>
 						<div className="flex items-center gap-10">
-							<div className="flex items-center gap-10">
-								<ButtonLink to="/stories/new" size="sm" variant="primary">
-									Write a Story
-								</ButtonLink>
-							</div>
+							{data?.user && (
+								<div className="flex items-center gap-10">
+									<ButtonLink to="/stories/new" size="sm" variant="primary">
+										Write a Story
+									</ButtonLink>
+								</div>
+							)}
 							<div className="flex items-center gap-10">
 								<ButtonLink to="/stories" size="sm" variant="secondary">
 									Stories
@@ -113,8 +115,8 @@ export default function App() {
 							{user ? (
 								<UserDropdown />
 							) : (
-								<ButtonLink to="/login" size="sm" variant="primary">
-									Log In
+								<ButtonLink to="/signup" size="sm" variant="primary">
+									Sign Up
 								</ButtonLink>
 							)}
 						</div>
