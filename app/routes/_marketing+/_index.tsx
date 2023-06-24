@@ -39,7 +39,7 @@ export default function Index() {
 								/>
 							</a>
 							<div className="flex justify-center gap-10">
-								<ButtonLink to="/sign-up" size="sm" variant="primary">
+								<ButtonLink to="/signup" size="sm" variant="primary">
 									Sign Up
 								</ButtonLink>
 								<ButtonLink to="/login" size="sm" variant="secondary">
