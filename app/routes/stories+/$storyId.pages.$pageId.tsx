@@ -1,12 +1,6 @@
 import { type Choice, type Page } from '@prisma/client'
 import { type DataFunctionArgs, json } from '@remix-run/node'
-import {
-	Link,
-	Outlet,
-	useLoaderData,
-	useParams,
-	useSearchParams,
-} from '@remix-run/react'
+import { useLoaderData, useParams, useSearchParams } from '@remix-run/react'
 import { clsx } from 'clsx'
 import invariant from 'tiny-invariant'
 import EditableChoice from '~/components/EditableChoice.tsx'

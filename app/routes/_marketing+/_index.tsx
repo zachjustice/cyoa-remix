@@ -57,11 +57,12 @@ export default function Index() {
 					<div className="flex flex-wrap justify-center gap-8 rounded-3xl bg-day-300 py-4">
 						{/* TODO auto scroll through randomly selected stories so users can see what has been written before */}
 						{logos.map(img => (
-							<a
-								key={img.href}
-								href={img.href}
-								className="flex h-16 w-32 justify-center p-1 grayscale transition hover:grayscale-0 focus:grayscale-0"
-							></a>
+							<p key={img.href}></p>
+							// <a
+							// 	key={img.href}
+							// 	href={img.href}
+							// 	className="flex h-16 w-32 justify-center p-1 grayscale transition hover:grayscale-0 focus:grayscale-0"
+							// ></a>
 						))}
 					</div>
 				</div>

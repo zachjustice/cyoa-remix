@@ -1,9 +1,8 @@
-import { useLoaderData, Outlet, NavLink, Link } from '@remix-run/react'
-import { json, type DataFunctionArgs } from '@remix-run/node'
+import { Link, NavLink, Outlet, useLoaderData } from '@remix-run/react'
+import { type DataFunctionArgs, json } from '@remix-run/node'
 import { prisma } from '~/utils/db.server.ts'
 import { clsx } from 'clsx'
 import { getUserImgSrc } from '~/utils/misc.ts'
-import { requireUserId } from '~/utils/auth.server.ts'
 import invariant from 'tiny-invariant'
 
 export async function loader({ params, request }: DataFunctionArgs) {

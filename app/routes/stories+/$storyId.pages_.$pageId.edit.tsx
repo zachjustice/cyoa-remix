@@ -1,8 +1,5 @@
 import { PageEditor } from '~/routes/resources+/page-editor.tsx'
-import { type ViewedPage } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
-import { useMatchesData } from '~/hooks/useMatchesData.ts'
 import { useLoaderData, useParams } from '@remix-run/react'
-import { Edit } from '@sinclair/typebox/value'
 import { type DataFunctionArgs, json } from '@remix-run/node'
 import { getUserId } from '~/utils/auth.server.ts'
 import invariant from 'tiny-invariant'

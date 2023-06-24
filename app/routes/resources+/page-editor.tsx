@@ -1,7 +1,7 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { type DataFunctionArgs, json, redirect } from '@remix-run/node'
-import { useFetcher, useSearchParams } from '@remix-run/react'
+import { useFetcher } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'

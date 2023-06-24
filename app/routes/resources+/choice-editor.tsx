@@ -99,7 +99,7 @@ type ChoiceEditorProps = {
 }
 
 export function ChoiceEditor(props: ChoiceEditorProps) {
-	const { choice, submitHandler } = props
+	const { choice } = props
 	const choiceEditorFetcher = useFetcher<typeof action>()
 
 	const [form, fields] = useForm({

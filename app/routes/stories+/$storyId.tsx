@@ -37,7 +37,7 @@ export async function loader({ params, request }: DataFunctionArgs) {
 }
 
 export default function GetStoryRoute() {
-	const { story, isOwner } = useLoaderData<typeof loader>()
+	const { story } = useLoaderData<typeof loader>()
 	const pageHistory = usePageHistory()
 	const location = useLocation()
 

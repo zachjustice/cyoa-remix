@@ -7,7 +7,6 @@ import {
 	type StoryActivityPage,
 	useStoryActivityDispatch,
 } from '~/context/story-activity-context.tsx'
-import { useOptionalUser } from '~/hooks/useUser.ts'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import styles from '~/routes/resources+/Page.module.css'
 import {
@@ -26,7 +25,6 @@ type ChoiceProps = {
 export default function EditableChoice(props: ChoiceProps) {
 	const { storyId, editable, page, choice } = props
 	const dispatch = useStoryActivityDispatch()
-	const optionalUser = useOptionalUser()
 
 	const onClickHandler = (page: ViewedPage, choice: ViewedChoice) => {
 		dispatch({

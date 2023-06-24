@@ -1,5 +1,4 @@
 import { StoryEditor } from '~/routes/resources+/story-editor.tsx'
-import StoryNavigator from '~/components/StoryNavigator.tsx'
 
 export default function CreateStoryRoute() {
 	return (
