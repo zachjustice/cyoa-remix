@@ -140,6 +140,9 @@ export async function action({ request }: DataFunctionArgs) {
 		return json({ status: 'success', submission } as const)
 	} else {
 		if (isObjectEmpty(submission.error)) {
+			console.error(
+				`Signup failed. sendEmail response: ${JSON.stringify(response)}`,
+			)
 			submission['error'] = {
 				email: "Something broke! We're taking a look.",
 			}
