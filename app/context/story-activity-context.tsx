@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import {
 	type ViewedChoice,
 	type ViewedPage,
@@ -17,6 +17,8 @@ export type CurrentStory = {
 		username: string
 	}
 }
+
+const STORY_ACTIVITY_LOCAL_STORAGE_KEY = 'story-activity'
 
 export function isCurrentStory(
 	currentStory: any,
@@ -41,21 +43,39 @@ type StoryActivityState = {
 	pageHistory: StoryActivityPage[]
 }
 
-const initialState: StoryActivityState = {
+const emptyState: StoryActivityState = {
 	currentStory: null,
 	pageHistory: [],
 }
 
-const StoryActivityContext = createContext<StoryActivityState>(initialState)
+const StoryActivityContext = createContext<StoryActivityState>(emptyState)
 const StoryDispatchContext = createContext<React.Dispatch<ActionType>>(
 	() => undefined,
 )
 
 export function StoryActivityProvider({ children }: React.PropsWithChildren) {
+	let initialState: StoryActivityState
+	try {
+		initialState =
+			(JSON.parse(
+				localStorage?.getItem(STORY_ACTIVITY_LOCAL_STORAGE_KEY) || 'null',
+			) as StoryActivityState) || emptyState
+	} catch (e) {
+		initialState = emptyState
+	}
 	const [storyActivity, dispatch] = useReducer(
 		storyActivityReducer,
 		initialState,
 	)
+
+	useEffect(() => {
+		if (window) {
+			localStorage?.setItem(
+				STORY_ACTIVITY_LOCAL_STORAGE_KEY,
+				JSON.stringify(storyActivity),
+			)
+		}
+	}, [storyActivity])
 
 	return (
 		<StoryActivityContext.Provider value={storyActivity}>
