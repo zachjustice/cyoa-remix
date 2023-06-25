@@ -85,7 +85,7 @@ export default function GetPageRoute() {
 								key={choice.id}
 								editChoiceId={editChoiceId}
 								storyId={storyId}
-								page={page}
+								pageId={page.id}
 								choice={choice}
 								editable={isOwner}
 							/>

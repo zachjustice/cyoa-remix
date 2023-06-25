@@ -4,7 +4,7 @@ import React from 'react'
 import { EditIconLink } from '~/components/EditIcon.tsx'
 import {
 	type StoryActivityChoice,
-	type StoryActivityPage,
+	usePageHistory,
 	useStoryActivityDispatch,
 } from '~/context/story-activity-context.tsx'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
@@ -15,22 +15,34 @@ import {
 } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
 
 type ChoiceProps = {
-	page: ViewedPage | StoryActivityPage
+	pageId: string
 	storyId: string
 	editable: boolean
-	choice: ViewedChoice | StoryActivityChoice
+	choice: StoryActivityChoice
 	editChoiceId?: string
 }
 
 export default function EditableChoice(props: ChoiceProps) {
-	const { storyId, editable, page, choice } = props
+	const { storyId, editable, pageId, choice } = props
 	const dispatch = useStoryActivityDispatch()
+	const pageHistory = usePageHistory()
+	const isChosen = pageHistory
+		.find(p => p.id === pageId)
+		?.nextChoices?.find(c => c.id === choice.id)?.isChosen
 
-	const onClickHandler = (page: ViewedPage, choice: ViewedChoice) => {
+	console.log(
+		`## editable choice: ${JSON.stringify(
+			pageHistory.find(p => p.id === pageId),
+			null,
+			2,
+		)}`,
+	)
+
+	const onClickHandler = (pageId: string, choice: ViewedChoice) => {
 		dispatch({
 			type: 'make-choice',
 			payload: {
-				pageId: page.id,
+				pageId: pageId,
 				choiceId: choice.id,
 			},
 		})
@@ -46,7 +58,7 @@ export default function EditableChoice(props: ChoiceProps) {
 	if (editable && choice.id === props.editChoiceId) {
 		return (
 			<li>
-				<ChoiceEditor choice={{ ...choice, storyId, parentPageId: page.id }} />
+				<ChoiceEditor choice={{ ...choice, storyId, parentPageId: pageId }} />
 			</li>
 		)
 	} else {
@@ -60,9 +72,9 @@ export default function EditableChoice(props: ChoiceProps) {
 				<Link
 					to={link}
 					className={clsx('hover:text-neutral-400', {
-						[styles.selectedChoice]: choice.isChosen,
+						[styles.selectedChoice]: isChosen,
 					})}
-					onClick={() => onClickHandler(page, choice)}
+					onClick={() => onClickHandler(pageId, choice)}
 				>
 					{choice.content}
 				</Link>

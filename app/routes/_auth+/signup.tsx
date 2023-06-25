@@ -82,12 +82,10 @@ export async function loader({ request }: DataFunctionArgs) {
 
 export async function action({ request }: DataFunctionArgs) {
 	const formData = await request.formData()
-	console.log(`## action: ${JSON.stringify(formData)}`)
 	const submission = await parse(formData, {
 		schema: () =>
 			createSchema({
 				async isEmailUnique(email: string) {
-					console.log(`## create schema ${email}`)
 					const existingUser = await prisma.user.findUnique({
 						where: { email },
 						select: { id: true },
@@ -111,7 +109,6 @@ export async function action({ request }: DataFunctionArgs) {
 		)
 	}
 	const { email } = submission.value
-	console.log(`## action email: ${email}`)
 
 	const onboardingToken = encrypt(
 		JSON.stringify({ type: tokenType, payload: { email } }),
@@ -137,7 +134,6 @@ export async function action({ request }: DataFunctionArgs) {
 		</html>
 		`,
 	})
-	console.log(`## mailgun response: ${JSON.stringify(response)}`)
 
 	if (response?.ok) {
 		return json({ status: 'success', submission } as const)

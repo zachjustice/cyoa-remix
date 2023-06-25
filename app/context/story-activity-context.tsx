@@ -139,12 +139,21 @@ function storyActivityReducer(
 
 			pastPageIndex =
 				pastPageIndex > -1 ? pastPageIndex : storyActivity.pageHistory.length
+			console.log(`## make choice: ${pastPageIndex}`)
 
 			return {
 				...storyActivity,
 				pageHistory: storyActivity.pageHistory
-					.slice(0, pastPageIndex)
+					.slice(0, pastPageIndex + 1)
 					.map(page => {
+						page.id === action.payload.pageId &&
+							console.log(
+								`## make choice: ${action.payload.choiceId} ${JSON.stringify(
+									page,
+									null,
+									2,
+								)}`,
+							)
 						return page.id === action.payload.pageId
 							? {
 									...page,
