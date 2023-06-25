@@ -1,6 +1,8 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 
+// TODO add types definition file
+// @ts-ignore
 import { react } from './tests/setup/vitejs-plugin-react.cjs'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'

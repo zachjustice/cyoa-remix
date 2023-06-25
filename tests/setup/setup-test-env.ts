@@ -1,6 +1,8 @@
 import './setup-env-vars.ts'
 import { afterAll, afterEach, expect } from 'vitest'
 import { installGlobals } from '@remix-run/node'
+// TODO add types definition file
+// @ts-ignore
 import { matchers } from './matchers.cjs'
 import 'dotenv/config'
 import fs from 'fs'
