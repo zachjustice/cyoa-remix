@@ -16,6 +16,7 @@ import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { getDomainUrl } from '~/utils/misc.server.ts'
 import { commitSession, getSession } from '~/utils/session.server.ts'
 import { emailSchema } from '~/utils/user-validation.ts'
+import { isObjectEmpty } from '~/utils/validation-utils.ts'
 
 export const onboardingEmailSessionKey = 'onboardingToken'
 const onboardingTokenQueryParam = 'token'
@@ -138,6 +139,11 @@ export async function action({ request }: DataFunctionArgs) {
 	if (response?.ok) {
 		return json({ status: 'success', submission } as const)
 	} else {
+		if (isObjectEmpty(submission.error)) {
+			submission['error'] = {
+				email: "Something broke! We're taking a look.",
+			}
+		}
 		return json(
 			{
 				status: 'error',
