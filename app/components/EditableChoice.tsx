@@ -9,10 +9,7 @@ import {
 } from '~/context/story-activity-context.tsx'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import styles from '~/routes/resources+/Page.module.css'
-import {
-	type ViewedChoice,
-	type ViewedPage,
-} from '~/routes/stories+/$storyId.pages.$pageId.tsx'
+import { type ViewedChoice } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
 
 type ChoiceProps = {
 	pageId: string
