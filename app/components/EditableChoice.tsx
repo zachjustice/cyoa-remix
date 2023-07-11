@@ -37,7 +37,7 @@ export default function EditableChoice(props: ChoiceProps) {
 
 	const onClickHandler = (pageId: string, choice: ViewedChoice) => {
 		dispatch({
-			type: 'make-choice',
+			type: 'madeChoice',
 			payload: {
 				pageId: pageId,
 				choiceId: choice.id,

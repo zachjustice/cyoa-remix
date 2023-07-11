@@ -1,11 +1,13 @@
 import { type DataFunctionArgs, json } from '@remix-run/node'
-import { NavLink, Outlet, useLoaderData } from '@remix-run/react'
+import { NavLink, Outlet, useLoaderData, useLocation } from '@remix-run/react'
 import { clsx } from 'clsx'
-import { useLocation } from 'react-router'
 import invariant from 'tiny-invariant'
-import { usePageHistory } from '~/context/story-activity-context.tsx'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
+import {
+	StoryActivityProvider,
+	usePageHistory,
+} from '~/context/story-activity-context.tsx'
 
 export async function loader({ params, request }: DataFunctionArgs) {
 	invariant(params.storyId, 'Missing storyId')
@@ -96,7 +98,9 @@ export default function GetStoryRoute() {
 				</div>
 				<main className="col-span-3 bg-night-400 px-10 py-12 md:rounded">
 					<div className="mb-6">
-						<Outlet />
+						<StoryActivityProvider>
+							<Outlet />
+						</StoryActivityProvider>
 					</div>
 				</main>
 			</div>

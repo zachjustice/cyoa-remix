@@ -4,6 +4,7 @@ import { prisma } from '~/utils/db.server.ts'
 import { clsx } from 'clsx'
 import { getUserImgSrc } from '~/utils/misc.ts'
 import invariant from 'tiny-invariant'
+import { StoryActivityProvider } from '~/context/story-activity-context.tsx'
 
 export async function loader({ params, request }: DataFunctionArgs) {
 	invariant(params.username, 'Missing username')
@@ -102,7 +103,9 @@ export default function StoriesRoute() {
 					</ul>
 				</div>
 				<main className="col-span-3 bg-night-400 px-10 py-12 md:rounded-r-3xl">
-					<Outlet />
+					<StoryActivityProvider>
+						<Outlet />
+					</StoryActivityProvider>
 				</main>
 			</div>
 		</div>

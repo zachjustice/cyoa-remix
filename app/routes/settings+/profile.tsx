@@ -26,6 +26,7 @@ import {
 	passwordSchema,
 	usernameSchema,
 } from '~/utils/user-validation.ts'
+import { StoryActivityProvider } from '~/context/story-activity-context.tsx'
 
 const ProfileFormSchema = z.object({
 	name: nameSchema.optional(),
@@ -259,7 +260,9 @@ export default function EditUserProfile() {
 					</div>
 				</Form>
 			</div>
-			<Outlet />
+			<StoryActivityProvider>
+				<Outlet />
+			</StoryActivityProvider>
 		</div>
 	)
 }

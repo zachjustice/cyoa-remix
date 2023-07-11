@@ -23,7 +23,7 @@ export default function GetStoryIntroductionRoute() {
 	useEffect(() => {
 		if (currentStory?.id !== params.storyId) {
 			dispatch({
-				type: 'view-story',
+				type: 'viewedStory',
 				payload: story as CurrentStory,
 			})
 		}
