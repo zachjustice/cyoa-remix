@@ -61,12 +61,9 @@ export default function GetPageRoute() {
 		: undefined
 
 	const dispatch = useStoryActivityDispatch()
-	useEffect(() =>
-		dispatch({
-			type: viewedPage,
-			payload: page,
-		}),
-	)
+	useEffect(() => {
+		dispatch(viewedPage(page))
+	})
 
 	return (
 		<div className="flex flex-col">

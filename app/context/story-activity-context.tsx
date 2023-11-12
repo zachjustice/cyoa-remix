@@ -4,6 +4,7 @@ import {
 	type ViewedPage,
 } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
 import * as toolkitRaw from '@reduxjs/toolkit'
+
 const { createSlice } = ((toolkitRaw as any).default ??
 	toolkitRaw) as typeof toolkitRaw
 
@@ -51,24 +52,22 @@ const emptyState: StoryActivityState = {
 	pageHistory: [],
 }
 
-export function usePageHistory(): StoryActivityPage[] {
-	return useContext(StoryActivityContext).pageHistory
-}
-
-export function useStoryActivityDispatch() {
-	return useContext(StoryDispatchContext)
-}
-
 const storyActivitySlice = createSlice({
 	name: 'story-activity',
 	reducers: {
-		resetHistory: (state, action) => {
+		resetHistory: state => {
 			state.pageHistory = []
 			state.currentStory = null
+			return state
 		},
-		viewedStory: (state, action) => {
-			state.pageHistory = []
-			state.currentStory = action.payload
+		viewedStory: {
+			reducer: (state, action) => {
+				console.log(`## viewedStory ${JSON.stringify(action)}`)
+				state.pageHistory = []
+				state.currentStory = action.payload
+				return state
+			},
+			prepare: story => ({ payload: story }),
 		},
 		viewedPage: (state, action) => {
 			const isInPageHistory = !!state.pageHistory.find(
@@ -78,8 +77,11 @@ const storyActivitySlice = createSlice({
 			state.pageHistory = isInPageHistory
 				? state.pageHistory
 				: state.pageHistory.concat(action.payload)
+			console.log(`## viewedPage ${JSON.stringify(state.pageHistory, null, 2)}`)
+			return state
 		},
 		madeChoice: (state, action) => {
+			console.log(`## madeChoice ${JSON.stringify(action)}`)
 			let pastPageIndex = state.pageHistory.findIndex(
 				page => page.id === action.payload.pageId,
 			)
@@ -108,6 +110,7 @@ const storyActivitySlice = createSlice({
 						  }
 						: page
 				})
+			return state
 		},
 	},
 	initialState: emptyState,
@@ -116,18 +119,20 @@ const storyActivitySlice = createSlice({
 export const { viewedPage, viewedStory, resetHistory, madeChoice } =
 	storyActivitySlice.actions
 
-type ActionType =
-	| { type: 'resetHistory'; payload?: null }
-	| { type: 'viewedStory'; payload: CurrentStory }
-	| { type: 'viewedPage'; payload: StoryActivityPage }
-	| { type: 'madeChoice'; payload: { pageId: string; choiceId: string } }
-
 const StoryActivityContext = createContext<StoryActivityState>(
 	storyActivitySlice.getInitialState(),
 )
-const StoryDispatchContext = createContext<React.Dispatch<ActionType>>(
-	() => undefined,
-)
+const StoryDispatchContext = createContext<
+	React.Dispatch<typeof storyActivitySlice.actions>
+>(() => undefined)
+
+export function usePageHistory(): StoryActivityPage[] {
+	return useContext(StoryActivityContext).pageHistory
+}
+
+export function useStoryActivityDispatch() {
+	return useContext(StoryDispatchContext)
+}
 
 export function StoryActivityProvider({ children }: React.PropsWithChildren) {
 	let initialState: StoryActivityState

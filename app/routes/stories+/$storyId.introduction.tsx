@@ -4,6 +4,7 @@ import {
 	useOptionalCurrentStory,
 	usePageHistory,
 	useStoryActivityDispatch,
+	viewedStory,
 } from '~/context/story-activity-context.tsx'
 import { useMatchesData } from '~/hooks/useMatchesData.ts'
 import { formatPublishDate } from '~/utils/dateFormat.ts'
@@ -22,10 +23,8 @@ export default function GetStoryIntroductionRoute() {
 
 	useEffect(() => {
 		if (currentStory?.id !== params.storyId) {
-			dispatch({
-				type: 'viewedStory',
-				payload: story as CurrentStory,
-			})
+			console.log(`doing ViewStory action`)
+			dispatch(viewedStory(story))
 		}
 	})
 

@@ -3,6 +3,7 @@ import { clsx } from 'clsx'
 import React from 'react'
 import { EditIconLink } from '~/components/EditIcon.tsx'
 import {
+	madeChoice,
 	type StoryActivityChoice,
 	usePageHistory,
 	useStoryActivityDispatch,
@@ -21,28 +22,19 @@ type ChoiceProps = {
 
 export default function EditableChoice(props: ChoiceProps) {
 	const { storyId, editable, pageId, choice } = props
-	const dispatch = useStoryActivityDispatch()
 	const pageHistory = usePageHistory()
+	const dispatch = useStoryActivityDispatch()
 	const isChosen = pageHistory
 		.find(p => p.id === pageId)
 		?.nextChoices?.find(c => c.id === choice.id)?.isChosen
 
-	console.log(
-		`## editable choice: ${JSON.stringify(
-			pageHistory.find(p => p.id === pageId),
-			null,
-			2,
-		)}`,
-	)
-
 	const onClickHandler = (pageId: string, choice: ViewedChoice) => {
-		dispatch({
-			type: 'madeChoice',
-			payload: {
+		dispatch(
+			madeChoice({
 				pageId: pageId,
 				choiceId: choice.id,
-			},
-		})
+			}),
+		)
 	}
 
 	let link: string

@@ -42,6 +42,9 @@ export default function GetStoryRoute() {
 	const { story } = useLoaderData<typeof loader>()
 	const pageHistory = usePageHistory()
 	const location = useLocation()
+	console.log(
+		`## GET STORY ROUTE PAGE HISTORY ${JSON.stringify(pageHistory, null, 2)}`,
+	)
 
 	const navLinkDefaultClassName =
 		'line-clamp-2 block rounded-l py-2 pl-8 pr-6 text-base lg:text-xl'
