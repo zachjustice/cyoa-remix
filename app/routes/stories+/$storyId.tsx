@@ -101,9 +101,7 @@ export default function GetStoryRoute() {
 				</div>
 				<main className="col-span-3 bg-night-400 px-10 py-12 md:rounded">
 					<div className="mb-6">
-						<StoryActivityProvider>
-							<Outlet />
-						</StoryActivityProvider>
+						<Outlet />
 					</div>
 				</main>
 			</div>
