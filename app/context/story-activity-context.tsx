@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import {
 	type ViewedChoice,
 	type ViewedPage,
@@ -136,28 +136,28 @@ export function useStoryActivityDispatch() {
 
 export function StoryActivityProvider({ children }: React.PropsWithChildren) {
 	let initialState: StoryActivityState
-	// try {
-	//     initialState =
-	//         (JSON.parse(
-	//             localStorage?.getItem(STORY_ACTIVITY_LOCAL_STORAGE_KEY) || 'null',
-	//         ) as StoryActivityState) || emptyState
-	// } catch (e) {
-	initialState = emptyState
-	// }
+	try {
+		initialState =
+			(JSON.parse(
+				localStorage?.getItem(STORY_ACTIVITY_LOCAL_STORAGE_KEY) || 'null',
+			) as StoryActivityState) || emptyState
+	} catch (e) {
+		initialState = emptyState
+	}
 
 	const [storyActivity, dispatch] = useReducer(
 		storyActivitySlice.reducer,
-		storyActivitySlice.getInitialState(),
+		initialState,
 	)
 
-	// useEffect(() => {
-	//     if (window) {
-	//         localStorage?.setItem(
-	//             STORY_ACTIVITY_LOCAL_STORAGE_KEY,
-	//             JSON.stringify(storyActivity),
-	//         )
-	//     }
-	// }, [storyActivity])
+	useEffect(() => {
+		if (window) {
+			localStorage?.setItem(
+				STORY_ACTIVITY_LOCAL_STORAGE_KEY,
+				JSON.stringify(storyActivity),
+			)
+		}
+	}, [storyActivity])
 
 	return (
 		<StoryActivityContext.Provider value={storyActivity}>
