@@ -12,7 +12,7 @@ FROM base as deps
 
 WORKDIR /myapp
 
-ADD package.json package-lock.json .npmrc ./
+ADD ../package.json package-lock.json .npmrc ./
 RUN npm install --include=dev
 
 # Setup production node_modules
@@ -21,7 +21,7 @@ FROM base as production-deps
 WORKDIR /myapp
 
 COPY --from=deps /myapp/node_modules /myapp/node_modules
-ADD package.json package-lock.json .npmrc ./
+ADD ../package.json package-lock.json .npmrc ./
 RUN ls
 RUN npm prune --omit=dev
 
@@ -32,10 +32,10 @@ WORKDIR /myapp
 
 COPY --from=deps /myapp/node_modules /myapp/node_modules
 
-ADD prisma .
+ADD ../prisma .
 RUN npx prisma generate
 
-ADD . .
+ADD .. .
 RUN ls
 RUN npm run build
 
@@ -70,9 +70,9 @@ COPY --from=build /myapp/prisma /myapp/prisma
 
 # prepare for litefs
 COPY --from=flyio/litefs:0.4.0 /usr/local/bin/litefs /usr/local/bin/litefs
-ADD other/litefs.yml /etc/litefs.yml
+ADD litefs.yml /etc/litefs.yml
 RUN mkdir -p /data ${LITEFS_DIR}
 
-ADD . .
+ADD .. .
 
 CMD ["litefs", "mount", "--", "node", "./other/start.js"]

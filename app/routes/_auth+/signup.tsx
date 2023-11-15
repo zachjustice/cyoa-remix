@@ -2,7 +2,7 @@ import {
 	json,
 	redirect,
 	type DataFunctionArgs,
-	type V2_MetaFunction,
+	type MetaFunction,
 } from '@remix-run/node'
 import { Link, useFetcher } from '@remix-run/react'
 import { z } from 'zod'
@@ -157,7 +157,7 @@ export async function action({ request }: DataFunctionArgs) {
 	}
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
 	return [{ title: 'Sign Up | Choose Your Own Adventure!' }]
 }
 

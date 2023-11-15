@@ -7,30 +7,28 @@
 	],
 	"compilerOptions": {
 		"lib": ["DOM", "DOM.Iterable", "ES2022"],
-		"types": [],
 		"isolatedModules": true,
 		"esModuleInterop": true,
-		"experimentalDecorators": true,
 		"jsx": "react-jsx",
-		"module": "NodeNext",
+		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"resolveJsonModule": true,
 		"target": "ES2022",
 		"strict": true,
 		"noImplicitAny": true,
-		"allowJs": false,
+		"allowJs": true,
 		"forceConsistentCasingInFileNames": true,
-		"baseUrl": ".",
 		"paths": {
 			"~/*": ["./app/*"],
 			"prisma/*": ["./prisma/*"],
-			"tests/*": ["./tests/*"]
+			"tests/*": ["./tests/*"],
+			"@/icon-name": [
+				"./app/components/ui/icons/name.d.ts",
+				"./types/icon-name.d.ts"
+			]
 		},
 		"skipLibCheck": true,
 		"allowImportingTsExtensions": true,
-		"typeRoots": ["./types", "./node_modules/@types"],
-
-		// Remix takes care of building everything in `remix build`.
 		"noEmit": true
 	}
 }

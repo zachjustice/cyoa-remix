@@ -36,7 +36,7 @@ export function isCurrentStory(
 }
 
 export interface StoryActivityChoice extends ViewedChoice {
-	isChosen?: Boolean | undefined
+	isChosen?: boolean | undefined
 }
 
 export interface StoryActivityPage extends Omit<ViewedPage, 'nextChoices'> {

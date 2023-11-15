@@ -18,7 +18,6 @@ proxy:
 # "consul" lease type so that our application can dynamically change the primary.
 #
 # These environment variables will be available in your Fly.io application.
-# You must specify "experiement.enable_consul" for FLY_CONSUL_URL to be available.
 lease:
   type: 'consul'
   candidate: ${FLY_REGION == PRIMARY_REGION}
@@ -27,7 +26,7 @@ lease:
 
   consul:
     url: '${FLY_CONSUL_URL}'
-    key: 'litefs/${FLY_APP_NAME}'
+    key: 'epic-stack-litefs/${FLY_APP_NAME}'
 
 exec:
   - cmd: node ./other/setup-swap.js

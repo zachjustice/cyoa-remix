@@ -1,4 +1,5 @@
 import { flatRoutes } from 'remix-flat-routes'
+import { builtinModules } from 'node:module'
 
 /**
  * @type {import('@remix-run/dev').AppConfig}
@@ -11,13 +12,8 @@ export default {
 	tailwind: true,
 	postcss: true,
 	watchPaths: ['./tailwind.config.ts'],
-	future: {
-		v2_headers: true,
-		v2_meta: true,
-		v2_errorBoundary: true,
-		v2_normalizeFormMethod: true,
-		v2_routeConvention: true,
-		v2_dev: true,
+	browserNodeBuiltinsPolyfill: {
+		modules: builtinModules,
 	},
 	routes: async defineRoutes => {
 		return flatRoutes('routes', defineRoutes, {

@@ -1,8 +1,8 @@
-import type { V2_MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 import { ButtonLink } from '~/utils/forms.tsx'
 import { kodyRocket, logos, stars } from './logos/logos.ts'
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
 	{ title: 'Choose Your Own Adventure!' },
 ]
 

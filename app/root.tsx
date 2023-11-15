@@ -3,7 +3,7 @@ import {
 	type DataFunctionArgs,
 	json,
 	type LinksFunction,
-	type V2_MetaFunction,
+	type MetaFunction,
 } from '@remix-run/node'
 import {
 	Link,
@@ -52,7 +52,7 @@ export const links: LinksFunction = () => {
 	].filter(Boolean)
 }
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
 	return [
 		{ title: 'Choose Your Own Adventure!' },
 		{ name: 'description', content: 'Find yourself in outer space' },
