@@ -1,3 +1,8 @@
+import {
+	type ActionCreatorWithPayload,
+	type AnyAction,
+	type PayloadAction,
+} from '@reduxjs/toolkit'
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import {
 	type ViewedChoice,
@@ -54,6 +59,7 @@ const emptyState: StoryActivityState = {
 
 const storyActivitySlice = createSlice({
 	name: 'story-activity',
+	initialState: emptyState,
 	reducers: {
 		resetHistory: state => {
 			state.pageHistory = []
@@ -61,15 +67,15 @@ const storyActivitySlice = createSlice({
 			return state
 		},
 		viewedStory: {
-			reducer: (state, action) => {
+			reducer: (state, action: PayloadAction<CurrentStory>) => {
 				console.log(`## viewedStory ${JSON.stringify(action)}`)
 				state.pageHistory = []
 				state.currentStory = action.payload
 				return state
 			},
-			prepare: story => ({ payload: story }),
+			prepare: (story: CurrentStory) => ({ payload: story }),
 		},
-		viewedPage: (state, action) => {
+		viewedPage: (state, action: PayloadAction<StoryActivityPage>) => {
 			const isInPageHistory = !!state.pageHistory.find(
 				page => page.id === action.payload.id,
 			)
@@ -80,7 +86,10 @@ const storyActivitySlice = createSlice({
 			console.log(`## viewedPage ${JSON.stringify(state.pageHistory, null, 2)}`)
 			return state
 		},
-		madeChoice: (state, action) => {
+		madeChoice: (
+			state,
+			action: PayloadAction<{ pageId: string; choiceId: string }>,
+		) => {
 			console.log(`## madeChoice ${JSON.stringify(action)}`)
 			let pastPageIndex = state.pageHistory.findIndex(
 				page => page.id === action.payload.pageId,
@@ -113,18 +122,23 @@ const storyActivitySlice = createSlice({
 			return state
 		},
 	},
-	initialState: emptyState,
 })
 
 export const { viewedPage, viewedStory, resetHistory, madeChoice } =
 	storyActivitySlice.actions
 
+type SliceActions<T> = {
+	[K in keyof T]: T[K] extends (...args: any[]) => infer A ? A : never
+}[keyof T]
+
+type ActionTypes = SliceActions<typeof storyActivitySlice.actions>
+const StoryDispatchContext = createContext<React.Dispatch<ActionTypes>>(
+	() => emptyState,
+)
+
 const StoryActivityContext = createContext<StoryActivityState>(
 	storyActivitySlice.getInitialState(),
 )
-const StoryDispatchContext = createContext<
-	React.Dispatch<typeof storyActivitySlice.actions>
->(() => undefined)
 
 export function usePageHistory(): StoryActivityPage[] {
 	return useContext(StoryActivityContext).pageHistory
