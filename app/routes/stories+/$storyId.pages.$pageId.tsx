@@ -5,11 +5,14 @@ import { clsx } from 'clsx'
 import invariant from 'tiny-invariant'
 import EditableChoice from '~/components/EditableChoice.tsx'
 import { EditIconLink } from '~/components/EditIcon.tsx'
-import { useStoryActivityDispatch } from '~/context/story-activity-context.tsx'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { useEffect } from 'react'
+import {
+	useStoryActivityDispatch,
+	viewedPage,
+} from '~/context/story-activity-context.tsx'
 
 export type ViewedChoice = Pick<Choice, 'id' | 'content' | 'nextPageId'>
 
@@ -58,12 +61,9 @@ export default function GetPageRoute() {
 		: undefined
 
 	const dispatch = useStoryActivityDispatch()
-	useEffect(() =>
-		dispatch({
-			type: 'view-page',
-			payload: page,
-		}),
-	)
+	useEffect(() => {
+		dispatch(viewedPage(page))
+	})
 
 	return (
 		<div className="flex flex-col">

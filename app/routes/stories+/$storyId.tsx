@@ -1,11 +1,13 @@
 import { type DataFunctionArgs, json } from '@remix-run/node'
-import { NavLink, Outlet, useLoaderData } from '@remix-run/react'
+import { NavLink, Outlet, useLoaderData, useLocation } from '@remix-run/react'
 import { clsx } from 'clsx'
-import { useLocation } from 'react-router'
 import invariant from 'tiny-invariant'
-import { usePageHistory } from '~/context/story-activity-context.tsx'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
+import {
+	StoryActivityProvider,
+	usePageHistory,
+} from '~/context/story-activity-context.tsx'
 
 export async function loader({ params, request }: DataFunctionArgs) {
 	invariant(params.storyId, 'Missing storyId')
@@ -40,6 +42,9 @@ export default function GetStoryRoute() {
 	const { story } = useLoaderData<typeof loader>()
 	const pageHistory = usePageHistory()
 	const location = useLocation()
+	console.log(
+		`## GET STORY ROUTE PAGE HISTORY ${JSON.stringify(pageHistory, null, 2)}`,
+	)
 
 	const navLinkDefaultClassName =
 		'line-clamp-2 block rounded-l py-2 pl-8 pr-6 text-base lg:text-xl'

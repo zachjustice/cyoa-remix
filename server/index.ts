@@ -8,7 +8,11 @@ import address from 'address'
 import closeWithGrace from 'close-with-grace'
 import helmet from 'helmet'
 import crypto from 'crypto'
-import { createRequestHandler } from '@remix-run/express'
+import {
+	type RequestHandler,
+	createRequestHandler as _createRequestHandler,
+} from '@remix-run/express'
+import { wrapExpressCreateRequestHandler } from '@sentry/remix'
 import { type ServerBuild, broadcastDevReady } from '@remix-run/node'
 import getPort, { portNumbers } from 'get-port'
 import chalk from 'chalk'
@@ -16,7 +20,12 @@ import chalk from 'chalk'
 // @ts-ignore - this file may not exist if you haven't built yet, but it will
 // definitely exist by the time the dev or prod server actually runs.
 import * as remixBuild from '../build/index.js'
+
 const MODE = process.env.NODE_ENV
+
+const createRequestHandler = wrapExpressCreateRequestHandler(
+	_createRequestHandler,
+)
 
 const BUILD_PATH = '../build/index.js'
 
@@ -24,6 +33,33 @@ const build = remixBuild as unknown as ServerBuild
 let devBuild = build
 
 const app = express()
+
+const getHost = (req: { get: (key: string) => string | undefined }) =>
+	req.get('X-Forwarded-Host') ?? req.get('host') ?? ''
+
+// ensure HTTPS only (X-Forwarded-Proto comes from Fly)
+app.use((req, res, next) => {
+	const proto = req.get('X-Forwarded-Proto')
+	const host = getHost(req)
+	if (proto === 'http') {
+		res.set('X-Forwarded-Proto', 'https')
+		res.redirect(`https://${host}${req.originalUrl}`)
+		return
+	}
+	next()
+})
+
+// no ending slashes for SEO reasons
+// https://github.com/epicweb-dev/epic-stack/discussions/108
+app.use((req, res, next) => {
+	if (req.path.endsWith('/') && req.path.length > 1) {
+		const query = req.url.slice(req.path.length)
+		const safepath = req.path.slice(0, -1).replace(/\/+/g, '/')
+		res.redirect(301, safepath + query)
+	} else {
+		next()
+	}
+})
 
 app.use(compression())
 
@@ -35,6 +71,13 @@ app.use(
 	'/build',
 	express.static('public/build', { immutable: true, maxAge: '1y' }),
 )
+
+// Aggressively cache fonts for a year
+app.use(
+	'/fonts',
+	express.static('public/fonts', { immutable: true, maxAge: '1y' }),
+)
+
 // Everything else (like favicon.ico) is cached for an hour. You may want to be
 // more aggressive with this caching.
 app.use(express.static('public', { maxAge: '1h' }))
@@ -52,10 +95,14 @@ app.use(
 		crossOriginEmbedderPolicy: false,
 		contentSecurityPolicy: {
 			directives: {
-				'connect-src': MODE === 'development' ? ['ws:', "'self'"] : null,
+				'connect-src': [
+					MODE === 'development' ? 'ws:' : null,
+					process.env.SENTRY_DSN ? '*.ingest.sentry.io' : null,
+					"'self'",
+				].filter(Boolean),
 				'font-src': ["'self'"],
 				'frame-src': ["'self'"],
-				'img-src': ["'self'"],
+				'img-src': ["'self'", 'data:'],
 				'script-src': [
 					"'strict-dynamic'",
 					"'self'",
@@ -72,26 +119,19 @@ app.use(
 	}),
 )
 
-async function getRequestHandlerOptions(
-	build: ServerBuild,
-): Promise<Parameters<typeof createRequestHandler>[0]> {
+function getRequestHandler(build: ServerBuild): RequestHandler {
 	function getLoadContext(_: any, res: any) {
 		return { cspNonce: res.locals.cspNonce }
 	}
-	return { build, mode: MODE, getLoadContext }
+
+	return createRequestHandler({ build, mode: MODE, getLoadContext })
 }
 
 app.all(
 	'*',
-	process.env.NODE_ENV === 'development'
-		? async (req, res, next) => {
-				return createRequestHandler(await getRequestHandlerOptions(devBuild))(
-					req,
-					res,
-					next,
-				)
-		  }
-		: createRequestHandler(await getRequestHandlerOptions(build)),
+	MODE === 'development'
+		? (...args) => getRequestHandler(devBuild)(...args)
+		: getRequestHandler(build),
 )
 
 const desiredPort = Number(process.env.PORT || 3000)
@@ -134,7 +174,7 @@ ${chalk.bold('Press Ctrl+C to stop')}
 		`.trim(),
 	)
 
-	if (process.env.NODE_ENV === 'development') {
+	if (MODE === 'development') {
 		broadcastDevReady(build)
 	}
 })
@@ -146,7 +186,7 @@ closeWithGrace(async () => {
 })
 
 // during dev, we'll keep the build module up to date with the changes
-if (process.env.NODE_ENV === 'development') {
+if (MODE === 'development') {
 	async function reloadBuild() {
 		devBuild = await import(`${BUILD_PATH}?update=${Date.now()}`)
 		broadcastDevReady(devBuild)
