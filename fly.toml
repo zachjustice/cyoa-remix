@@ -1,4 +1,4 @@
-app = "cyoa-remix"
+app = "my-remix-app-45a0"
 primary_region = "sjc"
 kill_signal = "SIGINT"
 kill_timeout = 5
