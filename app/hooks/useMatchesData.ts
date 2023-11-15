@@ -18,5 +18,6 @@ export function useMatchesData(
 			),
 		[matchingRoutes, id],
 	)
+	// @ts-ignore TODO
 	return route?.data
 }

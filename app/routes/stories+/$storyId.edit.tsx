@@ -7,7 +7,7 @@ export default function EditStoryRoute() {
 	const params = useParams()
 	const { story, isOwner } = useMatchesData(`/stories/${params.storyId}`) as {
 		story: CurrentStory
-		isOwner: Boolean
+		isOwner: boolean
 	}
 
 	return story && isOwner && <StoryEditor story={story} />
