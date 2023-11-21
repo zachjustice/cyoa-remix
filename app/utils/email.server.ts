@@ -28,7 +28,7 @@ export async function sendEmail(email: {
 	)
 	formdata.append('to', email.to)
 	formdata.append('subject', email.subject)
-	formdata.append('text', email.html)
+	formdata.append('text', email.text)
 	console.log(JSON.stringify(Array.from(formdata.entries())))
 	console.log(JSON.stringify(Array.from(myHeaders.entries())))
 
