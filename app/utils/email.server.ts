@@ -12,9 +12,14 @@ export async function sendEmail(email: {
 		console.error(`Failing to send the following email:`, JSON.stringify(email))
 		return
 	}
-	const auth = `${Buffer.from(
-		`api:${process.env.MAILGUN_SENDING_KEY}`,
-	).toString('base64')}`
+
+	const myHeaders = new Headers()
+	myHeaders.append(
+		'Authorization',
+		`Basic ${Buffer.from(`api:${process.env.MAILGUN_SENDING_KEY}`).toString(
+			'base64',
+		)}`,
+	)
 
 	const formdata = new FormData()
 	formdata.append(
@@ -24,15 +29,15 @@ export async function sendEmail(email: {
 	formdata.append('to', email.to)
 	formdata.append('subject', email.subject)
 	formdata.append('text', email.html)
+	console.log(JSON.stringify(Array.from(formdata.entries())))
+	console.log(JSON.stringify(Array.from(myHeaders.entries())))
 
 	return fetch(
 		`https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`,
 		{
 			method: 'POST',
 			body: formdata,
-			headers: {
-				Authorization: `Basic ${auth}`,
-			},
+			headers: myHeaders,
 		},
 	)
 }
