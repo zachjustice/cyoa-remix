@@ -16,16 +16,20 @@ export async function sendEmail(email: {
 		`api:${process.env.MAILGUN_SENDING_KEY}`,
 	).toString('base64')}`
 
-	const body = new URLSearchParams({
-		...email,
-		from: `${process.env.MAILGUN_DOMAIN}`,
-	})
+	const formdata = new FormData()
+	formdata.append(
+		'from',
+		`Choose Your Own Adventure <${process.env.MAILGUN_DOMAIN}>`,
+	)
+	formdata.append('to', email.to)
+	formdata.append('subject', email.subject)
+	formdata.append('text', email.html)
 
 	return fetch(
 		`https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`,
 		{
 			method: 'POST',
-			body,
+			body: formdata,
 			headers: {
 				Authorization: `Basic ${auth}`,
 			},
