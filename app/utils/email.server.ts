@@ -35,12 +35,11 @@ export async function sendEmail(email: {
 	const resp = await fetch('https://cat-fact.herokuapp.com/facts/random')
 	console.log(await resp.json())
 
-	return fetch(
-		`https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`,
-		{
-			method: 'POST',
-			body: formdata,
-			headers: myHeaders,
-		},
-	)
+	const url = `https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`
+	console.log(`url ${url}`)
+	return fetch(url, {
+		method: 'POST',
+		body: formdata,
+		headers: myHeaders,
+	})
 }
