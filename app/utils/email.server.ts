@@ -32,6 +32,9 @@ export async function sendEmail(email: {
 	console.log(JSON.stringify(Array.from(formdata.entries())))
 	console.log(JSON.stringify(Array.from(myHeaders.entries())))
 
+	const resp = await fetch('https://cat-fact.herokuapp.com/facts/random')
+	console.log(await resp.json())
+
 	return fetch(
 		`https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`,
 		{
