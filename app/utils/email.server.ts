@@ -24,7 +24,7 @@ export async function sendEmail(email: {
 	const formdata = new FormData()
 	formdata.append(
 		'from',
-		`Choose Your Own Adventure <${process.env.MAILGUN_DOMAIN}>`,
+		`Choose Your Own Adventure <cyoa@${process.env.MAILGUN_DOMAIN}>`,
 	)
 	formdata.append('to', email.to)
 	formdata.append('subject', email.subject)
