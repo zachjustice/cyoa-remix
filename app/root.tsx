@@ -55,7 +55,11 @@ export const links: LinksFunction = () => {
 export const meta: MetaFunction = () => {
 	return [
 		{ title: 'Choose Your Own Adventure!' },
-		{ name: 'description', content: 'Find yourself in outer space' },
+		{
+			name: 'description',
+			content:
+				'Create or explore collaborative choose-your-own-adventure stories from every genre.',
+		},
 	]
 }
 

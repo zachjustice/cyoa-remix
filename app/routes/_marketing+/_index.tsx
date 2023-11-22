@@ -1,10 +1,19 @@
 import type { MetaFunction } from '@remix-run/node'
+import { type ReactNode } from 'react'
 import { ButtonLink } from '~/utils/forms.tsx'
-import { kodyRocket, logos, stars } from './logos/logos.ts'
+import { clouds, owl } from './logos/logos.ts'
 
 export const meta: MetaFunction = () => [
 	{ title: 'Choose Your Own Adventure!' },
 ]
+
+function StorySnippet({ children }: { children: ReactNode }) {
+	return (
+		<div className="w-1/4 rounded-2xl bg-violet-200 p-4 drop-shadow-md">
+			{children}
+		</div>
+	)
+}
 
 export default function Index() {
 	return (
@@ -13,10 +22,10 @@ export default function Index() {
 				<div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
 					<div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
 						<div className="absolute inset-0">
-							<img className="h-full w-full object-cover" src={stars} alt="" />
+							<img className="h-full w-full object-cover" src={clouds} alt="" />
 							<div className="absolute inset-0 bg-[color:rgba(30,23,38,0.5)] mix-blend-multiply" />
 						</div>
-						<div className="lg:pt-18 relative px-4 pb-8 pt-8 sm:px-6 sm:pb-14 sm:pt-16 lg:px-8 lg:pb-20">
+						<div className="relative px-4 pb-8 pt-8 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8 lg:py-40">
 							<h1 className="text-center text-2xl font-extrabold tracking-tight sm:text-2xl lg:text-2xl">
 								<a href="/stories">Choose Your Own Adventure!</a>
 							</h1>
@@ -31,14 +40,14 @@ export default function Index() {
 								<p>Start your own or contribute to a story you love!</p>
 							</div>
 							<a href="/stories">
-								{/* TODO get custom logo or something */}
+								{/* TODO better custom logo */}
 								<img
-									src={kodyRocket}
-									alt="Illustration of a Koala riding a rocket"
+									src={owl}
+									alt="Illustration of a pixel art owl"
 									className="mx-auto mt-8 w-full max-w-[12rem] md:max-w-[16rem]"
 								/>
 							</a>
-							<div className="flex justify-center gap-10">
+							<div className="mt-12 flex justify-center gap-10">
 								<ButtonLink to="/signup" size="sm" variant="primary">
 									Sign Up
 								</ButtonLink>
@@ -54,16 +63,29 @@ export default function Index() {
 				</div>
 
 				<div className="mx-auto mt-8 max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
-					<div className="flex flex-wrap justify-center gap-8 rounded-3xl bg-day-300 py-4">
-						{/* TODO auto scroll through randomly selected stories so users can see what has been written before */}
-						{logos.map(img => (
-							<p key={img.href}></p>
-							// <a
-							// 	key={img.href}
-							// 	href={img.href}
-							// 	className="flex h-16 w-32 justify-center p-1 grayscale transition hover:grayscale-0 focus:grayscale-0"
-							// ></a>
-						))}
+					<div className="flex flex-wrap justify-center gap-8 rounded-2xl bg-violet-100 py-4 italic text-black">
+						<StorySnippet>
+							You wake up and find yourself in the middle of a large forest.
+							Ancient trees stand all around you. The forest is quiet except for
+							the sound of the wind through the leaves and the occasional bird
+							song. Why can't you remember anything? And why are you holding a
+							bloody knife...
+						</StorySnippet>
+
+						<StorySnippet>
+							After years of training you stand before the wizard, Gharkelzard.
+							This ancient and wizened eyes speak of untold power and mystery.
+							Eager young wizards have given their whole lives for the
+							opportunity to stand where you are today, but you have not come
+							here to learn but for revenge...
+						</StorySnippet>
+						<StorySnippet>
+							The rats crawl up from the sewers- putrid, hungry, seeking. You
+							lay out the poison in all the dark places they hunt. Their filth
+							penetrates every fiber of clothing and hair follicle no matter how
+							much you wash yourself until one day you find gleaming in the
+							darkness...
+						</StorySnippet>
 					</div>
 				</div>
 			</div>
