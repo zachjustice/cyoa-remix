@@ -75,7 +75,7 @@ export default function GetPageRoute() {
 					})}
 				>
 					{isOwner && <EditIconLink to="edit" variant="outline" />}
-					<p>{page.content}</p>
+					<p className="preserve-whitespace">{page.content}</p>
 				</div>
 
 				<ul className="ml-12" key={page.id}>

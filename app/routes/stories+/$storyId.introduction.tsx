@@ -42,7 +42,9 @@ export default function GetStoryIntroductionRoute() {
 					</Link>
 					{' | '}Published {formatPublishDate(story.createdAt)}
 				</p>
-				<p className="text-sm md:text-lg">{story.description}</p>
+				<p className="preserve-whitespace text-sm md:text-lg">
+					{story.description}
+				</p>
 				<div className="mt-10 flex gap-4">
 					{pageHistory.length === 0 && (
 						<ButtonLink

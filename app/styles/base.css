@@ -1,8 +1,0 @@
-/**
- * Shared base classes
- */
-
-/* Removes the "*" on required form fields */
-.no-required-asterisk {
-	content: '' !important;
-}

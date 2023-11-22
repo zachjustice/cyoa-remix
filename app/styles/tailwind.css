@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+	/* Removes the "*" on required form fields */
+	.no-required-asterisk {
+		content: '' !important;
+	}
+
+	/* Make sure the new lines appear in text. */
+	.preserve-whitespace {
+		white-space: pre-wrap !important;
+	}
+}
