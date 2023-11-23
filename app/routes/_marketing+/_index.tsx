@@ -9,15 +9,17 @@ export const meta: MetaFunction = () => [
 
 function StorySnippet({ children }: { children: ReactNode }) {
 	return (
-		<div className="w-64 rounded-2xl bg-violet-200 p-4 drop-shadow-md">
-			{children}
+		<div className="w-80 flex-none last:pr-8">
+			<div className="flex w-full items-center justify-center rounded-lg bg-violet-400 p-4 shadow-lg">
+				{children}
+			</div>
 		</div>
 	)
 }
 
 export default function Index() {
 	return (
-		<main className="relative min-h-screen sm:flex sm:items-center sm:justify-center">
+		<main className="relative min-h-screen sm:items-center sm:justify-center">
 			<div className="relative sm:pb-16 sm:pt-8">
 				<div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
 					<div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
@@ -62,8 +64,8 @@ export default function Index() {
 					</div>
 				</div>
 
-				<div className="relative mx-auto mt-8 sm:px-6 lg:px-8 overflow-auto">
-					<div className="xs:px-8 flex flex-nowrap gap-8 overflow-x-auto rounded-2xl bg-violet-100 px-24 py-4 italic text-black">
+				<div className="relative mx-auto max-w-7xl overflow-auto rounded-xl p-8 sm:px-6 lg:px-8">
+					<div className="flex flex-nowrap gap-4 rounded-lg leading-6 text-white">
 						<StorySnippet>
 							You wake up and find yourself in the middle of a large forest.
 							Ancient trees stand all around you. The forest is quiet except for
@@ -71,7 +73,6 @@ export default function Index() {
 							song. Why can't you remember anything? And why are you holding a
 							bloody knife...
 						</StorySnippet>
-
 						<StorySnippet>
 							After years of training you stand before the wizard, Gharkelzard.
 							This ancient and wizened eyes speak of untold power and mystery.
