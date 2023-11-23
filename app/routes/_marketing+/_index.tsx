@@ -10,7 +10,7 @@ export const meta: MetaFunction = () => [
 function StorySnippet({ children }: { children: ReactNode }) {
 	return (
 		<div className="w-80 flex-none last:pr-8">
-			<div className="flex w-full items-center justify-center rounded-lg bg-violet-400 p-4 shadow-lg">
+			<div className="flex w-full items-center justify-center rounded-lg bg-indigo-400 p-4 italic shadow-lg drop-shadow-sm">
 				{children}
 			</div>
 		</div>
@@ -49,23 +49,26 @@ export default function Index() {
 									className="mx-auto mt-8 w-full max-w-[12rem] md:max-w-[16rem]"
 								/>
 							</a>
-							<div className="mt-12 flex justify-center gap-10">
-								<ButtonLink to="/signup" size="sm" variant="primary">
-									Sign Up
-								</ButtonLink>
-								<ButtonLink to="/login" size="sm" variant="secondary">
-									Log In
-								</ButtonLink>
-								<ButtonLink to="/stories" size="sm" variant="secondary">
-									Browse Stories
-								</ButtonLink>
+
+							<div className="relative rounded-xl p-8">
+								<div className="flex flex-wrap justify-center gap-4 rounded-lg">
+									<ButtonLink to="/signup" size="sm" variant="primary">
+										Sign Up
+									</ButtonLink>
+									<ButtonLink to="/login" size="sm" variant="secondary">
+										Log In
+									</ButtonLink>
+									<ButtonLink to="/stories" size="sm" variant="secondary">
+										Browse Stories
+									</ButtonLink>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 
-				<div className="relative mx-auto max-w-7xl overflow-auto rounded-xl p-8 sm:px-6 lg:px-8">
-					<div className="flex flex-nowrap gap-4 rounded-lg leading-6 text-white">
+				<div className="relative mx-auto max-w-7xl rounded-xl p-8 sm:px-6 lg:px-8">
+					<div className="flex flex-nowrap gap-4 overflow-auto  rounded-lg bg-gray-100 p-6 leading-6 text-white lg:items-center lg:justify-center">
 						<StorySnippet>
 							You wake up and find yourself in the middle of a large forest.
 							Ancient trees stand all around you. The forest is quiet except for
