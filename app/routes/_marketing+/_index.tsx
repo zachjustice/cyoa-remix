@@ -62,8 +62,8 @@ export default function Index() {
 					</div>
 				</div>
 
-				<div className="mx-auto mt-8 sm:px-6 lg:px-8">
-					<div className="xs:px-8 flex flex-wrap justify-center gap-8 overflow-x-auto rounded-2xl bg-violet-100 px-24 py-4 italic text-black">
+				<div className="relative mx-auto mt-8 sm:px-6 lg:px-8 overflow-auto">
+					<div className="xs:px-8 flex flex-nowrap gap-8 overflow-x-auto rounded-2xl bg-violet-100 px-24 py-4 italic text-black">
 						<StorySnippet>
 							You wake up and find yourself in the middle of a large forest.
 							Ancient trees stand all around you. The forest is quiet except for

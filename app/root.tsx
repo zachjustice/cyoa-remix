@@ -98,7 +98,7 @@ export default function App() {
 				<Links />
 			</head>
 			<body className="flex h-full flex-col justify-between bg-night-700 text-white">
-				<header className="container mx-auto py-6">
+				<header className="container mx-auto px-4 py-6">
 					<nav className="flex justify-between">
 						<div className="flex items-center">
 							<Link to="/">Choose Your Own Adventure!</Link>
