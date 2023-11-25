@@ -2,14 +2,15 @@ import { type FC } from 'react'
 import { Button, Navbar } from 'flowbite-react'
 import { useSidebarContext } from '~/context/sidebar-context.tsx'
 import { UserDropdown } from '~/components/UserDropDown.tsx'
+import { Link } from '@remix-run/react'
 
 const Header: FC<Record<string, never>> = function ({ user }) {
 	const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
 		useSidebarContext()
 
 	return (
-		<header className="container sticky top-0 z-20 mx-auto">
-			<Navbar fluid rounded className="flex-between flex">
+		<header className="container sticky top-0 z-20 mx-auto max-w-7xl">
+			<Navbar fluid rounded>
 				{isPageWithSidebar && (
 					<button
 						aria-controls="sidebar"
@@ -57,16 +58,30 @@ const Header: FC<Record<string, never>> = function ({ user }) {
 						Choose Your Own Adventure!
 					</span>
 				</Navbar.Brand>
-				<div className="flex md:order-2">
+				<div className="md:order-2 md:hidden">
 					<Navbar.Toggle />
 				</div>
 				<Navbar.Collapse>
 					<Button color="default" href="/stories">
 						Stories
 					</Button>
-					{user && <Button href="/stories/new">Write a Story</Button>}
-					{!user && <Button color="default">Log In</Button>}
-					{user ? <UserDropdown /> : <Button color="blue">Sign Up</Button>}
+					{user && (
+						<Button as={Link} to="/stories/new" color="blue">
+							Write a Story
+						</Button>
+					)}
+					{!user && (
+						<Button as={Link} to="/login" color="default">
+							Log In
+						</Button>
+					)}
+					{user ? (
+						<UserDropdown />
+					) : (
+						<Button as={Link} to="/signup" color="blue">
+							Sign Up
+						</Button>
+					)}
 				</Navbar.Collapse>
 			</Navbar>
 		</header>
