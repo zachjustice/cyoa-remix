@@ -1,7 +1,7 @@
 import type { MetaFunction } from '@remix-run/node'
 import { type ReactNode } from 'react'
-import { ButtonLink } from '~/utils/forms.tsx'
 import { clouds, owl } from './logos/logos.ts'
+import { Button } from 'flowbite-react'
 
 export const meta: MetaFunction = () => [
 	{ title: 'Choose Your Own Adventure!' },
@@ -52,15 +52,15 @@ export default function Index() {
 
 							<div className="relative rounded-xl p-8">
 								<div className="flex flex-wrap justify-center gap-4 rounded-lg">
-									<ButtonLink to="/signup" size="sm" variant="primary">
+									<Button href="/signup" color="blue">
 										Sign Up
-									</ButtonLink>
-									<ButtonLink to="/login" size="sm" variant="secondary">
+									</Button>
+									<Button href="/login" color="dark">
 										Log In
-									</ButtonLink>
-									<ButtonLink to="/stories" size="sm" variant="secondary">
+									</Button>
+									<Button href="/stories" color="dark">
 										Browse Stories
-									</ButtonLink>
+									</Button>
 								</div>
 							</div>
 						</div>

@@ -6,7 +6,6 @@ import {
 	type MetaFunction,
 } from '@remix-run/node'
 import {
-	Link,
 	Links,
 	LiveReload,
 	Meta,
@@ -16,14 +15,14 @@ import {
 	useLoaderData,
 } from '@remix-run/react'
 import { ThemeSwitch } from '~/components/ThemeSwitch.tsx'
-import { UserDropdown } from '~/components/UserDropDown.tsx'
 import { StoryActivityProvider } from '~/context/story-activity-context.tsx'
 import tailwindStylesheetUrl from './styles/tailwind.css'
 import { authenticator, getUserId } from './utils/auth.server.ts'
 import { prisma } from './utils/db.server.ts'
 import { getEnv } from './utils/env.server.ts'
-import { ButtonLink } from './utils/forms.tsx'
 import { useNonce } from './utils/nonce-provider.ts'
+import { SidebarProvider } from './context/sidebar-context.tsx'
+import Header from './components/header.tsx'
 
 export const links: LinksFunction = () => {
 	return [
@@ -97,55 +96,28 @@ export default function App() {
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 				<Links />
 			</head>
-			<body className="flex h-full flex-col justify-between bg-night-700 text-white">
-				<header className="container mx-auto px-4 py-6">
-					<nav className="flex justify-between">
-						<div className="flex items-center">
-							<Link to="/">Choose Your Own Adventure!</Link>
-						</div>
-						<div className="flex items-center gap-10">
-							{data?.user && (
-								<div className="flex items-center gap-10">
-									<ButtonLink to="/stories/new" size="sm" variant="primary">
-										Write a Story
-									</ButtonLink>
-								</div>
-							)}
-							<div className="flex items-center gap-10">
-								<ButtonLink to="/stories" size="sm" variant="secondary">
-									Stories
-								</ButtonLink>
-							</div>
-							{user ? (
-								<UserDropdown />
-							) : (
-								<ButtonLink to="/signup" size="sm" variant="primary">
-									Sign Up
-								</ButtonLink>
-							)}
-						</div>
-					</nav>
-				</header>
-
-				<div className="flex-1">
-					<StoryActivityProvider>
-						<Outlet />
-					</StoryActivityProvider>
-				</div>
-
-				<div className="container mx-auto flex justify-end">
-					<ThemeSwitch />
-				</div>
-				<ScrollRestoration nonce={nonce} />
-				<Scripts nonce={nonce} />
-				<script
-					nonce={nonce}
-					dangerouslySetInnerHTML={{
-						__html: `window.ENV = ${JSON.stringify(data.ENV)}`,
-					}}
-				/>
-				<LiveReload nonce={nonce} />
-			</body>
+			<SidebarProvider>
+				<body className="flex h-full flex-col justify-between bg-night-700 text-white">
+					<Header user={user} />
+					<div className="flex-1">
+						<StoryActivityProvider>
+							<Outlet />
+						</StoryActivityProvider>
+					</div>
+					<div className="container mx-auto flex justify-end">
+						<ThemeSwitch />
+					</div>
+					<ScrollRestoration nonce={nonce} />
+					<Scripts nonce={nonce} />
+					<script
+						nonce={nonce}
+						dangerouslySetInnerHTML={{
+							__html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+						}}
+					/>
+					<LiveReload nonce={nonce} />
+				</body>
+			</SidebarProvider>
 		</html>
 	)
 }

@@ -3,7 +3,10 @@ import defaultTheme from 'tailwindcss/defaultTheme.js'
 import tailwindcssRadix from 'tailwindcss-radix'
 
 export default {
-	content: ['./app/**/*.{ts,tsx,jsx,js}'],
+	content: [
+		'./app/**/*.{ts,tsx,jsx,js}',
+		'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
+	],
 	darkMode: 'class',
 	theme: {
 		extend: {
@@ -76,5 +79,5 @@ export default {
 			},
 		},
 	},
-	plugins: [tailwindcssRadix],
+	plugins: [tailwindcssRadix, require('flowbite/plugin')],
 } satisfies Config
