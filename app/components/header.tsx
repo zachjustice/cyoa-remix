@@ -1,10 +1,14 @@
-import { type FC } from 'react'
 import { Navbar } from 'flowbite-react'
 import { useSidebarContext } from '~/context/sidebar-context.tsx'
 import { UserDropdown } from '~/components/UserDropDown.tsx'
 import { ButtonLink } from '~/utils/forms.tsx'
+import { type User } from '@prisma/client'
 
-const Header: FC<Record<string, never>> = function ({ user }) {
+type HeaderProps = {
+	user: Pick<User, 'id' | 'username' | 'imageId' | 'name'> | null
+}
+
+const Header = function ({ user }: HeaderProps) {
 	const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
 		useSidebarContext()
 
