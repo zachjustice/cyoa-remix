@@ -22,13 +22,13 @@ export const customTheme: CustomFlowbiteTheme = {
 		root: {
 			base: 'h-full bg-night-700',
 			inner:
-				'h-full overflow-y-auto overflow-x-hidden rounded bg-night-700 py-4 px-3 dark:bg-gray-800',
+				'h-full overflow-y-auto overflow-x-hidden rounded bg-night-700 p-4 dark:bg-gray-800',
 		},
 		collapse: {
 			list: 'space-y-2 py-2 list-none',
 		},
 		item: {
-			base: 'no-underline flex items-center rounded-lg p-2 text-lg font-normal text-white hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700',
+			base: 'no-underline flex items-center rounded-lg p-2 text-lg font-normal text-white hover:bg-accent-purple dark:text-white dark:hover:bg-gray-700',
 		},
 		itemGroup: {
 			base: 'list-none border-t border-gray-200 pt-3 first:mt-0 first:border-t-0 first:pt-0 dark:border-gray-700',

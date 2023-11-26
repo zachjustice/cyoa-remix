@@ -46,12 +46,11 @@ export default function GetStoryRoute() {
 
 	const navLinkDefaultClassName =
 		'line-clamp-2 block rounded-l py-2 pl-8 pr-6 text-base lg:text-xl'
+	const isActiveClass = 'bg-accent-purple'
 	return (
-		<div className="flex">
-			<main className="order-2 bg-night-400 px-10 py-12 md:rounded">
-				<div className="mb-6">
-					<Outlet />
-				</div>
+		<div className="flex w-full">
+			<main className="order-2 flex w-full px-10 py-12 md:rounded">
+				<Outlet />
 			</main>
 			<div className="order-1">
 				<Sidebar>
@@ -63,7 +62,7 @@ export default function GetStoryRoute() {
 								to={`/stories/${story.id}/introduction`}
 								className={({ isActive }) =>
 									clsx(navLinkDefaultClassName, {
-										'bg-night-400': isActive,
+										[isActiveClass]: isActive,
 									})
 								}
 							>
@@ -77,7 +76,7 @@ export default function GetStoryRoute() {
 										to={`/stories/${story.id}/pages/${page.id}`}
 										className={({ isActive }) =>
 											clsx(navLinkDefaultClassName, {
-												'bg-night-400': isActive,
+												[isActiveClass]: isActive,
 											})
 										}
 									>
@@ -92,7 +91,7 @@ export default function GetStoryRoute() {
 									to={`/stories/${story.id}/pages/new`}
 									className={({ isActive }) =>
 										clsx(navLinkDefaultClassName, {
-											'bg-night-400': isActive,
+											[isActiveClass]: isActive,
 										})
 									}
 								>

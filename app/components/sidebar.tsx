@@ -10,7 +10,7 @@ const Sidebar: FC<SidebarProps> = function ({ children, className }) {
 	return (
 		<div
 			className={classNames(
-				'fixed z-10 h-screen overflow-auto lg:sticky lg:!block',
+				'z-10 h-screen overflow-auto border-r-2 border-night-400 lg:sticky lg:!block',
 				{
 					hidden: !isSidebarOpenOnSmallScreens,
 				},

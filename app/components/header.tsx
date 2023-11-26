@@ -13,7 +13,7 @@ const Header = function ({ user }: HeaderProps) {
 		useSidebarContext()
 
 	return (
-		<header className="sticky top-0 z-20 w-full bg-night-700">
+		<header className="sticky top-0 z-20 w-full border-b-2 border-night-400 bg-night-700">
 			<div className="container mx-auto max-w-7xl">
 				<Navbar fluid>
 					{isPageWithSidebar && (

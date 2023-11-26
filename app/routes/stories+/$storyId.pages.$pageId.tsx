@@ -10,6 +10,7 @@ import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { useEffect } from 'react'
 import {
+	usePageHistory,
 	useStoryActivityDispatch,
 	viewedPage,
 } from '~/context/story-activity-context.tsx'
@@ -52,6 +53,7 @@ export async function loader({ params, request }: DataFunctionArgs) {
 
 export default function GetPageRoute() {
 	const { storyId } = useParams()
+	const pageHistory = usePageHistory()
 	invariant(storyId, 'Missing storyId')
 	const { page, isOwner } = useLoaderData<typeof loader>()
 
@@ -65,45 +67,46 @@ export default function GetPageRoute() {
 		dispatch(viewedPage(page))
 	})
 
+	const pageNumber = 1 + pageHistory.findIndex(p => p.id === page.id)
+
 	return (
-		<div className="flex flex-col">
-			<div className="flex-grow">
-				<div
-					className={clsx(' flex gap-2', {
-						'mb-6': isOwner,
-						'mb-2': !isOwner,
-					})}
-				>
-					{isOwner && <EditIconLink to="edit" variant="outline" />}
-					<p className="preserve-whitespace">{page.content}</p>
-				</div>
-
-				<ul className="ml-12" key={page.id}>
-					{page.nextChoices.map(choice => {
-						return (
-							<EditableChoice
-								key={choice.id}
-								editChoiceId={editChoiceId}
-								storyId={storyId}
-								pageId={page.id}
-								choice={choice}
-								editable={isOwner}
-							/>
-						)
-					})}
-				</ul>
-
-				{isOwner && page.nextChoices.length < 4 && (
-					<div className="mt-6">
-						<ChoiceEditor
-							choice={{
-								parentPageId: page.id,
-								storyId: storyId,
-							}}
-						/>
-					</div>
-				)}
+		<div>
+			<h2 className="pb-4 text-h2">Page {pageNumber}</h2>
+			<div
+				className={clsx(' flex gap-2', {
+					'mb-6': isOwner,
+					'mb-2': !isOwner,
+				})}
+			>
+				{isOwner && <EditIconLink to="edit" variant="outline" />}
+				<p className="preserve-whitespace">{page.content}</p>
 			</div>
+
+			<ul className="ml-12" key={page.id}>
+				{page.nextChoices.map(choice => {
+					return (
+						<EditableChoice
+							key={choice.id}
+							editChoiceId={editChoiceId}
+							storyId={storyId}
+							pageId={page.id}
+							choice={choice}
+							editable={isOwner}
+						/>
+					)
+				})}
+			</ul>
+
+			{isOwner && page.nextChoices.length < 4 && (
+				<div className="mt-6">
+					<ChoiceEditor
+						choice={{
+							parentPageId: page.id,
+							storyId: storyId,
+						}}
+					/>
+				</div>
+			)}
 		</div>
 	)
 }
