@@ -18,7 +18,7 @@ import {
 	verifyLogin,
 } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { Button, ErrorList, Field } from '~/utils/forms.tsx'
+import { MyButton, ErrorList, Field } from '~/utils/forms.tsx'
 import { getUserImgSrc } from '~/utils/misc.ts'
 import {
 	emailSchema,
@@ -249,14 +249,14 @@ export default function EditUserProfile() {
 					<ErrorList errors={form.errors} id={form.errorId} />
 
 					<div className="mt-3 flex justify-center">
-						<Button
+						<MyButton
 							type="submit"
 							size="md-wide"
-							variant="primary"
+							color="primary"
 							status={isSubmitting ? 'pending' : actionData?.status ?? 'idle'}
 						>
 							Save changes
-						</Button>
+						</MyButton>
 					</div>
 				</Form>
 			</div>

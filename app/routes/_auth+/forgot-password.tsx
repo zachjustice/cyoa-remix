@@ -12,7 +12,7 @@ import { GeneralErrorBoundary } from '~/components/error-boundary.tsx'
 import { prisma } from '~/utils/db.server.ts'
 import { sendEmail } from '~/utils/email.server.ts'
 import { decrypt, encrypt } from '~/utils/encryption.server.ts'
-import { Button, ErrorList, Field } from '~/utils/forms.tsx'
+import { MyButton, ErrorList, Field } from '~/utils/forms.tsx'
 import { getDomainUrl } from '~/utils/misc.server.ts'
 import { commitSession, getSession } from '~/utils/session.server.ts'
 import { emailSchema, usernameSchema } from '~/utils/user-validation.ts'
@@ -176,10 +176,10 @@ export default function SignupRoute() {
 							<ErrorList errors={form.errors} id={form.errorId} />
 
 							<div className="mt-6">
-								<Button
+								<MyButton
 									className="w-full"
 									size="md"
-									variant="primary"
+									color="primary"
 									status={
 										forgotPassword.state === 'submitting'
 											? 'pending'
@@ -189,7 +189,7 @@ export default function SignupRoute() {
 									disabled={forgotPassword.state !== 'idle'}
 								>
 									Recover password
-								</Button>
+								</MyButton>
 							</div>
 						</forgotPassword.Form>
 					</>

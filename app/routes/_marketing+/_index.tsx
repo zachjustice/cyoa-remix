@@ -1,7 +1,9 @@
 import type { MetaFunction } from '@remix-run/node'
 import { type ReactNode } from 'react'
 import { clouds, owl } from './logos/logos.ts'
-import { Button } from 'flowbite-react'
+import { ButtonLink } from '~/utils/forms.tsx'
+import { useMatchesData } from '~/hooks/useMatchesData.ts'
+import { type User } from '@prisma/client'
 
 export const meta: MetaFunction = () => [
 	{ title: 'Choose Your Own Adventure!' },
@@ -18,6 +20,9 @@ function StorySnippet({ children }: { children: ReactNode }) {
 }
 
 export default function Index() {
+	const { user } = useMatchesData('/') as {
+		user: User
+	}
 	return (
 		<main className="relative min-h-screen sm:items-center sm:justify-center">
 			<div className="relative sm:pb-16 sm:pt-8">
@@ -52,15 +57,15 @@ export default function Index() {
 
 							<div className="relative rounded-xl p-8">
 								<div className="flex flex-wrap justify-center gap-4 rounded-lg">
-									<Button href="/signup" color="blue">
-										Sign Up
-									</Button>
-									<Button href="/login" color="dark">
-										Log In
-									</Button>
-									<Button href="/stories" color="dark">
-										Browse Stories
-									</Button>
+									{!user && (
+										<>
+											<ButtonLink to="/signup" color="primary">
+												Sign Up
+											</ButtonLink>
+											<ButtonLink to="/login">Log In</ButtonLink>
+										</>
+									)}
+									<ButtonLink to="/stories">Browse Stories</ButtonLink>
 								</div>
 							</div>
 						</div>

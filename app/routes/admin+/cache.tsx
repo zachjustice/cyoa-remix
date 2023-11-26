@@ -16,7 +16,7 @@ import {
 	lruCache,
 	searchCacheKeys,
 } from '~/utils/cache.server.ts'
-import { Button, Field } from '~/utils/forms.tsx'
+import { MyButton, Field } from '~/utils/forms.tsx'
 import { useDebounce, useDoubleCheck } from '~/utils/misc.ts'
 import { requireAdmin } from '~/utils/permissions.server.ts'
 
@@ -199,9 +199,9 @@ function CacheKeyRow({
 				<input type="hidden" name="cacheKey" value={cacheKey} />
 				<input type="hidden" name="instance" value={instance} />
 				<input type="hidden" name="type" value={type} />
-				<Button
+				<MyButton
 					size="sm"
-					variant="secondary"
+					color="secondary"
 					{...dc.getButtonProps({ type: 'submit' })}
 				>
 					{fetcher.state === 'idle'
@@ -209,7 +209,7 @@ function CacheKeyRow({
 							? 'You sure?'
 							: 'Delete'
 						: 'Deleting...'}
-				</Button>
+				</MyButton>
 			</fetcher.Form>
 			<a
 				href={`/admin/cache/${type}/${encodeURIComponent(

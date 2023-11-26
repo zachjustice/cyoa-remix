@@ -3,7 +3,7 @@ import { useLocation } from 'react-router'
 import invariant from 'tiny-invariant'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { Button, ButtonLink } from '~/utils/forms.tsx'
+import { MyButton, ButtonLink } from '~/utils/forms.tsx'
 import { usePageHistory } from '~/context/story-activity-context.tsx'
 
 export async function action({ params, request }: DataFunctionArgs) {
@@ -50,16 +50,16 @@ export default function DeletePageRoute() {
 				<div className="mt-10 flex gap-4">
 					<ButtonLink
 						size="sm"
-						variant="primary"
+						color="primary"
 						type="reset"
 						// TODO explicitly fetch page and story id to construct URL instead of this which is unclear what it does
 						to={location.pathname.replace('/delete', '')}
 					>
 						No, take me back
 					</ButtonLink>
-					<Button
+					<MyButton
 						size="sm"
-						variant="danger"
+						color="danger"
 						// status={
 						//     pageEditorFetcher.state === 'submitting'
 						//         ? 'pending'
@@ -69,7 +69,7 @@ export default function DeletePageRoute() {
 						// disabled={pageEditorFetcher.state !== 'idle'}
 					>
 						Yes, delete it from existence
-					</Button>
+					</MyButton>
 				</div>
 			</form>
 		</>

@@ -1,8 +1,9 @@
 import * as Checkbox from '@radix-ui/react-checkbox'
 import { Link } from '@remix-run/react'
 import { clsx } from 'clsx'
-import React, { useId } from 'react'
+import React, { type ElementType, useId } from 'react'
 import styles from './forms.module.css'
+import { Button, type ButtonProps, Spinner } from 'flowbite-react'
 
 export type ListOfErrors = Array<string | null | undefined> | null | undefined
 
@@ -176,44 +177,40 @@ export function getButtonClassName({
 	return className
 }
 
-export function Button({
-	size,
-	variant,
-	status = 'idle',
-	...props
-}: React.ComponentPropsWithoutRef<'button'> &
-	Parameters<typeof getButtonClassName>[0] & {
-		status?: 'pending' | 'success' | 'error' | 'idle'
-	}) {
+type MyButtonProps<T extends ElementType = 'button'> = ButtonProps<T> & {
+	status?: 'pending' | 'success' | 'error' | 'idle'
+}
+
+export function MyButton<T extends ElementType = 'button'>(
+	props: MyButtonProps<T>,
+) {
 	const companion = {
-		pending: <span className="inline-block animate-spin">🌀</span>,
-		success: <span>✅</span>,
-		error: <span>❌</span>,
+		pending: (
+			<Spinner
+				className="ml-4"
+				aria-label="Submitting request to create account"
+			/>
+		),
+		success: <span className="ml-4">✅</span>,
+		error: <span className="ml-4">❌</span>,
 		idle: null,
-	}[status]
+	}[props.status || 'idle']
 	return (
-		<button
-			{...props}
-			className={clsx(
-				props.className,
-				getButtonClassName({ size, variant }),
-				'flex justify-center gap-4',
-			)}
-		>
-			<div>{props.children}</div>
+		<Button color={props.color ?? 'default'} {...props}>
+			{props.children}
 			{companion}
-		</button>
+		</Button>
 	)
 }
 
-export function ButtonLink({
-	size,
-	variant,
-	...props
-}: Omit<React.ComponentPropsWithoutRef<typeof Link>, 'className'> &
-	Parameters<typeof getButtonClassName>[0]) {
+export function ButtonLink(props: MyButtonProps<typeof Link>) {
 	// eslint-disable-next-line jsx-a11y/anchor-has-content
-	return <Link {...props} className={getButtonClassName({ size, variant })} />
+	return (
+		<MyButton
+			as={Link}
+			{...props} /*className={getButtonClassName({ size, variant })}*/
+		/>
+	)
 }
 
 export function LabelButton({

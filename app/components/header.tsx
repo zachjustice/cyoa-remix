@@ -1,8 +1,8 @@
 import { type FC } from 'react'
-import { Button, Navbar } from 'flowbite-react'
+import { Navbar } from 'flowbite-react'
 import { useSidebarContext } from '~/context/sidebar-context.tsx'
 import { UserDropdown } from '~/components/UserDropDown.tsx'
-import { Link } from '@remix-run/react'
+import { ButtonLink } from '~/utils/forms.tsx'
 
 const Header: FC<Record<string, never>> = function ({ user }) {
 	const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
@@ -62,26 +62,24 @@ const Header: FC<Record<string, never>> = function ({ user }) {
 					<Navbar.Toggle />
 				</div>
 				<Navbar.Collapse>
-					<Button color="default" href="/stories">
-						Stories
-					</Button>
-					{user && (
-						<Button as={Link} to="/stories/new" color="blue">
-							Write a Story
-						</Button>
-					)}
-					{!user && (
-						<Button as={Link} to="/login" color="default">
-							Log In
-						</Button>
-					)}
-					{user ? (
-						<UserDropdown />
-					) : (
-						<Button as={Link} to="/signup" color="blue">
-							Sign Up
-						</Button>
-					)}
+					<div className="flex flex-col space-y-6 md:flex-row md:gap-6 md:space-y-0">
+						<ButtonLink color="default" to="/stories">
+							Stories
+						</ButtonLink>
+						{user && (
+							<ButtonLink gradientDuoTone="purpleToBlue" to="/stories/new">
+								Write a Story
+							</ButtonLink>
+						)}
+						{!user && <ButtonLink to="/login">Log In</ButtonLink>}
+						{user ? (
+							<UserDropdown />
+						) : (
+							<ButtonLink to="/signup" color="primary">
+								Sign Up
+							</ButtonLink>
+						)}
+					</div>
 				</Navbar.Collapse>
 			</Navbar>
 		</header>

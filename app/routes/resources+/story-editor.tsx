@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import {
-	Button,
+	MyButton,
 	ButtonLink,
 	ErrorList,
 	Field,
@@ -148,7 +148,7 @@ export function StoryEditor({ story }: StoryEditorProps) {
 						<div className="flex">
 							<ButtonLink
 								size="sm"
-								variant="danger"
+								color="danger"
 								to={`/stories/${story.id}/delete`}
 							>
 								Delete
@@ -159,15 +159,15 @@ export function StoryEditor({ story }: StoryEditorProps) {
 						{story?.id && (
 							<ButtonLink
 								size="sm"
-								variant="secondary"
+								color="secondary"
 								to={`/stories/${story.id}/introduction`}
 							>
 								Cancel
 							</ButtonLink>
 						)}
-						<Button
+						<MyButton
 							size="sm"
-							variant="primary"
+							color="primary"
 							status={
 								storyEditorFetcher.state === 'submitting'
 									? 'pending'
@@ -177,7 +177,7 @@ export function StoryEditor({ story }: StoryEditorProps) {
 							disabled={storyEditorFetcher.state !== 'idle'}
 						>
 							Save
-						</Button>
+						</MyButton>
 					</div>
 				</div>
 			</storyEditorFetcher.Form>

@@ -54,7 +54,7 @@ export default function GetStoryIntroductionRoute() {
 									: `/stories/${story.id}/pages/new/`
 							}
 							size="sm"
-							variant="primary"
+							color="primary"
 							type="submit"
 							onClick={() => {}}
 						>
@@ -65,7 +65,7 @@ export default function GetStoryIntroductionRoute() {
 					{isOwner ? (
 						<ButtonLink
 							size="sm"
-							variant="secondary"
+							color="secondary"
 							to={`/stories/${story.id}/edit`}
 						>
 							Edit
