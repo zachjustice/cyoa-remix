@@ -14,8 +14,7 @@ import {
 	ScrollRestoration,
 	useLoaderData,
 } from '@remix-run/react'
-import { Flowbite } from 'flowbite-react'
-import { ThemeSwitch } from '~/components/ThemeSwitch.tsx'
+import { Flowbite, ThemeModeScript } from 'flowbite-react'
 import { StoryActivityProvider } from '~/context/story-activity-context.tsx'
 import Header from './components/header.tsx'
 import { SidebarProvider } from './context/sidebar-context.tsx'
@@ -96,6 +95,7 @@ export default function App() {
 				<Meta />
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
+				<ThemeModeScript />
 				<Links />
 			</head>
 			<Flowbite theme={{ theme: customTheme }}>
@@ -108,7 +108,8 @@ export default function App() {
 							</StoryActivityProvider>
 						</div>
 						<div className="container mx-auto flex justify-end">
-							<ThemeSwitch />
+							{/*<ThemeSwitch />*/}
+							{/*<DarkThemeToggle />*/}
 						</div>
 						<ScrollRestoration nonce={nonce} />
 						<Scripts nonce={nonce} />

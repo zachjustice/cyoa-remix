@@ -5,6 +5,7 @@ import invariant from 'tiny-invariant'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { usePageHistory } from '~/context/story-activity-context.tsx'
+import Sidebar from '~/components/sidebar.tsx'
 
 export async function loader({ params, request }: DataFunctionArgs) {
 	invariant(params.storyId, 'Missing storyId')
@@ -46,13 +47,18 @@ export default function GetStoryRoute() {
 	const navLinkDefaultClassName =
 		'line-clamp-2 block rounded-l py-2 pl-8 pr-6 text-base lg:text-xl'
 	return (
-		<div className="flex h-full pb-12">
-			<div className="mx-auto grid w-full flex-grow grid-cols-4 bg-night-500 pl-2 md:container md:rounded">
-				<div className="col-span-1 py-6">
+		<div className="flex">
+			<main className="order-2 bg-night-400 px-10 py-12 md:rounded">
+				<div className="mb-6">
+					<Outlet />
+				</div>
+			</main>
+			<div className="order-1">
+				<Sidebar>
 					<h1 className="mb-2 ml-8 text-h2">{story.title}</h1>
 					<p className="mb-1 ml-8">Table of Contents</p>
-					<ul>
-						<li>
+					<Sidebar.ItemGroup>
+						<Sidebar.Item>
 							<NavLink
 								to={`/stories/${story.id}/introduction`}
 								className={({ isActive }) =>
@@ -63,10 +69,10 @@ export default function GetStoryRoute() {
 							>
 								Introduction
 							</NavLink>
-						</li>
+						</Sidebar.Item>
 						{pageHistory.map((page, index) => {
 							return (
-								<li key={page.id}>
+								<Sidebar.Item key={page.id}>
 									<NavLink
 										to={`/stories/${story.id}/pages/${page.id}`}
 										className={({ isActive }) =>
@@ -77,11 +83,11 @@ export default function GetStoryRoute() {
 									>
 										Page {index + 1}
 									</NavLink>
-								</li>
+								</Sidebar.Item>
 							)
 						})}
 						{location.pathname.includes('/pages/new') && (
-							<li>
+							<Sidebar.Item>
 								<NavLink
 									to={`/stories/${story.id}/pages/new`}
 									className={({ isActive }) =>
@@ -92,15 +98,10 @@ export default function GetStoryRoute() {
 								>
 									New Page
 								</NavLink>
-							</li>
+							</Sidebar.Item>
 						)}
-					</ul>
-				</div>
-				<main className="col-span-3 bg-night-400 px-10 py-12 md:rounded">
-					<div className="mb-6">
-						<Outlet />
-					</div>
-				</main>
+					</Sidebar.ItemGroup>
+				</Sidebar>
 			</div>
 		</div>
 	)

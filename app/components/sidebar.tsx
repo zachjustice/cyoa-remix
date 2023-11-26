@@ -5,6 +5,7 @@ import { useSidebarContext } from '~/context/sidebar-context.tsx'
 
 const Sidebar: FC<PropsWithChildren<Record<string, unknown>>> = function ({
 	children,
+	className,
 }) {
 	const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
 		useSidebarContext()
@@ -12,13 +13,13 @@ const Sidebar: FC<PropsWithChildren<Record<string, unknown>>> = function ({
 	return (
 		<div
 			className={classNames(
-				'fixed top-0 z-10 h-screen overflow-auto lg:sticky lg:!block',
+				'fixed z-10 h-screen overflow-auto lg:sticky lg:!block',
 				{
 					hidden: !isSidebarOpenOnSmallScreens,
 				},
 			)}
 		>
-			<FlowbiteSidebar>{children}</FlowbiteSidebar>
+			<FlowbiteSidebar className={className}>{children}</FlowbiteSidebar>
 		</div>
 	)
 }
