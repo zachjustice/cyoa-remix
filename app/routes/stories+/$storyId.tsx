@@ -40,19 +40,16 @@ export default function GetStoryRoute() {
 	const { story } = useLoaderData<typeof loader>()
 	const pageHistory = usePageHistory()
 	const location = useLocation()
-	console.log(
-		`## GET STORY ROUTE PAGE HISTORY ${JSON.stringify(pageHistory, null, 2)}`,
-	)
 
 	const navLinkDefaultClassName =
 		'line-clamp-2 block rounded-l py-2 pl-8 pr-6 text-base lg:text-xl'
 	const isActiveClass = 'bg-accent-purple'
 	return (
-		<div className="flex w-full">
+		<div className="relative flex h-full w-full">
 			<main className="order-2 flex w-full px-10 py-12 md:rounded">
 				<Outlet />
 			</main>
-			<div className="order-1">
+			<div className="order-1 h-full">
 				<Sidebar>
 					<h1 className="mb-2 ml-8 text-h2">{story.title}</h1>
 					<p className="mb-1 ml-8">Table of Contents</p>

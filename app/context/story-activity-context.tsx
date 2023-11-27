@@ -64,7 +64,6 @@ const storyActivitySlice = createSlice({
 		},
 		viewedStory: {
 			reducer: (state, action: PayloadAction<CurrentStory>) => {
-				console.log(`## viewedStory ${JSON.stringify(action)}`)
 				state.pageHistory = []
 				state.currentStory = action.payload
 				return state
@@ -79,14 +78,12 @@ const storyActivitySlice = createSlice({
 			state.pageHistory = isInPageHistory
 				? state.pageHistory
 				: state.pageHistory.concat(action.payload)
-			console.log(`## viewedPage ${JSON.stringify(state.pageHistory, null, 2)}`)
 			return state
 		},
 		madeChoice: (
 			state,
 			action: PayloadAction<{ pageId: string; choiceId: string }>,
 		) => {
-			console.log(`## madeChoice ${JSON.stringify(action)}`)
 			let pastPageIndex = state.pageHistory.findIndex(
 				page => page.id === action.payload.pageId,
 			)
@@ -97,14 +94,6 @@ const storyActivitySlice = createSlice({
 			state.pageHistory = state.pageHistory
 				.slice(0, pastPageIndex + 1)
 				.map(page => {
-					page.id === action.payload.pageId &&
-						console.log(
-							`## make choice: ${action.payload.choiceId} ${JSON.stringify(
-								page,
-								null,
-								2,
-							)}`,
-						)
 					return page.id === action.payload.pageId
 						? {
 								...page,

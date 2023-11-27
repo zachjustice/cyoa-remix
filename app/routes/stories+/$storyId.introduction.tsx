@@ -23,7 +23,6 @@ export default function GetStoryIntroductionRoute() {
 
 	useEffect(() => {
 		if (currentStory?.id !== params.storyId) {
-			console.log(`doing ViewStory action`)
 			dispatch(viewedStory(story))
 		}
 	})

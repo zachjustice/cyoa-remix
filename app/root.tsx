@@ -100,9 +100,9 @@ export default function App() {
 			</head>
 			<Flowbite theme={{ theme: customTheme }}>
 				<SidebarProvider>
-					<body className="flex h-full flex-col justify-between bg-night-700 text-white">
+					<body className="flex h-screen flex-col justify-between bg-night-700 text-white">
 						<Header user={user} />
-						<div className="flex justify-center">
+						<div className="h-full">
 							<StoryActivityProvider>
 								<Outlet />
 							</StoryActivityProvider>
