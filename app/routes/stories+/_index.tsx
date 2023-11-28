@@ -27,7 +27,7 @@ export default function GetStoriesRoute() {
 
 	return (
 		<div className="flex h-full pb-12">
-			<div className="mx-auto grid w-full flex-grow grid-cols-4 bg-night-400 pl-2 md:container md:rounded">
+			<div className="mx-auto grid w-full flex-grow grid-cols-4 pl-2 md:container md:rounded">
 				<main className="col-span-3 px-10 py-12 md:rounded">
 					<h1 className="mb-8 text-h1">Stories</h1>
 					<ul>

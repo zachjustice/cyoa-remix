@@ -10,6 +10,9 @@ export default {
 	darkMode: 'class',
 	theme: {
 		extend: {
+			screens: {
+				xs: '340px',
+			},
 			colors: {
 				night: {
 					100: '#DADADA',

@@ -59,7 +59,7 @@ const Header = function ({ user }: HeaderProps) {
                         src="/favicon.png"
                         width="24"
                     /> */}
-						<span className="whitespace-nowrap px-3 text-xl font-semibold dark:text-white">
+						<span className="px-3 text-sm font-semibold dark:text-white xs:text-xl">
 							Choose Your Own Adventure!
 						</span>
 					</Navbar.Brand>
