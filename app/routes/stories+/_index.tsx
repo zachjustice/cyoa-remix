@@ -27,8 +27,8 @@ export default function GetStoriesRoute() {
 
 	return (
 		<div className="flex h-full pb-12">
-			<div className="mx-auto grid w-full flex-grow grid-cols-4 pl-2 md:container md:rounded">
-				<main className="col-span-3 px-10 py-12 md:rounded">
+			<div className="mx-auto w-full flex-grow pl-2 md:container md:rounded">
+				<main className="px-10 py-12 md:rounded">
 					<h1 className="mb-8 text-h1">Stories</h1>
 					<ul>
 						{stories.map(story => {
@@ -40,7 +40,7 @@ export default function GetStoriesRoute() {
 										</Link>
 									</h2>
 									<p>{story.description}</p>
-									<p className="text-md md:text-md mb-2 text-neutral-400 lg:mb-6">
+									<p className="text-md md:text-md mb-6 text-neutral-400">
 										By{' '}
 										<Link
 											to={`/users/${story.owner.username}`}
