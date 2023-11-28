@@ -5,12 +5,14 @@ interface SidebarContextProps {
 	isPageWithSidebar: boolean
 	isOpenOnSmallScreens: boolean
 	setOpenOnSmallScreens: (to: boolean) => void
+	setHasSidebar: (isPageWithSidebar: boolean) => void
 }
 
 const SidebarContext = createContext<SidebarContextProps>({
 	isPageWithSidebar: false,
 	isOpenOnSmallScreens: false,
 	setOpenOnSmallScreens: () => undefined,
+	setHasSidebar: () => undefined,
 })
 
 export function SidebarProvider({
@@ -18,6 +20,7 @@ export function SidebarProvider({
 }: PropsWithChildren<Record<string, unknown>>) {
 	const location = isBrowser() ? window.location.pathname : '/'
 	const [isOpen, setOpen] = useState(false)
+	const [isPageWithSidebar, setHasSidebar] = useState(false)
 
 	// Close Sidebar on page change on mobile
 	useEffect(() => {
@@ -47,7 +50,8 @@ export function SidebarProvider({
 		<SidebarContext.Provider
 			value={{
 				isOpenOnSmallScreens: isOpen,
-				isPageWithSidebar: true,
+				isPageWithSidebar: isPageWithSidebar,
+				setHasSidebar: setHasSidebar,
 				setOpenOnSmallScreens: setOpen,
 			}}
 		>

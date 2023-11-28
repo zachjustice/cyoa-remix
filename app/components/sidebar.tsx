@@ -2,10 +2,19 @@ import classNames from 'classnames'
 import { Sidebar as FlowbiteSidebar, type SidebarProps } from 'flowbite-react'
 import type { FC } from 'react'
 import { useSidebarContext } from '~/context/sidebar-context.tsx'
+import { useEffect } from 'react'
 
 const Sidebar: FC<SidebarProps> = function ({ children, className }) {
-	const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
+	const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens, setHasSidebar } =
 		useSidebarContext()
+
+	useEffect(() => {
+		return () => {
+			setHasSidebar(false)
+		}
+	}, [setHasSidebar])
+
+	setHasSidebar(true)
 
 	return (
 		<div
