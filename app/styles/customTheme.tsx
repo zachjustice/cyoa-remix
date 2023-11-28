@@ -5,7 +5,7 @@ export const customTheme: CustomFlowbiteTheme = {
 		root: {
 			base: 'bg-night-700 px-2 py-2.5 dark:border-gray-700 dark:bg-gray-800 sm:px-4',
 			inner: {
-				base: 'mx-auto flex flex-inline items-center justify-between',
+				base: 'mx-auto flex flex-wrap items-center justify-between',
 			},
 		},
 	},

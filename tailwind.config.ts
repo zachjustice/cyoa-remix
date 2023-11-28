@@ -11,7 +11,7 @@ export default {
 	theme: {
 		extend: {
 			screens: {
-				xs: '340px',
+				xs: '375px',
 			},
 			colors: {
 				night: {

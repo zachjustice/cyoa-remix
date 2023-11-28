@@ -3,6 +3,7 @@ import { useSidebarContext } from '~/context/sidebar-context.tsx'
 import { UserDropdown } from '~/components/UserDropDown.tsx'
 import { ButtonLink } from '~/utils/forms.tsx'
 import { type User } from '@prisma/client'
+import { owlIcon } from '~/routes/_marketing+/logos/logos.ts'
 
 type HeaderProps = {
 	user: Pick<User, 'id' | 'username' | 'imageId' | 'name'> | null
@@ -53,19 +54,12 @@ const Header = function ({ user }: HeaderProps) {
 						</button>
 					)}
 					<Navbar.Brand href="/">
-						{/* <img
-                        alt="Flowbite logo"
-                        height="24"
-                        src="/favicon.png"
-                        width="24"
-                    /> */}
-						<span className="px-3 text-sm font-semibold dark:text-white xs:text-xl">
+						<img alt="Owl" height="30" src={owlIcon} width="30" />
+						<span className="text-md hidden px-3 font-semibold dark:text-white xs:flex sm:text-xl">
 							Choose Your Own Adventure!
 						</span>
 					</Navbar.Brand>
-					<div className="md:order-2 md:hidden">
-						<Navbar.Toggle />
-					</div>
+					<Navbar.Toggle />
 					<Navbar.Collapse>
 						<div className="flex flex-col space-y-6 md:flex-row md:gap-6 md:space-y-0">
 							<ButtonLink color="default" to="/stories">
