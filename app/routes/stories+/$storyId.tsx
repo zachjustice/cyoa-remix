@@ -67,6 +67,7 @@ export default function GetStoryRoute() {
 						{pageHistory.map((page, index) => {
 							return (
 								<NavLink
+									key={`/stories/${story.id}/pages/${page.id}`}
 									to={`/stories/${story.id}/pages/${page.id}`}
 									className={({ isActive }) =>
 										clsx(navLinkDefaultClassName, {
