@@ -51,8 +51,8 @@ export default function GetStoryRoute() {
 			</main>
 			<div className="order-1 h-full">
 				<Sidebar>
-					<h1 className="mb-2 ml-8 text-h2">{story.title}</h1>
-					<p className="mb-1 ml-8">Table of Contents</p>
+					<h1 className="mb-2 mr-2 text-h2">{story.title}</h1>
+					<p className="mb-2 mr-2">Table of Contents</p>
 					<Sidebar.ItemGroup>
 						<NavLink
 							to={`/stories/${story.id}/introduction`}
