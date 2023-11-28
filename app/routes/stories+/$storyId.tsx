@@ -42,7 +42,7 @@ export default function GetStoryRoute() {
 	const location = useLocation()
 
 	const navLinkDefaultClassName =
-		'line-clamp-2 block rounded-l py-2 pl-8 pr-6 text-base lg:text-xl'
+		'line-clamp-2 block rounded-l my-2 py-2 pl-8 pr-6 text-base lg:text-xl hover:bg-accent-yellow hover:text-night-700'
 	const isActiveClass = 'bg-accent-purple'
 	return (
 		<div className="relative flex h-full w-full">
@@ -54,47 +54,41 @@ export default function GetStoryRoute() {
 					<h1 className="mb-2 ml-8 text-h2">{story.title}</h1>
 					<p className="mb-1 ml-8">Table of Contents</p>
 					<Sidebar.ItemGroup>
-						<Sidebar.Item>
-							<NavLink
-								to={`/stories/${story.id}/introduction`}
-								className={({ isActive }) =>
-									clsx(navLinkDefaultClassName, {
-										[isActiveClass]: isActive,
-									})
-								}
-							>
-								Introduction
-							</NavLink>
-						</Sidebar.Item>
+						<NavLink
+							to={`/stories/${story.id}/introduction`}
+							className={({ isActive }) =>
+								clsx(navLinkDefaultClassName, {
+									[isActiveClass]: isActive,
+								})
+							}
+						>
+							Introduction
+						</NavLink>
 						{pageHistory.map((page, index) => {
 							return (
-								<Sidebar.Item key={page.id}>
-									<NavLink
-										to={`/stories/${story.id}/pages/${page.id}`}
-										className={({ isActive }) =>
-											clsx(navLinkDefaultClassName, {
-												[isActiveClass]: isActive,
-											})
-										}
-									>
-										Page {index + 1}
-									</NavLink>
-								</Sidebar.Item>
-							)
-						})}
-						{location.pathname.includes('/pages/new') && (
-							<Sidebar.Item>
 								<NavLink
-									to={`/stories/${story.id}/pages/new`}
+									to={`/stories/${story.id}/pages/${page.id}`}
 									className={({ isActive }) =>
 										clsx(navLinkDefaultClassName, {
 											[isActiveClass]: isActive,
 										})
 									}
 								>
-									New Page
+									Page {index + 1}
 								</NavLink>
-							</Sidebar.Item>
+							)
+						})}
+						{location.pathname.includes('/pages/new') && (
+							<NavLink
+								to={`/stories/${story.id}/pages/new`}
+								className={({ isActive }) =>
+									clsx(navLinkDefaultClassName, {
+										[isActiveClass]: isActive,
+									})
+								}
+							>
+								New Page
+							</NavLink>
 						)}
 					</Sidebar.ItemGroup>
 				</Sidebar>

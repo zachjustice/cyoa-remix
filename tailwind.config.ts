@@ -34,6 +34,7 @@ export default {
 				},
 				accent: {
 					purple: '#6A44FF',
+					'purple-muted': '#9696E0',
 					pink: '#F183FF',
 					yellow: '#FFBE3F',
 					'yellow-muted': '#FFD262',

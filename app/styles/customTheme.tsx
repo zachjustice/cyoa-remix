@@ -25,7 +25,7 @@ export const customTheme: CustomFlowbiteTheme = {
 		root: {
 			base: 'h-full bg-night-700',
 			inner:
-				'h-full overflow-y-auto overflow-x-hidden rounded bg-night-700 p-4 dark:bg-gray-800',
+				'h-full overflow-y-auto overflow-x-hidden rounded bg-night-700 pl-4 py-4 dark:bg-gray-800',
 		},
 		collapse: {
 			list: 'space-y-2 py-2 list-none',
