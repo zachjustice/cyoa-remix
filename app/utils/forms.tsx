@@ -180,6 +180,7 @@ export function getButtonClassName({
 export type ButtonStatus = 'pending' | 'success' | 'error' | 'idle'
 type MyButtonProps<T extends ElementType = 'button'> = ButtonProps<T> & {
 	status?: ButtonStatus
+	disabled?: boolean
 }
 
 export function MyButton<T extends ElementType = 'button'>(

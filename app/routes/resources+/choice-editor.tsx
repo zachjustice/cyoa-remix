@@ -156,30 +156,16 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 							<Check />
 						</MyButton>
 					</div>
-					{choice?.id && (
-						<div>
-							<ButtonLink
-								size="xs"
-								color="secondary"
-								to={`/stories/${choice.storyId}/pages/${choice.parentPageId}/`}
-								type="reset"
-							>
-								<Xmark />
-							</ButtonLink>
-						</div>
-					)}
-					{!choice?.id && (
-						<div>
-							<MyButton
-								size="xs"
-								color="secondary"
-								type="reset"
-								onClick={props.onSubmit}
-							>
-								<Xmark />
-							</MyButton>
-						</div>
-					)}
+					<div>
+						<ButtonLink
+							size="xs"
+							color="secondary"
+							to={`/stories/${choice.storyId}/pages/${choice.parentPageId}/`}
+							type="reset"
+						>
+							<Xmark />
+						</ButtonLink>
+					</div>
 				</div>
 			</div>
 		</choiceEditorFetcher.Form>

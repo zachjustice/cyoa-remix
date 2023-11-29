@@ -8,13 +8,13 @@ import { EditIconLink } from '~/components/EditIcon.tsx'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import {
 	usePageHistory,
 	useStoryActivityDispatch,
 	viewedPage,
 } from '~/context/story-activity-context.tsx'
-import { MyButton } from '~/utils/forms.tsx'
+import { ButtonLink } from '~/utils/forms.tsx'
 
 export type ViewedChoice = Pick<Choice, 'id' | 'content' | 'nextPageId'>
 
@@ -57,11 +57,14 @@ export default function GetPageRoute() {
 	const pageHistory = usePageHistory()
 	invariant(storyId, 'Missing storyId')
 	const { page, isOwner } = useLoaderData<typeof loader>()
-	const [showChoiceEditor, setShowChoiceEditor] = useState(false)
 
 	const [searchParams] = useSearchParams()
 	const editChoiceId = isOwner
 		? searchParams.get(`editChoiceId`) || undefined
+		: undefined
+
+	const addChoice = isOwner
+		? searchParams.get(`addChoice`) || undefined
 		: undefined
 
 	const dispatch = useStoryActivityDispatch()
@@ -70,9 +73,6 @@ export default function GetPageRoute() {
 	})
 
 	const pageNumber = 1 + pageHistory.findIndex(p => p.id === page.id)
-	useEffect(() => {
-		setShowChoiceEditor(false)
-	}, [setShowChoiceEditor])
 
 	return (
 		<div className="max-w-6xl">
@@ -101,14 +101,20 @@ export default function GetPageRoute() {
 					)
 				})}
 
-				{isOwner && !showChoiceEditor && page.nextChoices.length < 4 && (
-					<MyButton onClick={() => setShowChoiceEditor(true)} color="primary">
-						Add another choice
-					</MyButton>
+				{isOwner && !addChoice && page.nextChoices.length < 4 && (
+					<div className="w-fit">
+						<ButtonLink
+							to={'?addChoice=true'}
+							aria-disabled={!!editChoiceId}
+							disabled={!!editChoiceId}
+							color="primary"
+						>
+							Add another choice
+						</ButtonLink>
+					</div>
 				)}
-				{isOwner && showChoiceEditor && page.nextChoices.length < 4 && (
+				{isOwner && addChoice && page.nextChoices.length < 4 && (
 					<ChoiceEditor
-						onSubmit={() => setShowChoiceEditor(false)}
 						choice={{
 							parentPageId: page.id,
 							storyId: storyId,
