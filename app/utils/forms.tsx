@@ -177,8 +177,9 @@ export function getButtonClassName({
 	return className
 }
 
+export type ButtonStatus = 'pending' | 'success' | 'error' | 'idle'
 type MyButtonProps<T extends ElementType = 'button'> = ButtonProps<T> & {
-	status?: 'pending' | 'success' | 'error' | 'idle'
+	status?: ButtonStatus
 }
 
 export function MyButton<T extends ElementType = 'button'>(

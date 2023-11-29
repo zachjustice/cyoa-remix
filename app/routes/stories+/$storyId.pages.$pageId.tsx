@@ -8,12 +8,13 @@ import { EditIconLink } from '~/components/EditIcon.tsx'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {
 	usePageHistory,
 	useStoryActivityDispatch,
 	viewedPage,
 } from '~/context/story-activity-context.tsx'
+import { MyButton } from '~/utils/forms.tsx'
 
 export type ViewedChoice = Pick<Choice, 'id' | 'content' | 'nextPageId'>
 
@@ -56,6 +57,7 @@ export default function GetPageRoute() {
 	const pageHistory = usePageHistory()
 	invariant(storyId, 'Missing storyId')
 	const { page, isOwner } = useLoaderData<typeof loader>()
+	const [showChoiceEditor, setShowChoiceEditor] = useState(false)
 
 	const [searchParams] = useSearchParams()
 	const editChoiceId = isOwner
@@ -68,9 +70,12 @@ export default function GetPageRoute() {
 	})
 
 	const pageNumber = 1 + pageHistory.findIndex(p => p.id === page.id)
+	useEffect(() => {
+		setShowChoiceEditor(false)
+	}, [setShowChoiceEditor])
 
 	return (
-		<div>
+		<div className="max-w-6xl">
 			<h2 className="pb-4 text-h2">Page {pageNumber}</h2>
 			<div
 				className={clsx(' flex gap-2', {
@@ -82,7 +87,7 @@ export default function GetPageRoute() {
 				<p className="preserve-whitespace">{page.content}</p>
 			</div>
 
-			<ul className="ml-12" key={page.id}>
+			<ul className="ml-12 space-y-4" key={page.id}>
 				{page.nextChoices.map(choice => {
 					return (
 						<EditableChoice
@@ -95,18 +100,22 @@ export default function GetPageRoute() {
 						/>
 					)
 				})}
-			</ul>
 
-			{isOwner && page.nextChoices.length < 4 && (
-				<div className="mt-6">
+				{isOwner && !showChoiceEditor && page.nextChoices.length < 4 && (
+					<MyButton onClick={() => setShowChoiceEditor(true)} color="primary">
+						Add another choice
+					</MyButton>
+				)}
+				{isOwner && showChoiceEditor && page.nextChoices.length < 4 && (
 					<ChoiceEditor
+						onSubmit={() => setShowChoiceEditor(false)}
 						choice={{
 							parentPageId: page.id,
 							storyId: storyId,
 						}}
 					/>
-				</div>
-			)}
+				)}
+			</ul>
 		</div>
 	)
 }

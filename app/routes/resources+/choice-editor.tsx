@@ -7,7 +7,7 @@ import Check from '~/components/Check.tsx'
 import Xmark from '~/components/Xmark.tsx'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { MyButton, ButtonLink, ErrorList, Field } from '~/utils/forms.tsx'
+import { ButtonLink, ErrorList, Field, MyButton } from '~/utils/forms.tsx'
 
 export const ChoiceEditorSchema = z.object({
 	id: z.string().optional(),
@@ -89,13 +89,13 @@ export async function action({ request }: DataFunctionArgs) {
 }
 
 type ChoiceEditorProps = {
-	choice?: {
+	onSubmit?: () => void
+	choice: {
 		id?: string
 		content?: string
-		parentPageId?: string
-		storyId?: string
+		parentPageId: string
+		storyId: string
 	}
-	submitHandler?: Function
 }
 
 export function ChoiceEditor(props: ChoiceEditorProps) {
@@ -123,9 +123,9 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 			{...form.props}
 		>
 			<input name="id" type="hidden" value={choice?.id} />
-			<input name="parentPageId" type="hidden" value={choice?.parentPageId} />
-			<input name="storyId" type="hidden" value={choice?.storyId} />
-			<div className="flex gap-4">
+			<input name="parentPageId" type="hidden" value={choice.parentPageId} />
+			<input name="storyId" type="hidden" value={choice.storyId} />
+			<div className="gap-4">
 				<div className="grow">
 					<Field
 						className="no-required-asterisk"
@@ -162,6 +162,7 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 								size="xs"
 								color="secondary"
 								to={`/stories/${choice.storyId}/pages/${choice.parentPageId}/`}
+								type="reset"
 							>
 								<Xmark />
 							</ButtonLink>
@@ -169,7 +170,12 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 					)}
 					{!choice?.id && (
 						<div>
-							<MyButton size="xs" color="secondary" type="reset">
+							<MyButton
+								size="xs"
+								color="secondary"
+								type="reset"
+								onClick={props.onSubmit}
+							>
 								<Xmark />
 							</MyButton>
 						</div>
