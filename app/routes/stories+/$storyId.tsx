@@ -47,17 +47,16 @@ export default function GetStoryRoute() {
 	return (
 		<div className="relative flex h-full w-full">
 			<main className="order-2 w-full px-10 py-12 md:rounded">
-				<p className="mb-4 text-sm">
-					<i>
-						<a href="/stories">Home</a>
-					</i>{' '}
-					{'>'}{' '}
-					<i>
-						<a href={`/users/${story.owner.username}`}>
-							{story.owner.username}
-						</a>
-					</i>{' '}
-					{'>'} <i>The Drugar's fable</i>
+				<p className="mb-4">
+					<a href="/stories" className="italic">
+						Home
+					</a>
+					{' > '}
+					<a href={`/users/${story.owner.username}`} className="italic">
+						{story.owner.username}
+					</a>
+					{' > '}
+					{story.title}
 				</p>
 				<Outlet />
 			</main>

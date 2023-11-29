@@ -35,7 +35,7 @@ export function SidebarProvider({
 			const main = document.querySelector('main')
 			const isClickInsideMain = main?.contains(event.target as Node)
 
-			if (isSmallScreen() && isClickInsideMain) {
+			if (isClickInsideMain) {
 				setOpen(false)
 			}
 		}
