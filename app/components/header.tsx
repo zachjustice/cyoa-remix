@@ -4,6 +4,7 @@ import { UserDropdown } from '~/components/UserDropDown.tsx'
 import { ButtonLink } from '~/utils/forms.tsx'
 import { type User } from '@prisma/client'
 import { owlIcon } from '~/routes/_marketing+/logos/logos.ts'
+// @ts-ignore
 import { FaBook } from 'react-icons/fa'
 
 type HeaderProps = {
