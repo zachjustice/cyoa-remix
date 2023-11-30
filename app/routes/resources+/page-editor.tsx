@@ -134,7 +134,7 @@ export async function action({ request }: DataFunctionArgs) {
 		page = { id: story.firstPageId }
 	}
 
-	return redirect(`/stories/${storyId}/pages/${page.id}/`)
+	return redirect(`/stories/${storyId}/pages/${page.id}/?editPage=true`)
 }
 
 type PageEditorProps = {

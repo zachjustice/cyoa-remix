@@ -59,13 +59,18 @@ export default function GetPageRoute() {
 	const { page, isOwner } = useLoaderData<typeof loader>()
 
 	const [searchParams] = useSearchParams()
+
 	const editChoiceId = isOwner
 		? searchParams.get(`editChoiceId`) || undefined
 		: undefined
 
-	const addChoice = isOwner
-		? searchParams.get(`addChoice`) || undefined
-		: undefined
+	const addChoice = isOwner ? !!searchParams.get(`addChoice`) : false
+
+	const editPage = isOwner
+		? !!searchParams.get('editPage') ||
+		  !!searchParams.get(`addChoice`) ||
+		  !!searchParams.get(`editChoiceId`)
+		: false
 
 	const dispatch = useStoryActivityDispatch()
 	useEffect(() => {
@@ -76,14 +81,25 @@ export default function GetPageRoute() {
 
 	return (
 		<div className="max-w-6xl">
-			<h2 className="pb-4 text-h2">Page {pageNumber}</h2>
+			<div className="flex gap-8">
+				<h2 className="pb-4 text-h2">Page {pageNumber}</h2>
+				{editPage ? (
+					<ButtonLink className="h-fit w-fit" to="#">
+						Done
+					</ButtonLink>
+				) : (
+					<ButtonLink className="h-fit w-fit" to="?editPage=true">
+						Edit
+					</ButtonLink>
+				)}
+			</div>
 			<div
 				className={clsx(' flex gap-2', {
 					'mb-6': isOwner,
 					'mb-2': !isOwner,
 				})}
 			>
-				{isOwner && <EditIconLink to="edit" variant="outline" />}
+				{isOwner && editPage && <EditIconLink to="edit" variant="outline" />}
 				<p className="preserve-whitespace">{page.content}</p>
 			</div>
 
@@ -96,12 +112,12 @@ export default function GetPageRoute() {
 							storyId={storyId}
 							pageId={page.id}
 							choice={choice}
-							editable={isOwner}
+							editable={editPage}
 						/>
 					)
 				})}
 
-				{isOwner && !addChoice && page.nextChoices.length < 4 && (
+				{isOwner && editPage && !addChoice && page.nextChoices.length < 4 && (
 					<div className="w-fit">
 						<ButtonLink
 							to={'?addChoice=true'}

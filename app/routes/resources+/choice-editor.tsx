@@ -85,7 +85,7 @@ export async function action({ request }: DataFunctionArgs) {
 		})
 	}
 
-	return redirect(`/stories/${storyId}/pages/${parentPageId}/`)
+	return redirect(`/stories/${storyId}/pages/${parentPageId}/?editPage=true`)
 }
 
 type ChoiceEditorProps = {
@@ -160,7 +160,7 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 						<ButtonLink
 							size="xs"
 							color="secondary"
-							to={`/stories/${choice.storyId}/pages/${choice.parentPageId}/`}
+							to={`/stories/${choice.storyId}/pages/${choice.parentPageId}/?editPage=true`}
 							type="reset"
 						>
 							<Xmark />
