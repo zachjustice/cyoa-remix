@@ -22,40 +22,37 @@ export async function loader() {
 		stories,
 	})
 }
+
 export default function GetStoriesRoute() {
 	const { stories } = useLoaderData<typeof loader>()
 
 	return (
-		<div className="flex h-full pb-12">
-			<div className="mx-auto w-full flex-grow pl-2 md:container md:rounded">
-				<main className="px-10 py-12 md:rounded">
-					<h1 className="mb-8 text-h1">Stories</h1>
-					<ul>
-						{stories.map(story => {
-							return (
-								<li key={story.id}>
-									<h2 className="text-body-md font-bold underline">
-										<Link to={`/stories/${story.id}/introduction`}>
-											{story.title}
-										</Link>
-									</h2>
-									<p>{story.description}</p>
-									<p className="text-md md:text-md mb-6 text-neutral-400">
-										By{' '}
-										<Link
-											to={`/users/${story.owner.username}`}
-											className="italic underline"
-										>
-											{story.owner.username}
-										</Link>
-										{' | '}Published {formatPublishDate(story.createdAt)}
-									</p>
-								</li>
-							)
-						})}
-					</ul>
-				</main>
-			</div>
-		</div>
+		<main className="mx-auto h-full max-w-7xl px-8 py-8 md:rounded">
+			<h1 className="mb-8 text-h1">Stories</h1>
+			<ul>
+				{stories.map(story => {
+					return (
+						<li key={story.id}>
+							<h2 className="text-body-md font-bold underline">
+								<Link to={`/stories/${story.id}/introduction`}>
+									{story.title}
+								</Link>
+							</h2>
+							<p>{story.description}</p>
+							<p className="text-md md:text-md mb-6 text-neutral-400">
+								By{' '}
+								<Link
+									to={`/users/${story.owner.username}`}
+									className="italic underline"
+								>
+									{story.owner.username}
+								</Link>
+								{' | '}Published {formatPublishDate(story.createdAt)}
+							</p>
+						</li>
+					)
+				})}
+			</ul>
+		</main>
 	)
 }
