@@ -83,15 +83,16 @@ export default function GetPageRoute() {
 		<div className="max-w-6xl">
 			<div className="flex gap-8">
 				<h2 className="pb-4 text-h2">Page {pageNumber}</h2>
-				{isOwner && editPage ? (
-					<ButtonLink className="h-fit w-fit" to="#">
-						Done
-					</ButtonLink>
-				) : (
-					<ButtonLink className="h-fit w-fit" to="?editPage=true">
-						Edit
-					</ButtonLink>
-				)}
+				{isOwner &&
+					(editPage ? (
+						<ButtonLink className="h-fit w-fit" to="#">
+							Done
+						</ButtonLink>
+					) : (
+						<ButtonLink className="h-fit w-fit" to="?editPage=true">
+							Edit
+						</ButtonLink>
+					))}
 			</div>
 			<div
 				className={clsx(' flex gap-2', {
