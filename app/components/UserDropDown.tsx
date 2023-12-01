@@ -35,7 +35,7 @@ export function UserDropdown() {
 						<Link
 							prefetch="intent"
 							to={`/users/${user.username}`}
-							className="rounded-t-3xl px-7 py-5 outline-none hover:bg-night-500 radix-highlighted:bg-night-500"
+							className="rounded-t-xl px-7 py-5 outline-none hover:bg-night-500 radix-highlighted:bg-night-500"
 						>
 							Profile
 						</Link>
@@ -53,7 +53,7 @@ export function UserDropdown() {
 						<Form
 							action="/logout"
 							method="POST"
-							className="rounded-b-3xl px-7 py-5 outline-none radix-highlighted:bg-night-500"
+							className="rounded-b-xl px-7 py-5 outline-none radix-highlighted:bg-night-500"
 							onClick={e => submit(e.currentTarget)}
 						>
 							<button type="submit">Logout</button>

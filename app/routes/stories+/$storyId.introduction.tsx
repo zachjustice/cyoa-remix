@@ -71,7 +71,7 @@ export default function GetStoryIntroductionRoute() {
 						</ButtonLink>
 					)}
 
-					{isOwner ? (
+					{isOwner && (
 						<ButtonLink
 							size="sm"
 							color="secondary"
@@ -79,7 +79,16 @@ export default function GetStoryIntroductionRoute() {
 						>
 							Edit
 						</ButtonLink>
-					) : null}
+					)}
+					{isOwner && (
+						<ButtonLink
+							size="sm"
+							color="secondary"
+							to={`/stories/${story.id}/settings`}
+						>
+							Settings
+						</ButtonLink>
+					)}
 				</div>
 			</div>
 		</div>
