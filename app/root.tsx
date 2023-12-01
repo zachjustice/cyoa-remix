@@ -16,7 +16,7 @@ import {
 } from '@remix-run/react'
 import { Flowbite, ThemeModeScript } from 'flowbite-react'
 import { StoryActivityProvider } from '~/context/story-activity-context.tsx'
-import Header from './components/header.tsx'
+import Header from './components/Header.tsx'
 import { SidebarProvider } from './context/sidebar-context.tsx'
 import tailwindStylesheetUrl from './styles/tailwind.css'
 import { authenticator, getUserId } from './utils/auth.server.ts'

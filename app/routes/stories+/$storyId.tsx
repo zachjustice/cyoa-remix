@@ -11,7 +11,7 @@ import invariant from 'tiny-invariant'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { usePageHistory } from '~/context/story-activity-context.tsx'
-import Sidebar from '~/components/sidebar.tsx'
+import Sidebar from '~/components/Sidebar.tsx'
 
 export async function loader({ params, request }: DataFunctionArgs) {
 	invariant(params.storyId, 'Missing storyId')
