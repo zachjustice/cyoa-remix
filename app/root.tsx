@@ -102,7 +102,7 @@ export default function App() {
 				<SidebarProvider>
 					<body className="flex h-screen flex-col justify-between bg-night-700 text-white">
 						<Header user={user} />
-						<div className="h-full">
+						<div id="main-content" className="h-full">
 							<StoryActivityProvider>
 								<Outlet />
 							</StoryActivityProvider>

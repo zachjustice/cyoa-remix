@@ -29,7 +29,7 @@ export function UserDropdown() {
 				<DropdownMenu.Content
 					sideOffset={8}
 					align="start"
-					className="flex flex-col rounded-3xl bg-[#323232]"
+					className="flex flex-col rounded-xl bg-[#323232]"
 				>
 					<DropdownMenu.Item asChild>
 						<Link

@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
+import { isBrowser, isSmallScreen } from '~/utils/browser-detection.ts'
 
 interface SidebarContextProps {
 	isPageWithSidebar: boolean
@@ -58,14 +59,6 @@ export function SidebarProvider({
 			{children}
 		</SidebarContext.Provider>
 	)
-}
-
-function isBrowser(): boolean {
-	return typeof window !== 'undefined'
-}
-
-function isSmallScreen(): boolean {
-	return isBrowser() && window.innerWidth < 768
 }
 
 export function useSidebarContext(): SidebarContextProps {
