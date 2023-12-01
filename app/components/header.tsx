@@ -99,7 +99,7 @@ const Header = function ({ user }: HeaderProps) {
 							<svg
 								stroke="currentColor"
 								fill="currentColor"
-								stroke-width="0"
+								strokeWidth="0"
 								viewBox="0 0 448 512"
 								aria-hidden="true"
 								className="h-6 w-6 shrink-0"

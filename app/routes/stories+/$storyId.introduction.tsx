@@ -21,6 +21,8 @@ export default function GetStoryIntroductionRoute() {
 		isOwner: Boolean
 	}
 
+	const lastPageId = pageHistory[pageHistory.length - 1].id
+
 	useEffect(() => {
 		if (currentStory?.id !== params.storyId) {
 			dispatch(viewedStory(story))
@@ -45,7 +47,7 @@ export default function GetStoryIntroductionRoute() {
 					{story.description}
 				</p>
 				<div className="mt-10 flex gap-4">
-					{pageHistory.length === 0 && (
+					{pageHistory.length === 0 ? (
 						<ButtonLink
 							to={
 								story.firstPageId
@@ -58,6 +60,13 @@ export default function GetStoryIntroductionRoute() {
 							onClick={() => {}}
 						>
 							{story.firstPageId ? 'Begin' : 'Write the first page'}
+						</ButtonLink>
+					) : (
+						<ButtonLink
+							color="primary"
+							to={`/stories/${story.id}/pages/${lastPageId}`}
+						>
+							Resume reading
 						</ButtonLink>
 					)}
 

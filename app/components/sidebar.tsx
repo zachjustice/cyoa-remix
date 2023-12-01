@@ -9,17 +9,17 @@ const Sidebar: FC<SidebarProps> = function ({ children, className }) {
 		useSidebarContext()
 
 	useEffect(() => {
+		setHasSidebar(true)
+
 		return () => {
 			setHasSidebar(false)
 		}
 	}, [setHasSidebar])
 
-	setHasSidebar(true)
-
 	return (
 		<div
 			className={classNames(
-				'absolute top-0 z-10 h-full overflow-auto border-r-2 border-night-400 lg:sticky lg:!block',
+				'absolute top-0 z-10 h-full overflow-auto border-r-2 border-night-400 md:sticky md:!block',
 				{
 					hidden: !isSidebarOpenOnSmallScreens,
 				},
