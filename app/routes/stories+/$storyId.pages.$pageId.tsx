@@ -83,7 +83,7 @@ export default function GetPageRoute() {
 		<div className="max-w-6xl">
 			<div className="flex gap-8">
 				<h2 className="pb-4 text-h2">Page {pageNumber}</h2>
-				{editPage ? (
+				{isOwner && editPage ? (
 					<ButtonLink className="h-fit w-fit" to="#">
 						Done
 					</ButtonLink>
