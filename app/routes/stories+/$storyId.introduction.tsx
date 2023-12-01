@@ -9,7 +9,7 @@ import {
 import { useMatchesData } from '~/hooks/useMatchesData.ts'
 import { formatPublishDate } from '~/utils/dateFormat.ts'
 import { ButtonLink } from '~/utils/forms.tsx'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function GetStoryIntroductionRoute() {
 	const currentStory = useOptionalCurrentStory()
@@ -21,13 +21,14 @@ export default function GetStoryIntroductionRoute() {
 		isOwner: Boolean
 	}
 
-	const lastPageId = pageHistory[pageHistory.length - 1].id
+	const [lastPageId, setPageId] = useState('')
 
 	useEffect(() => {
+		setPageId(pageHistory[pageHistory?.length - 1]?.id)
 		if (currentStory?.id !== params.storyId) {
 			dispatch(viewedStory(story))
 		}
-	})
+	}, [pageHistory, currentStory?.id, params.storyId, dispatch, story])
 
 	return (
 		<div className="flex h-full flex-col">

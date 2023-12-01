@@ -69,6 +69,7 @@ export default async function handleRequest(...args: DocRequestArgs) {
 
 					console.error(error)
 				},
+				nonce,
 			},
 		)
 

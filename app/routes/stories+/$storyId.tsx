@@ -1,5 +1,11 @@
 import { type DataFunctionArgs, json } from '@remix-run/node'
-import { NavLink, Outlet, useLoaderData, useLocation } from '@remix-run/react'
+import {
+	NavLink,
+	Outlet,
+	useLoaderData,
+	useLocation,
+	useSearchParams,
+} from '@remix-run/react'
 import { clsx } from 'clsx'
 import invariant from 'tiny-invariant'
 import { getUserId } from '~/utils/auth.server.ts'
@@ -37,9 +43,12 @@ export async function loader({ params, request }: DataFunctionArgs) {
 }
 
 export default function GetStoryRoute() {
-	const { story } = useLoaderData<typeof loader>()
+	const [searchParams] = useSearchParams()
+	const { story, isOwner } = useLoaderData<typeof loader>()
 	const pageHistory = usePageHistory()
 	const location = useLocation()
+
+	const editPage = isOwner ? !!searchParams.get('editPage') : false
 
 	const navLinkDefaultClassName =
 		'line-clamp-2 block rounded-l my-2 py-2 pl-8 pr-6 text-base lg:text-xl hover:bg-accent-yellow hover:text-night-700'
@@ -79,7 +88,9 @@ export default function GetStoryRoute() {
 							return (
 								<NavLink
 									key={`/stories/${story.id}/pages/${page.id}`}
-									to={`/stories/${story.id}/pages/${page.id}`}
+									to={`/stories/${story.id}/pages/${page.id}${
+										editPage ? '?editPage=true' : ''
+									}`}
 									className={({ isActive }) =>
 										clsx(navLinkDefaultClassName, {
 											[isActiveClass]: isActive,
