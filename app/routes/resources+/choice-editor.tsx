@@ -8,12 +8,13 @@ import Xmark from '~/components/Xmark.tsx'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { ButtonLink, ErrorList, Field, MyButton } from '~/utils/forms.tsx'
+import { requireStoryEditor } from '~/utils/permissions.server.ts'
 
 export const ChoiceEditorSchema = z.object({
 	id: z.string().optional(),
 	content: z.string().min(1),
 	parentPageId: z.string().optional(),
-	storyId: z.string().optional(),
+	storyId: z.string(),
 })
 
 export async function action({ request }: DataFunctionArgs) {
@@ -46,9 +47,12 @@ export async function action({ request }: DataFunctionArgs) {
 		id: true,
 	}
 
+	console.log(`storyId, userId`, storyId, userId)
+	await requireStoryEditor(storyId, userId)
+
 	if (id) {
 		const existingChoice = await prisma.choice.findFirst({
-			where: { id, ownerId: userId },
+			where: { id },
 			select: { id: true },
 		})
 

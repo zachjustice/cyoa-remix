@@ -12,6 +12,8 @@ import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { usePageHistory } from '~/context/story-activity-context.tsx'
 import Sidebar from '~/components/Sidebar.tsx'
+import { StoryPermissions } from '~/routes/stories+/$storyId.settings.tsx'
+import { requireStoryReader } from '~/utils/permissions.server.ts'
 
 export async function loader({ params, request }: DataFunctionArgs) {
 	invariant(params.storyId, 'Missing storyId')
@@ -27,6 +29,7 @@ export async function loader({ params, request }: DataFunctionArgs) {
 			description: true,
 			createdAt: true,
 			updatedAt: true,
+			isPublic: true,
 			ownerId: true,
 			owner: {
 				select: {
@@ -36,19 +39,66 @@ export async function loader({ params, request }: DataFunctionArgs) {
 			},
 		},
 	})
+
 	if (!story) {
 		throw new Response('not found', { status: 404 })
 	}
-	return json({ story, isOwner: story.owner.id === userId })
+
+	if (!story.isPublic && story.owner.id !== userId) {
+		await requireStoryReader(params.storyId, userId)
+	}
+
+	let permissions
+	if (userId) {
+		permissions = await prisma.storyMember.findFirst({
+			where: {
+				storyId: params.storyId,
+				userId: userId,
+			},
+			select: {
+				permission: {
+					select: {
+						name: true,
+					},
+				},
+			},
+		})
+	}
+
+	return json({
+		story,
+
+		canEditPage:
+			story.owner.id === userId ||
+			permissions?.permission.name === StoryPermissions.EditStory,
+		canEditChoice:
+			story.owner.id === userId ||
+			permissions?.permission.name === StoryPermissions.EditStory,
+		canAddChoice:
+			story.owner.id === userId ||
+			permissions?.permission.name === StoryPermissions.EditStory,
+		canAddPage:
+			story.owner.id === userId ||
+			permissions?.permission.name === StoryPermissions.EditStory,
+
+		canEditStorySettings: story.owner.id === userId,
+		canDeleteStory: story.owner.id === userId,
+		canDeletePage: story.owner.id === userId,
+		canDeleteChoice: story.owner.id === userId,
+	})
 }
 
 export default function GetStoryRoute() {
 	const [searchParams] = useSearchParams()
-	const { story, isOwner } = useLoaderData<typeof loader>()
+	const { story, canEditPage, canEditChoice, canAddChoice, canAddPage } =
+		useLoaderData<typeof loader>()
 	const pageHistory = usePageHistory()
 	const location = useLocation()
 
-	const editPage = isOwner ? !!searchParams.get('editPage') : false
+	const editPage =
+		canEditPage || canEditChoice || canAddChoice
+			? !!searchParams.get('editPage')
+			: false
 
 	const navLinkDefaultClassName =
 		'line-clamp-2 block rounded-l my-2 py-2 pl-8 pr-6 text-base lg:text-xl hover:bg-accent-yellow hover:text-night-700'
@@ -110,7 +160,7 @@ export default function GetStoryRoute() {
 									})
 								}
 							>
-								New Page
+								{canAddPage ? 'New Page' : 'The End'}
 							</NavLink>
 						)}
 					</Sidebar.ItemGroup>

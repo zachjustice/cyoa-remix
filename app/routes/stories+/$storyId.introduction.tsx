@@ -16,9 +16,13 @@ export default function GetStoryIntroductionRoute() {
 	const pageHistory = usePageHistory()
 	const dispatch = useStoryActivityDispatch()
 	const params = useParams()
-	const { story, isOwner } = useMatchesData(`/stories/${params.storyId}`) as {
+	const { story, canEditPage, canEditStorySettings } = useMatchesData(
+		`/stories/${params.storyId}`,
+	) as {
 		story: CurrentStory
-		isOwner: Boolean
+		isOwner: boolean
+		canEditPage: boolean
+		canEditStorySettings: boolean
 	}
 
 	const [lastPageId, setPageId] = useState('')
@@ -71,7 +75,7 @@ export default function GetStoryIntroductionRoute() {
 						</ButtonLink>
 					)}
 
-					{isOwner && (
+					{canEditPage && (
 						<ButtonLink
 							size="sm"
 							color="secondary"
@@ -80,7 +84,7 @@ export default function GetStoryIntroductionRoute() {
 							Edit
 						</ButtonLink>
 					)}
-					{isOwner && (
+					{canEditStorySettings && (
 						<ButtonLink
 							size="sm"
 							color="secondary"

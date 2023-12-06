@@ -1,17 +1,18 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import { json, redirect, type DataFunctionArgs } from '@remix-run/node'
+import { type DataFunctionArgs, json, redirect } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
 import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import {
-	MyButton,
 	ButtonLink,
 	ErrorList,
 	Field,
+	MyButton,
 	TextareaField,
 } from '~/utils/forms.tsx'
+import { requireStoryEditor } from '~/utils/permissions.server.ts'
 
 export const StoryEditorSchema = z.object({
 	id: z.string().optional(),
@@ -46,12 +47,6 @@ export async function action({ request }: DataFunctionArgs) {
 
 	const { title, description, id } = submission.value
 
-	const data = {
-		ownerId: userId,
-		title: title,
-		description: description,
-	}
-
 	const select = {
 		id: true,
 		owner: {
@@ -63,8 +58,11 @@ export async function action({ request }: DataFunctionArgs) {
 
 	if (id) {
 		const existingStory = await prisma.story.findFirst({
-			where: { id, ownerId: userId },
-			select: { id: true },
+			where: { id },
+			select: {
+				id: true,
+				ownerId: true,
+			},
 		})
 
 		if (!existingStory) {
@@ -77,13 +75,27 @@ export async function action({ request }: DataFunctionArgs) {
 			)
 		}
 
+		if (userId !== existingStory.ownerId) {
+			await requireStoryEditor(existingStory.id, userId)
+		}
+
 		story = await prisma.story.update({
 			where: { id },
-			data,
+			data: {
+				title: title,
+				description: description,
+			},
 			select,
 		})
 	} else {
-		story = await prisma.story.create({ data, select })
+		story = await prisma.story.create({
+			data: {
+				ownerId: userId,
+				title: title,
+				description: description,
+			},
+			select,
+		})
 	}
 
 	return redirect(`/stories/${story.id}/introduction`)
@@ -91,9 +103,10 @@ export async function action({ request }: DataFunctionArgs) {
 
 type StoryEditorProps = {
 	story?: { id: string; title: string; description: string }
+	canDeleteStory?: boolean
 }
 
-export function StoryEditor({ story }: StoryEditorProps) {
+export function StoryEditor({ story, canDeleteStory }: StoryEditorProps) {
 	const storyEditorFetcher = useFetcher<typeof action>()
 
 	const [form, fields] = useForm({
@@ -125,6 +138,7 @@ export function StoryEditor({ story }: StoryEditorProps) {
 				{...form.props}
 			>
 				<input name="id" type="hidden" value={story?.id} />
+				{/* TODO only the story owner can change the title */}
 				<Field
 					labelProps={{ htmlFor: fields.title.id, children: 'Title' }}
 					inputProps={{
@@ -144,7 +158,7 @@ export function StoryEditor({ story }: StoryEditorProps) {
 				/>
 				<ErrorList errors={form.errors} id={form.errorId} />
 				<div className="flex justify-between gap-4">
-					{story?.id && (
+					{story?.id && canDeleteStory && (
 						<div className="flex">
 							<ButtonLink
 								size="sm"

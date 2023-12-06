@@ -6,7 +6,6 @@ import invariant from 'tiny-invariant'
 import EditableChoice from '~/components/EditableChoice.tsx'
 import { EditIconLink } from '~/components/EditIcon.tsx'
 import { ChoiceEditor } from '~/routes/resources+/choice-editor.tsx'
-import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { useEffect } from 'react'
 import {
@@ -15,6 +14,9 @@ import {
 	viewedPage,
 } from '~/context/story-activity-context.tsx'
 import { ButtonLink } from '~/utils/forms.tsx'
+import { useMatchesData } from '~/hooks/useMatchesData.ts'
+import { getUserId } from '~/utils/auth.server.ts'
+import { requireStoryReader } from '~/utils/permissions.server.ts'
 
 export type ViewedChoice = Pick<Choice, 'id' | 'content' | 'nextPageId'>
 
@@ -26,6 +28,19 @@ export async function loader({ params, request }: DataFunctionArgs) {
 	const userId = await getUserId(request)
 	invariant(params.storyId, 'Missing storyId')
 	invariant(params.pageId, 'Missing pageId')
+
+	const story = await prisma.story.findUnique({
+		where: { id: params.storyId },
+		select: { ownerId: true, isPublic: true },
+	})
+
+	if (!story) {
+		throw new Response('not found', { status: 404 })
+	}
+
+	if (story.ownerId !== userId && !story.isPublic) {
+		await requireStoryReader(params.storyId, userId)
+	}
 
 	const page = await prisma.page.findUnique({
 		where: { id: params.pageId },
@@ -46,30 +61,39 @@ export async function loader({ params, request }: DataFunctionArgs) {
 	if (!page) {
 		throw new Response('not found', { status: 404 })
 	}
+
 	return json({
 		page,
-		isOwner: page.ownerId === userId,
 	})
 }
 
 export default function GetPageRoute() {
 	const { storyId } = useParams()
-	const pageHistory = usePageHistory()
 	invariant(storyId, 'Missing storyId')
-	const { page, isOwner } = useLoaderData<typeof loader>()
+
+	const pageHistory = usePageHistory()
+	const { page } = useLoaderData<typeof loader>()
+	const { canEditPage, canEditChoice, canAddChoice } = useMatchesData(
+		`/stories/${storyId}`,
+	) as {
+		canEditPage: boolean
+		canEditChoice: boolean
+		canAddChoice: boolean
+	}
 
 	const [searchParams] = useSearchParams()
+	const editMode: boolean =
+		!!searchParams.get(`editChoiceId`) ||
+		!!searchParams.get(`addChoice`) ||
+		!!searchParams.get('editPage') ||
+		!!searchParams.get(`editChoiceId`)
 
-	const editChoiceId = isOwner
+	const editChoiceId = canEditChoice
 		? searchParams.get(`editChoiceId`) || undefined
 		: undefined
 
-	const addChoice = isOwner ? !!searchParams.get(`addChoice`) : false
-
-	const editPage = isOwner
-		? !!searchParams.get('editPage') ||
-		  !!searchParams.get(`addChoice`) ||
-		  !!searchParams.get(`editChoiceId`)
+	const addChoice: boolean = canAddChoice
+		? !!searchParams.get(`addChoice`)
 		: false
 
 	const dispatch = useStoryActivityDispatch()
@@ -83,8 +107,8 @@ export default function GetPageRoute() {
 		<div className="max-w-6xl">
 			<div className="flex gap-8">
 				<h2 className="pb-4 text-h2">Page {pageNumber}</h2>
-				{isOwner &&
-					(editPage ? (
+				{canEditPage &&
+					(editMode ? (
 						<ButtonLink className="h-fit w-fit" to="#">
 							Done
 						</ButtonLink>
@@ -96,11 +120,13 @@ export default function GetPageRoute() {
 			</div>
 			<div
 				className={clsx(' flex gap-2', {
-					'mb-6': isOwner,
-					'mb-2': !isOwner,
+					'mb-6': editMode,
+					'mb-2': !editMode,
 				})}
 			>
-				{isOwner && editPage && <EditIconLink to="edit" variant="outline" />}
+				{canEditPage && editMode && (
+					<EditIconLink to="edit" variant="outline" />
+				)}
 				<p className="preserve-whitespace">{page.content}</p>
 			</div>
 
@@ -113,31 +139,37 @@ export default function GetPageRoute() {
 							storyId={storyId}
 							pageId={page.id}
 							choice={choice}
-							editable={editPage}
+							editable={editMode}
 						/>
 					)
 				})}
 
-				{isOwner && editPage && !addChoice && page.nextChoices.length < 4 && (
-					<div className="w-fit">
-						<ButtonLink
-							to={'?addChoice=true'}
-							aria-disabled={!!editChoiceId}
-							disabled={!!editChoiceId}
-							color="primary"
-						>
-							Add another choice
-						</ButtonLink>
-					</div>
-				)}
-				{isOwner && addChoice && page.nextChoices.length < 4 && (
-					<ChoiceEditor
-						choice={{
-							parentPageId: page.id,
-							storyId: storyId,
-						}}
-					/>
-				)}
+				{editMode &&
+					!addChoice &&
+					canAddChoice &&
+					page.nextChoices.length < 4 && (
+						<div className="w-fit">
+							<ButtonLink
+								to={'?addChoice=true'}
+								aria-disabled={!!editChoiceId}
+								disabled={!!editChoiceId}
+								color="primary"
+							>
+								Add another choice
+							</ButtonLink>
+						</div>
+					)}
+				{editMode &&
+					addChoice &&
+					canAddChoice &&
+					page.nextChoices.length < 4 && (
+						<ChoiceEditor
+							choice={{
+								parentPageId: page.id,
+								storyId: storyId,
+							}}
+						/>
+					)}
 			</ul>
 		</div>
 	)

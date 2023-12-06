@@ -11,7 +11,6 @@ export async function action({ params, request }: DataFunctionArgs) {
 
 	invariant(params.storyId, 'Missing storyId')
 
-	// TODO specific "canDelete" role
 	const story = await prisma.story.findUnique({
 		where: { id: params.storyId },
 		select: {
@@ -25,7 +24,7 @@ export async function action({ params, request }: DataFunctionArgs) {
 
 	if (story.ownerId !== userId) {
 		throw new Response('user is not allowed to perform this action', {
-			status: 401,
+			status: 403,
 		})
 	}
 

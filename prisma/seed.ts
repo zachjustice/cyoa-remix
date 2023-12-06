@@ -14,16 +14,19 @@ async function seed() {
 	deleteAllData()
 	console.timeEnd('🧹 Cleaned up the database...')
 
-	console.time(`👑 Created admin role/permission...`)
-	const adminRole = await prisma.role.create({
+	console.time(`👑 Created read and edit permission...`)
+	const readStoryPermission = await prisma.permission.create({
 		data: {
-			name: 'admin',
-			permissions: {
-				create: { name: 'admin' },
-			},
+			name: 'story/read',
 		},
 	})
-	console.timeEnd(`👑 Created admin role/permission...`)
+
+	const editStoryPermission = await prisma.permission.create({
+		data: {
+			name: 'story/edit',
+		},
+	})
+	console.timeEnd(`👑 Created read and edit permission...`)
 
 	const totalUsers = 5
 	console.time(`👤 Created ${totalUsers} users...`)
@@ -33,7 +36,6 @@ async function seed() {
 				email: 'kody@kcd.dev',
 				username: 'kody',
 				name: 'Kody',
-				roles: { connect: { id: adminRole.id } },
 				image: {
 					create: {
 						contentType: 'image/png',
@@ -81,14 +83,13 @@ async function seed() {
 	console.timeEnd(`👤 Created ${totalUsers} users...`)
 
 	const user = users[0]
-	console.log(
-		`🐨 Created user "kody" with the password "kodylovesyou" and admin role`,
-	)
+	console.log(`🐨 Created user "kody" with the password "kodylovesyou"`)
 
 	console.time(`📚 Created pages and choices...`)
 
 	let userNum = 0
-	for (const { text, storyTitle, storyDescription } of testData) {
+	for (let storyNum = 0; storyNum < testData.length; storyNum++) {
+		const { text, storyTitle, storyDescription } = testData[storyNum]
 		const parsedData = parseTestData(text, { connect: { id: user.id } })
 		const generatedPage = await prisma.page.create({
 			data: parsedData,
@@ -100,6 +101,35 @@ async function seed() {
 				title: storyTitle,
 				description: storyDescription,
 				firstPage: { connect: { id: generatedPage.id } },
+				isPublic: storyNum < 3, // first 3 stories are private
+				storyMembers: {
+					create: [
+						{
+							user: {
+								connect: { id: users[(userNum + 1) % users.length].id },
+							},
+							permission: {
+								connect: { id: editStoryPermission.id },
+							},
+						},
+						{
+							user: {
+								connect: { id: users[(userNum + 2) % users.length].id },
+							},
+							permission: {
+								connect: { id: readStoryPermission.id },
+							},
+						},
+						{
+							user: {
+								connect: { id: users[(userNum + 3) % users.length].id },
+							},
+							permission: {
+								connect: { id: readStoryPermission.id },
+							},
+						},
+					],
+				},
 			},
 		})
 	}

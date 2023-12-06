@@ -1,12 +1,12 @@
 import { parse } from '@conform-to/zod'
 import { type DataFunctionArgs, json, redirect } from '@remix-run/node'
-import { useLocation } from 'react-router'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { MyButton, ButtonLink } from '~/utils/forms.tsx'
+import { ButtonLink, MyButton } from '~/utils/forms.tsx'
 import { usePageHistory } from '~/context/story-activity-context.tsx'
+import { useParams } from '@remix-run/react'
 
 export const DeletePageSchema = z.object({
 	prevPageId: z.string().optional(),
@@ -40,7 +40,6 @@ export async function action({ params, request }: DataFunctionArgs) {
 
 	const { prevPageId } = submission.value
 
-	// TODO specific "canDelete" role
 	const page = await prisma.page.findUnique({
 		where: { id: params.pageId },
 		select: {
@@ -52,9 +51,19 @@ export async function action({ params, request }: DataFunctionArgs) {
 		throw new Response('not found', { status: 404 })
 	}
 
-	if (page.ownerId !== userId) {
+	const story = await prisma.story.findUnique({
+		where: { id: params.storyId },
+		select: { ownerId: true },
+	})
+
+	if (!story) {
+		throw new Response('not found', { status: 404 })
+	}
+
+	// TODO Decide if Story Editors can delete pages; role based authz?
+	if (page.ownerId !== userId || story.ownerId !== userId) {
 		throw new Response('user is not allowed to perform this action', {
-			status: 401,
+			status: 403,
 		})
 	}
 
@@ -69,17 +78,23 @@ export async function action({ params, request }: DataFunctionArgs) {
 		where: { id: params.pageId },
 	})
 
+	console.log('prevPageId', prevPageId)
 	if (prevPageId) {
 		return redirect(`/stories/${params.storyId}/pages/${prevPageId}`)
 	} else {
-		return redirect(`/stories/${params.storyId}`)
+		return redirect(`/stories/${params.storyId}/introduction`)
 	}
 }
 
 export default function DeletePageRoute() {
-	const location = useLocation()
+	const { storyId, pageId } = useParams()
+	invariant(pageId, 'Missing pageId')
+	invariant(storyId, 'Missing storyId')
 	const pageHistory = usePageHistory()
-	const prevPage = pageHistory[pageHistory.length - 1]
+	const pageIndex = pageHistory.findIndex(p => p.id === pageId)
+	const prevPage = pageHistory[pageIndex - 1]
+
+	// TODO update page history on delete
 
 	return (
 		<>
@@ -95,8 +110,7 @@ export default function DeletePageRoute() {
 						size="sm"
 						color="primary"
 						type="reset"
-						// TODO explicitly fetch page and story id to construct URL instead of this which is unclear what it does
-						to={location.pathname.replace('/delete', '')}
+						to={`/stories/${storyId}/pages/${pageId}`}
 					>
 						No, take me back
 					</ButtonLink>

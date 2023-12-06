@@ -3,6 +3,7 @@ import { useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { PageEditor } from '~/routes/resources+/page-editor.tsx'
 import { useOptionalUser } from '~/hooks/useUser.ts'
+import { useMatchesData } from '~/hooks/useMatchesData.ts'
 
 export async function loader({ params, request }: DataFunctionArgs) {
 	const url = new URL(request.url)
@@ -21,8 +22,11 @@ export async function loader({ params, request }: DataFunctionArgs) {
 export default function CreatePage() {
 	const data = useLoaderData<typeof loader>()
 	const optionalUser = useOptionalUser()
+	const { canAddPage } = useMatchesData(`/stories/${data?.storyId}`) as {
+		canAddPage: boolean
+	}
 
-	if (optionalUser) {
+	if (canAddPage) {
 		return (
 			<PageEditor
 				page={{
@@ -31,7 +35,7 @@ export default function CreatePage() {
 				}}
 			/>
 		)
-	} else {
+	} else if (!optionalUser) {
 		return (
 			<div>
 				<p>The pages end here... </p>
@@ -39,12 +43,18 @@ export default function CreatePage() {
 					<a className="font-bold underline" href="/signup">
 						Sign up
 					</a>{' '}
-					to continue the story. Or{' '}
+					or{' '}
 					<a className="font-bold underline" href="/login">
 						log-in
 					</a>{' '}
 					if you already have an account
 				</p>
+			</div>
+		)
+	} else {
+		return (
+			<div>
+				<p>The pages end here... </p>
 			</div>
 		)
 	}

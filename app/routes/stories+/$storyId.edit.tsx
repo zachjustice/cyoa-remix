@@ -5,10 +5,12 @@ import { type CurrentStory } from '~/context/story-activity-context.tsx'
 
 export default function EditStoryRoute() {
 	const params = useParams()
-	const { story, isOwner } = useMatchesData(`/stories/${params.storyId}`) as {
+	const { story, canDeleteStory } = useMatchesData(
+		`/stories/${params.storyId}`,
+	) as {
 		story: CurrentStory
-		isOwner: boolean
+		canDeleteStory: boolean
 	}
 
-	return story && isOwner && <StoryEditor story={story} />
+	return story && <StoryEditor story={story} canDeleteStory={canDeleteStory} />
 }

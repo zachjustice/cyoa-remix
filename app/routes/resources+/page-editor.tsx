@@ -12,12 +12,13 @@ import {
 	ErrorList,
 	TextareaField,
 } from '~/utils/forms.tsx'
+import { requireStoryEditor } from '~/utils/permissions.server.ts'
 
 export const PageEditorSchema = z.object({
 	id: z.string().optional(),
 	content: z.string().min(1),
 	parentChoiceId: z.string().optional(),
-	storyId: z.string().optional(),
+	storyId: z.string(),
 })
 
 export async function action({ request }: DataFunctionArgs) {
@@ -52,6 +53,8 @@ export async function action({ request }: DataFunctionArgs) {
 		ownerId: userId,
 		content: content,
 	}
+
+	await requireStoryEditor(storyId, userId)
 
 	if (id) {
 		const existingPage = await prisma.page.findFirst({
@@ -138,7 +141,7 @@ export async function action({ request }: DataFunctionArgs) {
 }
 
 type PageEditorProps = {
-	page?: {
+	page: {
 		id?: string
 		content?: string
 		parentChoiceId?: string
@@ -181,7 +184,7 @@ export function PageEditor(props: PageEditorProps) {
 		>
 			<input name="id" type="hidden" value={page?.id} />
 			<input name="parentChoiceId" type="hidden" value={page?.parentChoiceId} />
-			<input name="storyId" type="hidden" value={page?.storyId} />
+			<input name="storyId" type="hidden" value={page.storyId} />
 			<TextareaField
 				className="no-required-asterisk"
 				labelProps={{
