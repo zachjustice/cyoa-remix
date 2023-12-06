@@ -49,16 +49,11 @@ export async function action({ request }: DataFunctionArgs) {
 
 	const { content, id, parentChoiceId, storyId } = submission.value
 
-	const data = {
-		ownerId: userId,
-		content: content,
-	}
-
 	await requireStoryEditor(storyId, userId)
 
 	if (id) {
 		const existingPage = await prisma.page.findFirst({
-			where: { id, ownerId: userId },
+			where: { id },
 			select: { id: true },
 		})
 
@@ -74,7 +69,9 @@ export async function action({ request }: DataFunctionArgs) {
 
 		page = await prisma.page.update({
 			where: { id },
-			data,
+			data: {
+				content: content,
+			},
 			select: {
 				id: true,
 			},
@@ -89,8 +86,8 @@ export async function action({ request }: DataFunctionArgs) {
 			data: {
 				nextPage: {
 					create: {
-						owner: { connect: { id: data.ownerId } },
-						content: data.content,
+						owner: { connect: { id: userId } },
+						content: content,
 					},
 				},
 			},
@@ -123,8 +120,8 @@ export async function action({ request }: DataFunctionArgs) {
 			data: {
 				firstPage: {
 					create: {
-						owner: { connect: { id: data.ownerId } },
-						content: data.content,
+						owner: { connect: { id: userId } },
+						content: content,
 					},
 				},
 			},
@@ -147,10 +144,11 @@ type PageEditorProps = {
 		parentChoiceId?: string
 		storyId?: string
 	}
+	canDeletePage: boolean
 }
 
 export function PageEditor(props: PageEditorProps) {
-	const { page } = props
+	const { page, canDeletePage } = props
 	const pageEditorFetcher = useFetcher<typeof action>()
 
 	const [form, fields] = useForm({
@@ -198,7 +196,7 @@ export function PageEditor(props: PageEditorProps) {
 			/>
 			<ErrorList errors={form.errors} id={form.errorId} />
 			<div className="flex justify-between gap-4">
-				{page?.id && (
+				{page?.id && canDeletePage && (
 					<div className="flex">
 						<ButtonLink
 							size="sm"

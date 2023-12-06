@@ -61,7 +61,6 @@ export async function action({ request }: DataFunctionArgs) {
 			where: { id },
 			select: {
 				id: true,
-				ownerId: true,
 			},
 		})
 
@@ -75,9 +74,7 @@ export async function action({ request }: DataFunctionArgs) {
 			)
 		}
 
-		if (userId !== existingStory.ownerId) {
-			await requireStoryEditor(existingStory.id, userId)
-		}
+		await requireStoryEditor(existingStory.id, userId)
 
 		story = await prisma.story.update({
 			where: { id },

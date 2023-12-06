@@ -29,16 +29,15 @@ model Image {
   user User?
 }
 
-// model Role {
-//   id   String @id @unique @default(cuid())
-//   name String @unique
-//
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//
-//   users       User[]
-//   permissions Permission[]
-// }
+model Role {
+  id   String @id @unique @default(cuid())
+  name String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users User[]
+}
 
 model Permission {
   id   String @id @unique @default(cuid())
@@ -68,6 +67,7 @@ model User {
   pages    Page[]
   choices  Choice[]
   Member   StoryMember[]
+  roles    Role[]
 }
 
 model Password {

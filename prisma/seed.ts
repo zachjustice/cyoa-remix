@@ -14,6 +14,14 @@ async function seed() {
 	deleteAllData()
 	console.timeEnd('🧹 Cleaned up the database...')
 
+	console.time(`👑 Created Admin role...`)
+	const adminRole = await prisma.role.create({
+		data: {
+			name: 'admin',
+		},
+	})
+	console.time(`👑 Created Admin role...`)
+
 	console.time(`👑 Created read and edit permission...`)
 	const readStoryPermission = await prisma.permission.create({
 		data: {
@@ -33,9 +41,9 @@ async function seed() {
 	const users = await Promise.all([
 		await prisma.user.create({
 			data: {
-				email: 'kody@kcd.dev',
-				username: 'kody',
-				name: 'Kody',
+				email: 'zach@zachjustice.dev',
+				username: 'zach',
+				name: 'Zach Justice',
 				image: {
 					create: {
 						contentType: 'image/png',
@@ -50,7 +58,7 @@ async function seed() {
 				},
 				password: {
 					create: {
-						hash: await getPasswordHash('kodylovesyou'),
+						hash: await getPasswordHash('zachlovesyou'),
 					},
 				},
 			},
@@ -83,7 +91,7 @@ async function seed() {
 	console.timeEnd(`👤 Created ${totalUsers} users...`)
 
 	const user = users[0]
-	console.log(`🐨 Created user "kody" with the password "kodylovesyou"`)
+	console.log(`🐨 Created user "zach" with the password "zachlovesyou"`)
 
 	console.time(`📚 Created pages and choices...`)
 

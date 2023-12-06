@@ -61,7 +61,7 @@ export async function action({ params, request }: DataFunctionArgs) {
 	}
 
 	// TODO Decide if Story Editors can delete pages; role based authz?
-	if (page.ownerId !== userId || story.ownerId !== userId) {
+	if (page.ownerId !== userId && story.ownerId !== userId) {
 		throw new Response('user is not allowed to perform this action', {
 			status: 403,
 		})

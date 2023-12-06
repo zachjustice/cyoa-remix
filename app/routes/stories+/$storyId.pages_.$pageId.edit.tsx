@@ -5,6 +5,7 @@ import { requireUserId } from '~/utils/auth.server.ts'
 import invariant from 'tiny-invariant'
 import { prisma } from '~/utils/db.server.ts'
 import { requireStoryEditor } from '~/utils/permissions.server.ts'
+import { useMatchesData } from '~/hooks/useMatchesData.ts'
 
 export async function loader({ params, request }: DataFunctionArgs) {
 	const userId = await requireUserId(request)
@@ -49,5 +50,14 @@ export default function EditPageRoute() {
 	const params = useParams()
 	const { page } = useLoaderData<typeof loader>()
 
-	return <PageEditor page={{ ...page, storyId: params.storyId }} />
+	const { canDeletePage } = useMatchesData(`/stories/${params.storyId}`) as {
+		canDeletePage: boolean
+	}
+
+	return (
+		<PageEditor
+			page={{ ...page, storyId: params.storyId }}
+			canDeletePage={canDeletePage}
+		/>
+	)
 }
