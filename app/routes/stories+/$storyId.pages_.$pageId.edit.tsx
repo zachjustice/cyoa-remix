@@ -12,22 +12,7 @@ export async function loader({ params, request }: DataFunctionArgs) {
 	invariant(params.storyId, 'Missing storyId')
 	invariant(params.pageId, 'Missing pageId')
 
-	const story = await prisma.story.findUnique({
-		where: {
-			id: params.storyId,
-		},
-		select: {
-			ownerId: true,
-		},
-	})
-
-	if (!story) {
-		throw new Response('not found', { status: 404 })
-	}
-
-	if (story.ownerId !== userId) {
-		await requireStoryEditor(params.storyId, userId)
-	}
+	await requireStoryEditor(params.storyId, userId)
 
 	const page = await prisma.page.findUnique({
 		where: { id: params.pageId },
