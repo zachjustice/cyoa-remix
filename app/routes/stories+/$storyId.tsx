@@ -10,10 +10,17 @@ import { clsx } from 'clsx'
 import invariant from 'tiny-invariant'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { usePageHistory } from '~/context/story-activity-context.tsx'
+import {
+	deletedPage,
+	usePageHistory,
+	useStoryActivityDispatch,
+} from '~/context/story-activity-context.tsx'
 import Sidebar from '~/components/Sidebar.tsx'
 import { StoryPermissions } from '~/routes/stories+/$storyId.settings.tsx'
 import { requireStoryReader } from '~/utils/permissions.server.ts'
+import { commitSession, getSession } from '~/utils/session.server.ts'
+import { deletedPageSessionKey } from '~/routes/stories+/$storyId.pages.$pageId_.delete.tsx'
+import { useEffect } from 'react'
 
 export async function loader({ params, request }: DataFunctionArgs) {
 	invariant(params.storyId, 'Missing storyId')
@@ -64,34 +71,52 @@ export async function loader({ params, request }: DataFunctionArgs) {
 			},
 		})
 	}
+	const session = await getSession(request.headers.get('cookie'))
+	const deletedPageId = session.get(deletedPageSessionKey)
+	session.unset(deletedPageSessionKey)
+	console.log('deletedPageSessionKey', deletedPageId)
 
-	return json({
-		story,
+	return json(
+		{
+			story,
+			deletedPageId,
 
-		canEditPage:
-			story.owner.id === userId ||
-			permissions?.permission.name === StoryPermissions.EditStory,
-		canEditChoice:
-			story.owner.id === userId ||
-			permissions?.permission.name === StoryPermissions.EditStory,
-		canAddChoice:
-			story.owner.id === userId ||
-			permissions?.permission.name === StoryPermissions.EditStory,
-		canAddPage:
-			story.owner.id === userId ||
-			permissions?.permission.name === StoryPermissions.EditStory,
+			canEditPage:
+				story.owner.id === userId ||
+				permissions?.permission.name === StoryPermissions.EditStory,
+			canEditChoice:
+				story.owner.id === userId ||
+				permissions?.permission.name === StoryPermissions.EditStory,
+			canAddChoice:
+				story.owner.id === userId ||
+				permissions?.permission.name === StoryPermissions.EditStory,
+			canAddPage:
+				story.owner.id === userId ||
+				permissions?.permission.name === StoryPermissions.EditStory,
 
-		canEditStorySettings: story.owner.id === userId,
-		canDeleteStory: story.owner.id === userId,
-		canDeletePage: story.owner.id === userId,
-		canDeleteChoice: story.owner.id === userId,
-	})
+			canEditStorySettings: story.owner.id === userId,
+			canDeleteStory: story.owner.id === userId,
+			canDeletePage: story.owner.id === userId,
+			canDeleteChoice: story.owner.id === userId,
+		},
+		{
+			headers: {
+				'Set-Cookie': await commitSession(session),
+			},
+		},
+	)
 }
 
 export default function GetStoryRoute() {
 	const [searchParams] = useSearchParams()
-	const { story, canEditPage, canEditChoice, canAddChoice, canAddPage } =
-		useLoaderData<typeof loader>()
+	const {
+		story,
+		canEditPage,
+		canEditChoice,
+		canAddChoice,
+		canAddPage,
+		deletedPageId,
+	} = useLoaderData<typeof loader>()
 	const pageHistory = usePageHistory()
 	const location = useLocation()
 
@@ -99,6 +124,14 @@ export default function GetStoryRoute() {
 		canEditPage || canEditChoice || canAddChoice
 			? !!searchParams.get('editPage')
 			: false
+
+	const dispatch = useStoryActivityDispatch()
+	useEffect(() => {
+		if (deletedPageId) {
+			console.log('deletedPageId', deletedPageId)
+			dispatch(deletedPage({ pageId: deletedPageId }))
+		}
+	}, [deletedPageId, dispatch])
 
 	const navLinkDefaultClassName =
 		'line-clamp-2 block rounded-l my-2 py-2 pl-8 pr-6 text-base lg:text-xl hover:bg-accent-yellow hover:text-night-700'

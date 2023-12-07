@@ -1,10 +1,9 @@
 import { type DataFunctionArgs, redirect } from '@remix-run/node'
-import { useLocation } from 'react-router'
 import invariant from 'tiny-invariant'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { MyButton, ButtonLink } from '~/utils/forms.tsx'
-import { usePageHistory } from '~/context/story-activity-context.tsx'
+import { ButtonLink, MyButton } from '~/utils/forms.tsx'
+import { useParams } from '@remix-run/react'
 
 export async function action({ params, request }: DataFunctionArgs) {
 	const userId = await requireUserId(request)
@@ -32,27 +31,26 @@ export async function action({ params, request }: DataFunctionArgs) {
 		where: { id: params.storyId },
 	})
 
+	// TODO success page?
 	return redirect(`/`)
 }
 
-export default function DeletePageRoute() {
-	const location = useLocation()
-	const pageHistory = usePageHistory()
-	const prevPage = pageHistory[pageHistory.length - 1]
+export default function DeleteStoryRoute() {
+	const { storyId } = useParams()
+
+	invariant(storyId, 'Missing storyId')
 
 	return (
 		<>
 			<p>Are you sure you want to delete this story?</p>
 			<p>This cannot be undone and all the work will be lost forever.</p>
 			<form method="post">
-				<input name="prevPageId" type="hidden" value={prevPage?.id} />
 				<div className="mt-10 flex gap-4">
 					<ButtonLink
 						size="sm"
 						color="primary"
 						type="reset"
-						// TODO explicitly fetch page and story id to construct URL instead of this which is unclear what it does
-						to={location.pathname.replace('/delete', '')}
+						to={`/stories/${storyId}`}
 					>
 						No, take me back
 					</ButtonLink>

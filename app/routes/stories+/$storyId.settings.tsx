@@ -167,7 +167,7 @@ async function removeStoryMember(storyId: string, storyMemberUsername: string) {
 		},
 		select: { id: true },
 	})
-	console.log(`removeStoryMember ${storyId} ${storyMemberUsername}`)
+
 	return prisma.storyMember.deleteMany({
 		where: {
 			storyId: storyId,

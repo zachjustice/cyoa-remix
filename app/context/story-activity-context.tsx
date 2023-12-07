@@ -1,10 +1,10 @@
+import * as toolkitRaw from '@reduxjs/toolkit'
 import { type PayloadAction } from '@reduxjs/toolkit'
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import {
 	type ViewedChoice,
 	type ViewedPage,
 } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
-import * as toolkitRaw from '@reduxjs/toolkit'
 
 const { createSlice } = ((toolkitRaw as any).default ??
 	toolkitRaw) as typeof toolkitRaw
@@ -106,11 +106,27 @@ const storyActivitySlice = createSlice({
 				})
 			return state
 		},
+		deletedPage: (state, action: PayloadAction<{ pageId: string }>) => {
+			let deletedPageIndex = state.pageHistory.findIndex(
+				page => page.id === action.payload.pageId,
+			)
+
+			if (deletedPageIndex > -1) {
+				state.pageHistory = state.pageHistory.slice(0, deletedPageIndex)
+			}
+
+			return state
+		},
 	},
 })
 
-export const { viewedPage, viewedStory, resetHistory, madeChoice } =
-	storyActivitySlice.actions
+export const {
+	viewedPage,
+	viewedStory,
+	resetHistory,
+	madeChoice,
+	deletedPage,
+} = storyActivitySlice.actions
 
 type SliceActions<T> = {
 	[K in keyof T]: T[K] extends (...args: any[]) => infer A ? A : never

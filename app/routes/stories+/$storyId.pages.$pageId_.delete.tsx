@@ -7,10 +7,13 @@ import { prisma } from '~/utils/db.server.ts'
 import { ButtonLink, MyButton } from '~/utils/forms.tsx'
 import { usePageHistory } from '~/context/story-activity-context.tsx'
 import { useParams } from '@remix-run/react'
+import { commitSession, getSession } from '~/utils/session.server.ts'
 
 export const DeletePageSchema = z.object({
 	prevPageId: z.string().optional(),
 })
+
+export const deletedPageSessionKey = 'deletePage'
 
 export async function action({ params, request }: DataFunctionArgs) {
 	const userId = await requireUserId(request)
@@ -78,11 +81,21 @@ export async function action({ params, request }: DataFunctionArgs) {
 		where: { id: params.pageId },
 	})
 
-	console.log('prevPageId', prevPageId)
+	const session = await getSession(request.headers.get('cookie'))
+	session.set(deletedPageSessionKey, params.pageId)
+
 	if (prevPageId) {
-		return redirect(`/stories/${params.storyId}/pages/${prevPageId}`)
+		return redirect(`/stories/${params.storyId}/pages/${prevPageId}`, {
+			headers: {
+				'Set-Cookie': await commitSession(session),
+			},
+		})
 	} else {
-		return redirect(`/stories/${params.storyId}/introduction`)
+		return redirect(`/stories/${params.storyId}/introduction`, {
+			headers: {
+				'Set-Cookie': await commitSession(session),
+			},
+		})
 	}
 }
 
@@ -93,8 +106,6 @@ export default function DeletePageRoute() {
 	const pageHistory = usePageHistory()
 	const pageIndex = pageHistory.findIndex(p => p.id === pageId)
 	const prevPage = pageHistory[pageIndex - 1]
-
-	// TODO update page history on delete
 
 	return (
 		<>

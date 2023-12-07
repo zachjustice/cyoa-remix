@@ -47,7 +47,6 @@ export async function action({ request }: DataFunctionArgs) {
 		id: true,
 	}
 
-	console.log(`storyId, userId`, storyId, userId)
 	await requireStoryEditor(storyId, userId)
 
 	if (id) {
@@ -66,13 +65,11 @@ export async function action({ request }: DataFunctionArgs) {
 			)
 		}
 
-		const data = {
-			content: content,
-		}
-
 		await prisma.choice.update({
 			where: { id },
-			data,
+			data: {
+				content: content,
+			},
 			select,
 		})
 	} else {
