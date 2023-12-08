@@ -33,6 +33,7 @@ export default function CreatePage() {
 					storyId: data?.storyId,
 					parentChoiceId: data?.parentChoiceId,
 				}}
+				canDeletePage={false}
 			/>
 		)
 	} else if (!optionalUser) {
