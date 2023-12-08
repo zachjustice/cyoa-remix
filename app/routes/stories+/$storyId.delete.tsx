@@ -27,6 +27,10 @@ export async function action({ params, request }: DataFunctionArgs) {
 		})
 	}
 
+	await prisma.storyMember.deleteMany({
+		where: { storyId: params.storyId },
+	})
+
 	await prisma.story.delete({
 		where: { id: params.storyId },
 	})
@@ -45,12 +49,13 @@ export default function DeleteStoryRoute() {
 			<p>Are you sure you want to delete this story?</p>
 			<p>This cannot be undone and all the work will be lost forever.</p>
 			<form method="post">
+				<input type="hidden" id="storyId" value={storyId} />
 				<div className="mt-10 flex gap-4">
 					<ButtonLink
 						size="sm"
 						color="primary"
 						type="reset"
-						to={`/stories/${storyId}`}
+						to={`/stories/${storyId}/edit`}
 					>
 						No, take me back
 					</ButtonLink>

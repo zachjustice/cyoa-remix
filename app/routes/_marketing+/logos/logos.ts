@@ -20,6 +20,7 @@ import eslint from './eslint.svg'
 export { default as clouds } from './clouds.png'
 export { default as owl } from './owl.png'
 export { default as owlIcon } from './owl-icon.png'
+export { default as demo } from './demo.gif'
 
 export { default as kodyRocket } from './kody-rocket.png'
 
