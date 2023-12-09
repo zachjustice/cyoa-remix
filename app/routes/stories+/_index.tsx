@@ -79,21 +79,30 @@ export async function loader({ request }: DataFunctionArgs) {
 	})
 }
 
-function StoryList({
-	stories,
-	user,
-}: {
+type StoryListProps = {
 	stories: StoryWithPermission[]
 	user?: UserView
-}) {
-	if (!stories || stories?.length === 0) {
+	children?: React.ReactNode
+}
+
+function StoryList({ stories, user, children }: StoryListProps) {
+	if (stories?.length === 0) {
 		return (
 			<>
 				<p>Nothing here yet.</p>
-				<p>
-					When you are added as a reader or editor for a story, those stories
-					will show up here.
-				</p>
+				{children && children}
+				{!user && (
+					<p>
+						<a className="font-bold underline" href="/signup">
+							Sign up
+						</a>{' '}
+						or{' '}
+						<a className="font-bold underline" href="/login">
+							log-in
+						</a>{' '}
+						if you already have an account
+					</p>
+				)}
 			</>
 		)
 	}
@@ -148,10 +157,10 @@ export default function GetStoriesRoute() {
 	const { stories, storiesOwnedByUser, storiesReadingAndEditing } =
 		useLoaderData<LoaderDataShape>()
 	const user = useOptionalUser()
-	console.log('storiesOwnedByUser', JSON.stringify(storiesOwnedByUser))
 	console.log(
-		'storiesReadingAndEditing',
-		JSON.stringify(storiesReadingAndEditing),
+		stories?.length,
+		storiesOwnedByUser?.length,
+		storiesReadingAndEditing?.length,
 	)
 
 	return (
@@ -162,10 +171,18 @@ export default function GetStoriesRoute() {
 					<StoryList stories={stories} user={user} />
 				</Tabs.Item>
 				<Tabs.Item title="Your Stories">
-					<StoryList stories={storiesOwnedByUser} user={user} />
+					<StoryList stories={storiesOwnedByUser} user={user}>
+						<p>
+							When you write your own stories, those stories will show up here.
+						</p>
+					</StoryList>
 				</Tabs.Item>
 				<Tabs.Item title="Reading & Editing">
-					<StoryList stories={storiesReadingAndEditing} user={user} />
+					<StoryList stories={storiesReadingAndEditing} user={user}>
+						<p>
+							When you write your own stories, those stories will show up here.
+						</p>
+					</StoryList>
 				</Tabs.Item>
 			</Tabs>
 		</main>
