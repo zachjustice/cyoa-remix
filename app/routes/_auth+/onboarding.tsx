@@ -18,7 +18,7 @@ import { z } from 'zod'
 import { Spacer } from '~/components/spacer.tsx'
 import { authenticator, requireAnonymous, signup } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { CheckboxField, ErrorList, Field, MyButton } from '~/utils/forms.tsx'
+import { CheckboxField, ErrorList, Field, Button } from '~/utils/forms.tsx'
 import { safeRedirect } from '~/utils/misc.ts'
 import { commitSession, getSession } from '~/utils/session.server.ts'
 import {
@@ -272,7 +272,7 @@ export default function OnboardingPage() {
 					<ErrorList errors={form.errors} id={form.errorId} />
 
 					<div className="flex items-center justify-between gap-6">
-						<MyButton
+						<Button
 							className="w-full"
 							size="md"
 							color="primary"
@@ -287,7 +287,7 @@ export default function OnboardingPage() {
 							disabled={navigation.state !== 'idle'}
 						>
 							Create an account
-						</MyButton>
+						</Button>
 					</div>
 				</Form>
 			</div>

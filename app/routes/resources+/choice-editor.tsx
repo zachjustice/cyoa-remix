@@ -7,7 +7,7 @@ import Check from '~/components/Check.tsx'
 import Xmark from '~/components/Xmark.tsx'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { ButtonLink, ErrorList, Field, MyButton } from '~/utils/forms.tsx'
+import { ButtonLink, ErrorList, Field, Button } from '~/utils/forms.tsx'
 import { requireStoryEditor } from '~/utils/permissions.server.ts'
 
 export const ChoiceEditorSchema = z.object({
@@ -143,7 +143,7 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 				</div>
 				<div className="flex gap-2">
 					<div>
-						<MyButton
+						<Button
 							size="xs"
 							color="primary"
 							status={
@@ -155,7 +155,7 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 							disabled={choiceEditorFetcher.state !== 'idle'}
 						>
 							<Check />
-						</MyButton>
+						</Button>
 					</div>
 					<div>
 						<ButtonLink

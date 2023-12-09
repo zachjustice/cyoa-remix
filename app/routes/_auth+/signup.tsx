@@ -10,7 +10,7 @@ import { GeneralErrorBoundary } from '~/components/error-boundary.tsx'
 import { prisma } from '~/utils/db.server.ts'
 import { sendEmail } from '~/utils/email.server.ts'
 import { decrypt, encrypt } from '~/utils/encryption.server.ts'
-import { MyButton, ErrorList, Field } from '~/utils/forms.tsx'
+import { Button, ErrorList, Field } from '~/utils/forms.tsx'
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { getDomainUrl } from '~/utils/misc.server.ts'
@@ -210,7 +210,7 @@ export default function SignupRoute() {
 							errors={fields.email.errors}
 						/>
 						<ErrorList errors={form.errors} id={form.errorId} />
-						<MyButton
+						<Button
 							className="w-full"
 							size="md"
 							color="primary"
@@ -223,7 +223,7 @@ export default function SignupRoute() {
 							disabled={signupFetcher.state !== 'idle'}
 						>
 							Launch
-						</MyButton>
+						</Button>
 					</signupFetcher.Form>
 					<div className="flex items-center justify-center gap-2 pt-6">
 						<span className="text-night-200">Already have an account?</span>

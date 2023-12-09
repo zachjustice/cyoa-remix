@@ -2,7 +2,7 @@ import { type DataFunctionArgs, redirect } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { ButtonLink, MyButton } from '~/utils/forms.tsx'
+import { Button, ButtonLink } from '~/utils/forms.tsx'
 import { useParams } from '@remix-run/react'
 
 export async function action({ params, request }: DataFunctionArgs) {
@@ -59,7 +59,7 @@ export default function DeleteStoryRoute() {
 					>
 						No, take me back
 					</ButtonLink>
-					<MyButton
+					<Button
 						size="sm"
 						color="danger"
 						// status={
@@ -71,7 +71,7 @@ export default function DeleteStoryRoute() {
 						// disabled={pageEditorFetcher.state !== 'idle'}
 					>
 						Yes, delete it from existence
-					</MyButton>
+					</Button>
 				</div>
 			</form>
 		</>

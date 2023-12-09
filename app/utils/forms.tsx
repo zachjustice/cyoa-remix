@@ -3,7 +3,11 @@ import { Link } from '@remix-run/react'
 import { clsx } from 'clsx'
 import React, { type ElementType, useId } from 'react'
 import styles from './forms.module.css'
-import { Button, type ButtonProps, Spinner } from 'flowbite-react'
+import {
+	Button as FlowbiteButton,
+	type ButtonProps as FlowbiteButtonProps,
+	Spinner,
+} from 'flowbite-react'
 
 export type ListOfErrors = Array<string | null | undefined> | null | undefined
 
@@ -178,13 +182,13 @@ export function getButtonClassName({
 }
 
 export type ButtonStatus = 'pending' | 'success' | 'error' | 'idle'
-type MyButtonProps<T extends ElementType = 'button'> = ButtonProps<T> & {
+type ButtonProps<T extends ElementType = 'button'> = FlowbiteButtonProps<T> & {
 	status?: ButtonStatus
 	disabled?: boolean
 }
 
-export function MyButton<T extends ElementType = 'button'>(
-	props: MyButtonProps<T>,
+export function Button<T extends ElementType = 'button'>(
+	props: ButtonProps<T>,
 ) {
 	const companion = {
 		pending: (
@@ -198,17 +202,17 @@ export function MyButton<T extends ElementType = 'button'>(
 		idle: null,
 	}[props.status || 'idle']
 	return (
-		<Button color={props.color ?? 'default'} {...props}>
+		<FlowbiteButton color={props.color ?? 'default'} {...props}>
 			{props.children}
 			{companion}
-		</Button>
+		</FlowbiteButton>
 	)
 }
 
-export function ButtonLink(props: MyButtonProps<typeof Link>) {
+export function ButtonLink(props: ButtonProps<typeof Link>) {
 	// eslint-disable-next-line jsx-a11y/anchor-has-content
 	return (
-		<MyButton
+		<Button
 			as={Link}
 			{...props} /*className={getButtonClassName({ size, variant })}*/
 		/>

@@ -6,12 +6,7 @@ import invariant from 'tiny-invariant'
 import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import {
-	MyButton,
-	ButtonLink,
-	ErrorList,
-	TextareaField,
-} from '~/utils/forms.tsx'
+import { Button, ButtonLink, ErrorList, TextareaField } from '~/utils/forms.tsx'
 import { requireStoryEditor } from '~/utils/permissions.server.ts'
 
 export const PageEditorSchema = z.object({
@@ -218,7 +213,7 @@ export function PageEditor(props: PageEditorProps) {
 							Cancel
 						</ButtonLink>
 					)}
-					<MyButton
+					<Button
 						size="sm"
 						color="primary"
 						status={
@@ -230,7 +225,7 @@ export function PageEditor(props: PageEditorProps) {
 						disabled={pageEditorFetcher.state !== 'idle'}
 					>
 						Save
-					</MyButton>
+					</Button>
 				</div>
 			</div>
 		</pageEditorFetcher.Form>

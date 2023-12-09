@@ -9,7 +9,7 @@ import {
 	ButtonLink,
 	ErrorList,
 	Field,
-	MyButton,
+	Button,
 	TextareaField,
 } from '~/utils/forms.tsx'
 import { requireStoryEditor } from '~/utils/permissions.server.ts'
@@ -176,7 +176,7 @@ export function StoryEditor({ story, canDeleteStory }: StoryEditorProps) {
 								Cancel
 							</ButtonLink>
 						)}
-						<MyButton
+						<Button
 							size="sm"
 							color="primary"
 							status={
@@ -188,7 +188,7 @@ export function StoryEditor({ story, canDeleteStory }: StoryEditorProps) {
 							disabled={storyEditorFetcher.state !== 'idle'}
 						>
 							Save
-						</MyButton>
+						</Button>
 					</div>
 				</div>
 			</storyEditorFetcher.Form>

@@ -21,7 +21,7 @@ import { z } from 'zod'
 import * as deleteImageRoute from '~/routes/resources+/delete-image.tsx'
 import { authenticator, requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { MyButton, ErrorList, LabelButton } from '~/utils/forms.tsx'
+import { Button, ErrorList, LabelButton } from '~/utils/forms.tsx'
 import { getUserImgSrc } from '~/utils/misc.ts'
 
 const MAX_SIZE = 1024 * 1024 * 3 // 3MB
@@ -180,12 +180,12 @@ export default function PhotoChooserModal() {
 						/>
 						{newImageSrc ? (
 							<div className="flex gap-4">
-								<MyButton type="submit" size="md" color="primary">
+								<Button type="submit" size="md" color="primary">
 									Save Photo
-								</MyButton>
-								<MyButton type="reset" size="md" color="secondary">
+								</Button>
+								<Button type="reset" size="md" color="secondary">
 									Reset
-								</MyButton>
+								</Button>
 							</div>
 						) : (
 							<div className="flex gap-4">
@@ -193,14 +193,14 @@ export default function PhotoChooserModal() {
 									✏️ Change
 								</LabelButton>
 								{data.user.imageId ? (
-									<MyButton
+									<Button
 										size="md"
 										color="secondary"
 										type="submit"
 										form={deleteProfilePhotoFormId}
 									>
 										🗑 Delete
-									</MyButton>
+									</Button>
 								) : null}
 							</div>
 						)}

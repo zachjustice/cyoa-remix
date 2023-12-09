@@ -74,7 +74,6 @@ export async function loader({ params, request }: DataFunctionArgs) {
 	const session = await getSession(request.headers.get('cookie'))
 	const deletedPageId = session.get(deletedPageSessionKey)
 	session.unset(deletedPageSessionKey)
-	console.log('deletedPageSessionKey', deletedPageId)
 
 	return json(
 		{
@@ -128,7 +127,6 @@ export default function GetStoryRoute() {
 	const dispatch = useStoryActivityDispatch()
 	useEffect(() => {
 		if (deletedPageId) {
-			console.log('deletedPageId', deletedPageId)
 			dispatch(deletedPage({ pageId: deletedPageId }))
 		}
 	}, [deletedPageId, dispatch])

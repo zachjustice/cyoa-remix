@@ -35,7 +35,7 @@ export default function Index() {
 							<img
 								src={owl}
 								alt="Illustration of a pixel art owl"
-								className="mx-auto mt-8 w-full max-w-[12rem] md:max-w-[16rem]"
+								className="mx-auto mt-8 w-full max-w-[10rem] md:max-w-[14rem]"
 							/>
 						</a>
 					</div>
@@ -51,7 +51,7 @@ export default function Index() {
 						</h2>
 					</div>
 					<div className="flex justify-center gap-8">
-						<div>
+						<div className="w-[250px]">
 							<img
 								alt="A screen recording demoing the functionality of this website."
 								src={demo}

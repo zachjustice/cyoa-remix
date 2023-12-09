@@ -18,7 +18,7 @@ import {
 	requireAnonymous,
 	resetUserPassword,
 } from '~/utils/auth.server.ts'
-import { MyButton, ErrorList, Field } from '~/utils/forms.tsx'
+import { Button, ErrorList, Field } from '~/utils/forms.tsx'
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { commitSession, getSession } from '~/utils/session.server.ts'
@@ -144,7 +144,7 @@ export default function ResetPasswordPage() {
 
 				<ErrorList errors={form.errors} id={form.errorId} />
 
-				<MyButton
+				<Button
 					className="w-full"
 					size="md"
 					color="primary"
@@ -159,7 +159,7 @@ export default function ResetPasswordPage() {
 					disabled={navigation.state !== 'idle'}
 				>
 					Reset password
-				</MyButton>
+				</Button>
 			</Form>
 		</div>
 	)

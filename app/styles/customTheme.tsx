@@ -16,13 +16,13 @@ export const customTheme: CustomFlowbiteTheme = {
 					'w-full text-sm font-medium shadow grid grid-flow-col dark:divide-gray-700 dark:text-gray-400 rounded-none',
 			},
 			tabitem: {
-				base: 'flex items-center justify-center p-4 text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:ring-1 focus:ring-accept-purple focus:outline-none',
+				base: 'flex items-center justify-center p-4 text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:ring-1 focus:ring-accept-yellow focus:outline-none',
 				styles: {
 					fullWidth: {
 						base: 'ml-0 first:ml-0 w-full first:rounded-tl-lg last:rounded-tr-lg flex border-b-2 border-night-200',
 						active: {
-							on: 'active font-bold bg-night-500 hover:text-white dark:hover:text-white dark:bg-night-800 dark:hover:bg-night-700',
-							off: 'p-4 text-white bg-night-400 hover:bg-night-500 dark:bg-night-700 dark:text-white',
+							on: 'active font-bold bg-accent-purple hover:text-white dark:hover:text-white dark:bg-night-800 dark:hover:bg-accent-purple',
+							off: 'p-4 text-white bg-accent-purple-muted hover:bg-accent-purple dark:bg-night-700 dark:text-white',
 						},
 					},
 				},

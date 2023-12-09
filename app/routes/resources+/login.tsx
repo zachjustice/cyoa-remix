@@ -6,7 +6,7 @@ import { AuthorizationError } from 'remix-auth'
 import { FormStrategy } from 'remix-auth-form'
 import { z } from 'zod'
 import { authenticator } from '~/utils/auth.server.ts'
-import { MyButton, CheckboxField, ErrorList, Field } from '~/utils/forms.tsx'
+import { Button, CheckboxField, ErrorList, Field } from '~/utils/forms.tsx'
 import { safeRedirect } from '~/utils/misc.ts'
 import { commitSession, getSession } from '~/utils/session.server.ts'
 import { passwordSchema, usernameSchema } from '~/utils/user-validation.ts'
@@ -152,7 +152,7 @@ export function InlineLogin({
 					<ErrorList errors={form.errors} id={form.errorId} />
 
 					<div className="flex items-center justify-between gap-6 pt-3">
-						<MyButton
+						<Button
 							className="w-full"
 							size="md"
 							color="primary"
@@ -165,7 +165,7 @@ export function InlineLogin({
 							disabled={loginFetcher.state !== 'idle'}
 						>
 							Log in
-						</MyButton>
+						</Button>
 					</div>
 				</loginFetcher.Form>
 				<div className="flex items-center justify-center gap-2 pt-6">

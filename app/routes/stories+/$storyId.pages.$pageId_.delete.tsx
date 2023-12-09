@@ -4,7 +4,7 @@ import invariant from 'tiny-invariant'
 import { z } from 'zod'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { ButtonLink, MyButton } from '~/utils/forms.tsx'
+import { ButtonLink, Button } from '~/utils/forms.tsx'
 import { usePageHistory } from '~/context/story-activity-context.tsx'
 import { useParams } from '@remix-run/react'
 import { commitSession, getSession } from '~/utils/session.server.ts'
@@ -125,7 +125,7 @@ export default function DeletePageRoute() {
 					>
 						No, take me back
 					</ButtonLink>
-					<MyButton
+					<Button
 						size="sm"
 						color="danger"
 						// status={
@@ -137,7 +137,7 @@ export default function DeletePageRoute() {
 						// disabled={pageEditorFetcher.state !== 'idle'}
 					>
 						Yes, delete forever
-					</MyButton>
+					</Button>
 				</div>
 			</form>
 		</>

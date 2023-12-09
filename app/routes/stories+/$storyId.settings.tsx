@@ -1,12 +1,11 @@
 import { Link, useFetcher, useLoaderData, useParams } from '@remix-run/react'
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import { ErrorList, Field, MyButton } from '~/utils/forms.tsx'
+import { Button, ErrorList, Field } from '~/utils/forms.tsx'
 import { z } from 'zod'
 
 import { getUserId, requireUserId } from '~/utils/auth.server.ts'
-import { Badge, ToggleSwitch } from 'flowbite-react'
-import { useState } from 'react'
+import { Badge, Label, Radio, Tabs } from 'flowbite-react'
 import { FaInfoCircle } from 'react-icons/fa/index.js'
 import { Tooltip } from '~/components/Tooltip.tsx'
 import StorySettingsUserDropDown from '~/components/StorySettingsUserDropdown.tsx'
@@ -124,11 +123,17 @@ export async function action({ request }: DataFunctionArgs) {
 		operation,
 	} = submission.value
 	const storyMemberUsername = rawStoryMemberUsername?.trim()
+	console.log('oopsie', JSON.stringify(submission.value))
 
 	if (
 		permission === StoryPermissions.PrivateStory ||
 		permission === StoryPermissions.PublicStory
 	) {
+		console.log(
+			'updating isPublic',
+			permission,
+			permission === StoryPermissions.PublicStory,
+		)
 		await prisma.story.update({
 			where: {
 				id: storyId,
@@ -231,8 +236,8 @@ export default function StorySettingsRoute() {
 	invariant(storyId, 'missing storyId')
 
 	const { storyOwnerAndStoryMembers } = useLoaderData<typeof loader>()
+	const { isPublic } = storyOwnerAndStoryMembers
 	const addStoryMemberForm = useFetcher<typeof action>()
-	const [isPublic, setIsPublic] = useState(storyOwnerAndStoryMembers.isPublic)
 
 	const [form, fields] = useForm({
 		id: `add-reader-${storyId}`,
@@ -247,144 +252,165 @@ export default function StorySettingsRoute() {
 	return (
 		<div className="space-y-6">
 			<h1 className="text-h1">Settings</h1>
-			<h2 className="text-h4">Publish story</h2>
-			<form method="POST">
-				<input name="storyId" type="hidden" value={storyId} />
-				<input
-					name="permission"
-					type="hidden"
-					value={
-						isPublic
-							? StoryPermissions.PublicStory
-							: StoryPermissions.PrivateStory
-					}
-				/>
-				<input
-					name="operation"
-					type="hidden"
-					value={StorySettingsOperations.Update}
-				/>
-				<ToggleSwitch
-					color="purple"
-					checked={isPublic}
-					onChange={setIsPublic}
-					label={
-						isPublic ? 'Everyone can read' : 'Only selected users can read'
-					}
-				/>
-			</form>
-			<div className="space-y-4">
-				<div className="flex gap-4">
-					<h2 className="text-h4">Manage readers and editors</h2>
-					<Tooltip
-						content="This section controls the readers and editors for this story."
-						icon={FaInfoCircle}
-					/>
-				</div>
-				<div>
-					<addStoryMemberForm.Form
-						method="post"
-						// action="/resources/choice-editor"
-						autoComplete="off"
-						{...form.props}
-					>
+			<Tabs aria-label="Pills" style="fullWidth">
+				<Tabs.Item active title="Visibility">
+					<h2 className="text-h4">Manage Visibility</h2>
+					<form method="POST" className="space-y-4">
 						<input name="storyId" type="hidden" value={storyId} />
-						<input
-							name="permission"
-							type="hidden"
-							value={StoryPermissions.ReadStory}
-						/>
 						<input
 							name="operation"
 							type="hidden"
-							value={StorySettingsOperations.Add}
+							value={StorySettingsOperations.Update}
 						/>
-						<div className="flex gap-4">
-							<div className="grow">
-								<Field
-									className="no-required-asterisk"
-									labelProps={{
-										htmlFor: fields.storyMemberUsername.id,
-										children:
-											'You can add up to 20 users as readers or editors. Enter a username to get started.',
-									}}
-									inputProps={{
-										...conform.input(fields.storyMemberUsername),
-									}}
-									errors={fields.storyMemberUsername.errors}
+						<fieldset className="flex max-w-md flex-col gap-4">
+							<legend className="mb-4">
+								Can everyone read or only selected readers and editors?
+							</legend>
+							<div className="flex items-center gap-2">
+								<Radio
+									id="public"
+									name="permission"
+									value={StoryPermissions.PublicStory}
+									defaultChecked={isPublic}
 								/>
-								<ErrorList errors={form.errors} id={form.errorId} />
+								<Label htmlFor="public" className="text-white">
+									Everyone can read
+								</Label>
 							</div>
-							<div className="align-middle">
-								<MyButton
-									size="lg"
-									color="primary"
-									status={
-										addStoryMemberForm.state === 'submitting'
-											? 'pending'
-											: 'idle'
-									}
-									type="submit"
-									disabled={
-										addStoryMemberForm.state !== 'idle' ||
-										storyOwnerAndStoryMembers.storyMembers?.length >
-											MAX_STORY_MEMBERS
-									}
-								>
-									Add User
-								</MyButton>
+							<div className="flex items-center gap-2">
+								<Radio
+									id="private"
+									name="permission"
+									value={StoryPermissions.PrivateStory}
+									defaultChecked={!isPublic}
+								/>
+								<Label htmlFor="private" className="text-white">
+									Onlv selected readers and editors
+								</Label>
 							</div>
+						</fieldset>
+						<div className="flex items-center gap-4">
+							<Button type="submit" color="primary">
+								Save Settings
+							</Button>
 						</div>
-					</addStoryMemberForm.Form>
-					<div className="flex gap-2">
-						<p>
-							Readers & Editors (
-							{storyOwnerAndStoryMembers.storyMembers?.length ?? 0})
-						</p>
-						<Tooltip
-							content="A maximum of 20 readers and/or editors is allowed."
-							icon={FaInfoCircle}
-						/>
-					</div>
-					<ul>
-						{!storyOwnerAndStoryMembers.storyMembers?.length && (
-							<li>Add a user as a reader to your story to get started</li>
-						)}
-						{storyOwnerAndStoryMembers?.storyMembers.map(storyMember => (
-							<li
-								key={storyMember.user.id}
-								className="mb-1 flex justify-between border-t border-night-200 pt-1"
+					</form>
+				</Tabs.Item>
+				<Tabs.Item title="Readers & Editors">
+					<div className="space-y-4">
+						<div className="flex gap-4">
+							<h2 className="text-h4">Manage Readers and Editors</h2>
+							<Tooltip
+								content="This section controls the readers and editors for this story."
+								icon={FaInfoCircle}
+							/>
+						</div>
+						<div>
+							<addStoryMemberForm.Form
+								method="post"
+								// action="/resources/choice-editor"
+								autoComplete="off"
+								{...form.props}
 							>
-								<Link
-									to={`/users/${storyMember.user.username}`}
-									// this is for progressive enhancement
-									onClick={e => e.preventDefault()}
-									className="flex flex-grow items-center gap-2 py-2 pl-2 pr-4 outline-none hover:bg-night-400 focus:bg-night-400 radix-state-open:bg-night-400"
-								>
-									<img
-										className="h-8 w-8 rounded-full bg-accent-purple-muted object-cover"
-										alt={`user avatar for ${storyMember.user.username}`}
-										src={getUserImgSrc(storyMember.user.imageId)}
-									/>
-									<span className="text-body-sm">
-										{storyMember.user.username}
-									</span>
-									{storyMember.permission.name === 'story/edit' && (
-										<Badge color="success">Editor</Badge>
-									)}
-								</Link>
-								<StorySettingsUserDropDown
-									username={storyMember.user.username}
-									storyId={storyId}
-									currentPermission={
-										storyMember.permission.name as StoryPermissionsType
-									}
+								<input name="storyId" type="hidden" value={storyId} />
+								<input
+									name="permission"
+									type="hidden"
+									value={StoryPermissions.ReadStory}
 								/>
-							</li>
-						))}
-					</ul>
-				</div>
-			</div>
+								<input
+									name="operation"
+									type="hidden"
+									value={StorySettingsOperations.Add}
+								/>
+								<div className="flex gap-4">
+									<div className="grow">
+										<Field
+											className="no-required-asterisk"
+											labelProps={{
+												htmlFor: fields.storyMemberUsername.id,
+												children:
+													'You can add up to 20 users as readers or editors. Enter a username to get started.',
+											}}
+											inputProps={{
+												...conform.input(fields.storyMemberUsername),
+											}}
+											errors={fields.storyMemberUsername.errors}
+										/>
+										<ErrorList errors={form.errors} id={form.errorId} />
+									</div>
+									<div className="align-middle">
+										<Button
+											size="lg"
+											color="primary"
+											status={
+												addStoryMemberForm.state === 'submitting'
+													? 'pending'
+													: 'idle'
+											}
+											type="submit"
+											disabled={
+												addStoryMemberForm.state !== 'idle' ||
+												storyOwnerAndStoryMembers.storyMembers?.length >
+													MAX_STORY_MEMBERS
+											}
+										>
+											Add User
+										</Button>
+									</div>
+								</div>
+							</addStoryMemberForm.Form>
+							<div className="flex gap-2">
+								<p>
+									Readers & Editors (
+									{storyOwnerAndStoryMembers.storyMembers?.length ?? 0})
+								</p>
+								<Tooltip
+									content="A maximum of 20 readers and/or editors is allowed."
+									icon={FaInfoCircle}
+								/>
+							</div>
+							<ul>
+								{!storyOwnerAndStoryMembers.storyMembers?.length && (
+									<li>Add a user as a reader to your story to get started</li>
+								)}
+								{storyOwnerAndStoryMembers?.storyMembers.map(storyMember => (
+									<li
+										key={storyMember.user.id}
+										className="mb-1 flex justify-between border-t border-night-200 pt-1"
+									>
+										<Link
+											to={`/users/${storyMember.user.username}`}
+											// this is for progressive enhancement
+											onClick={e => e.preventDefault()}
+											className="flex flex-grow items-center gap-2 py-2 pl-2 pr-4 outline-none hover:bg-night-400 focus:bg-night-400 radix-state-open:bg-night-400"
+										>
+											<img
+												className="h-8 w-8 rounded-full bg-accent-purple-muted object-cover"
+												alt={`user avatar for ${storyMember.user.username}`}
+												src={getUserImgSrc(storyMember.user.imageId)}
+											/>
+											<span className="text-body-sm">
+												{storyMember.user.username}
+											</span>
+											{storyMember.permission.name === 'story/edit' && (
+												<Badge color="success">Editor</Badge>
+											)}
+										</Link>
+										<StorySettingsUserDropDown
+											username={storyMember.user.username}
+											storyId={storyId}
+											currentPermission={
+												storyMember.permission.name as StoryPermissionsType
+											}
+										/>
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				</Tabs.Item>
+			</Tabs>
 		</div>
 	)
 }
