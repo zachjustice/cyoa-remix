@@ -252,7 +252,7 @@ export default function StorySettingsRoute() {
 	return (
 		<div className="space-y-6">
 			<h1 className="text-h1">Settings</h1>
-			<Tabs aria-label="Pills" style="fullWidth">
+			<Tabs style="fullWidth">
 				<Tabs.Item active title="Visibility">
 					<h2 className="text-h4">Manage Visibility</h2>
 					<form method="POST" className="space-y-4">

@@ -61,19 +61,6 @@ export default function StoriesRoute() {
 						</h1>
 					</Link>
 					<ul>
-						{/* TODO check if user is owner */}
-						{/*<li>*/}
-						{/*    <NavLink*/}
-						{/*        to="new"*/}
-						{/*        className={({isActive}) =>*/}
-						{/*            clsx(navLinkDefaultClassName, {*/}
-						{/*                'bg-night-400': isActive,*/}
-						{/*            })*/}
-						{/*        }*/}
-						{/*    >*/}
-						{/*        + New Note*/}
-						{/*    </NavLink>*/}
-						{/*</li>*/}
 						<li>
 							<NavLink
 								to="new"

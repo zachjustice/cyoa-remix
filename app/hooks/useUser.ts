@@ -2,7 +2,9 @@ import { type SerializeFrom } from '@remix-run/node'
 import { useRouteLoaderData } from '@remix-run/react'
 import { type loader as rootLoader } from '~/root.tsx'
 
-function isUser(user: any): user is SerializeFrom<typeof rootLoader>['user'] {
+export type UserView = SerializeFrom<typeof rootLoader>['user']
+
+function isUser(user: any): user is UserView {
 	return user && typeof user === 'object' && typeof user.id === 'string'
 }
 

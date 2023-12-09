@@ -3,16 +3,16 @@ import { Link, useLoaderData } from '@remix-run/react'
 import { formatPublishDate } from '~/utils/dateFormat.ts'
 import { prisma } from '~/utils/db.server.ts'
 import { getUserId } from '~/utils/auth.server.ts'
-import { Prisma } from '.prisma/client'
-import { Badge } from 'flowbite-react'
+import { Badge, Tabs } from 'flowbite-react'
 import { StoryPermissions } from '~/routes/stories+/$storyId.settings.tsx'
-import StoryWhereInput = Prisma.StoryWhereInput
+import { useOptionalUser, type UserView } from '~/hooks/useUser.ts'
 
 type StoryWithPermission = {
 	id: string
 	title: string
 	description: string
 	createdAt: string
+	isPublic: boolean
 	owner: {
 		username: string
 	}
@@ -24,35 +24,32 @@ type StoryWithPermission = {
 export async function loader({ request }: DataFunctionArgs) {
 	const userId = await getUserId(request)
 
-	const or: StoryWhereInput[] = [
-		{
-			isPublic: true,
-		},
-	]
-
-	if (userId) {
-		or.push({
-			ownerId: userId,
-		})
-	}
-
 	const storySelect = {
 		id: true,
 		title: true,
 		description: true,
 		createdAt: true,
+		isPublic: true,
 		owner: {
 			select: {
 				username: true,
 			},
 		},
 	}
+
 	const stories = await prisma.story.findMany({
-		where: { OR: or },
+		where: { isPublic: true },
 		select: storySelect,
 	})
 
-	const privateStories = userId
+	const storiesOwnedByUser = userId
+		? await prisma.story.findMany({
+				where: { ownerId: userId },
+				select: storySelect,
+		  })
+		: []
+
+	const storyMembers = userId
 		? await prisma.storyMember.findMany({
 				where: {
 					userId: userId,
@@ -68,55 +65,109 @@ export async function loader({ request }: DataFunctionArgs) {
 		  })
 		: []
 
+	const storiesReadingAndEditing = storyMembers.map(
+		({ story, permission }) => ({
+			...story,
+			permission,
+		}),
+	)
+
 	return json({
-		stories: [
-			...stories,
-			...privateStories.map(({ story, permission }) => ({
-				...story,
-				permission,
-			})),
-		],
+		stories: stories,
+		storiesOwnedByUser: storiesOwnedByUser,
+		storiesReadingAndEditing: storiesReadingAndEditing,
 	})
 }
 
+function StoryList({
+	stories,
+	user,
+}: {
+	stories: StoryWithPermission[]
+	user?: UserView
+}) {
+	if (!stories || stories?.length === 0) {
+		return (
+			<>
+				<p>Nothing here yet.</p>
+				<p>
+					When you are added as a reader or editor for a story, those stories
+					will show up here.
+				</p>
+			</>
+		)
+	}
+
+	return (
+		<ul>
+			{stories?.map(story => {
+				return (
+					<li key={story.id}>
+						<div className="flex w-fit items-center gap-4">
+							<h2 className="text-body-md font-bold underline">
+								<Link to={`/stories/${story.id}/introduction`}>
+									{story.title}
+								</Link>
+							</h2>
+							{story.isPublic && <Badge color="dark">Public</Badge>}
+							{story.owner.username === user?.username && (
+								<Badge color="indigo">Owner</Badge>
+							)}
+							{story.permission?.name === StoryPermissions.EditStory && (
+								<Badge color="success">Editor</Badge>
+							)}
+							{story.permission?.name === StoryPermissions.ReadStory && (
+								<Badge>Reader</Badge>
+							)}
+						</div>
+						<p>{story.description}</p>
+						<p className="text-md md:text-md mb-6 text-neutral-400">
+							By{' '}
+							<Link
+								to={`/users/${story.owner.username}`}
+								className="italic underline"
+							>
+								{story.owner.username}
+							</Link>
+							{' | '}Published {formatPublishDate(story.createdAt)}
+						</p>
+					</li>
+				)
+			})}
+		</ul>
+	)
+}
+
+type LoaderDataShape = {
+	stories: StoryWithPermission[]
+	storiesOwnedByUser: StoryWithPermission[]
+	storiesReadingAndEditing: StoryWithPermission[]
+}
+
 export default function GetStoriesRoute() {
-	const { stories } = useLoaderData<{ stories: StoryWithPermission[] }>()
+	const { stories, storiesOwnedByUser, storiesReadingAndEditing } =
+		useLoaderData<LoaderDataShape>()
+	const user = useOptionalUser()
+	console.log('storiesOwnedByUser', JSON.stringify(storiesOwnedByUser))
+	console.log(
+		'storiesReadingAndEditing',
+		JSON.stringify(storiesReadingAndEditing),
+	)
 
 	return (
 		<main className="mx-auto h-full max-w-7xl px-8 py-8 md:rounded">
 			<h1 className="mb-8 text-h1">Stories</h1>
-			<ul>
-				{stories.map(story => {
-					return (
-						<li key={story.id}>
-							<div className="flex w-fit items-center gap-4">
-								<h2 className="text-body-md font-bold underline">
-									<Link to={`/stories/${story.id}/introduction`}>
-										{story.title}
-									</Link>
-								</h2>
-								{story.permission?.name === StoryPermissions.EditStory && (
-									<Badge color="success">Editor</Badge>
-								)}
-								{story.permission?.name === StoryPermissions.ReadStory && (
-									<Badge>Reader</Badge>
-								)}
-							</div>
-							<p>{story.description}</p>
-							<p className="text-md md:text-md mb-6 text-neutral-400">
-								By{' '}
-								<Link
-									to={`/users/${story.owner.username}`}
-									className="italic underline"
-								>
-									{story.owner.username}
-								</Link>
-								{' | '}Published {formatPublishDate(story.createdAt)}
-							</p>
-						</li>
-					)
-				})}
-			</ul>
+			<Tabs style="pills">
+				<Tabs.Item active title="Public Stories">
+					<StoryList stories={stories} user={user} />
+				</Tabs.Item>
+				<Tabs.Item title="Your Stories">
+					<StoryList stories={storiesOwnedByUser} user={user} />
+				</Tabs.Item>
+				<Tabs.Item title="Reading & Editing">
+					<StoryList stories={storiesReadingAndEditing} user={user} />
+				</Tabs.Item>
+			</Tabs>
 		</main>
 	)
 }
