@@ -166,6 +166,7 @@ export default function GetStoriesRoute() {
 	return (
 		<main className="mx-auto h-full max-w-7xl px-8 py-8 md:rounded">
 			<h1 className="mb-8 text-h1">Stories</h1>
+			{/* eslint-disable-next-line react/style-prop-object */}
 			<Tabs style="pills">
 				<Tabs.Item active title="Public Stories">
 					<StoryList stories={stories} user={user} />

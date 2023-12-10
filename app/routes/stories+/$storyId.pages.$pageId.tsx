@@ -119,7 +119,7 @@ export default function GetPageRoute() {
 					))}
 			</div>
 			<div
-				className={clsx(' flex gap-2', {
+				className={clsx('flex gap-2', {
 					'mb-6': editMode,
 					'mb-2': !editMode,
 				})}
@@ -129,8 +129,8 @@ export default function GetPageRoute() {
 				)}
 				<p className="preserve-whitespace">{page.content}</p>
 			</div>
-
-			<ul className="ml-12 space-y-4" key={page.id}>
+			<h3 className="mb-2 mt-4 text-xl font-bold">Your choices are:</h3>
+			<ul className="ml-6 space-y-4" key={page.id}>
 				{page.nextChoices.map(choice => {
 					return (
 						<EditableChoice

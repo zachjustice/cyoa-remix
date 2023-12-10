@@ -161,11 +161,11 @@ export function PageEditor(props: PageEditorProps) {
 
 	let prompt: string
 	if (page?.content) {
-		prompt = 'What do you want to change?'
+		prompt = 'Edit the page...'
 	} else if (page?.parentChoiceId) {
-		prompt = 'This page is blank... Do you want to continue the story?'
+		prompt = 'Write the next page...'
 	} else {
-		prompt = 'This is the first page of your story. A blank page awaits you...'
+		prompt = 'Write the first page...'
 	}
 
 	return (

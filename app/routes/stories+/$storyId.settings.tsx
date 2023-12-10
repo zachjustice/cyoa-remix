@@ -252,6 +252,7 @@ export default function StorySettingsRoute() {
 	return (
 		<div className="space-y-6">
 			<h1 className="text-h1">Settings</h1>
+			{/* eslint-disable-next-line react/style-prop-object */}
 			<Tabs style="fullWidth">
 				<Tabs.Item active title="Visibility">
 					<h2 className="text-h4">Manage Visibility</h2>
