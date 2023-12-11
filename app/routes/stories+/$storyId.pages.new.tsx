@@ -49,15 +49,19 @@ export default function CreatePage() {
 	if (canAddPage) {
 		return (
 			<>
-				<Accordion className="mb-8" collapseAll>
-					<Accordion.Panel>
-						<Accordion.Title>Previous Page</Accordion.Title>
-						<Accordion.Content>
-							<p className="preserve-whitespace">{data.previousPageContent}</p>
-							<p className="ml-12 font-bold">{data.previousChoiceContent}</p>
-						</Accordion.Content>
-					</Accordion.Panel>
-				</Accordion>
+				{data.previousPageContent && (
+					<Accordion className="mb-8" collapseAll>
+						<Accordion.Panel>
+							<Accordion.Title>Previous Page</Accordion.Title>
+							<Accordion.Content>
+								<p className="preserve-whitespace">
+									{data.previousPageContent}
+								</p>
+								<p className="ml-12 font-bold">{data.previousChoiceContent}</p>
+							</Accordion.Content>
+						</Accordion.Panel>
+					</Accordion>
+				)}
 				<PageEditor
 					page={{
 						storyId: data?.storyId,

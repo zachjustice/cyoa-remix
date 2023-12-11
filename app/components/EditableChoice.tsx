@@ -66,7 +66,7 @@ export default function EditableChoice(props: ChoiceProps) {
 					})}
 					onClick={() => onClickHandler(pageId, choice)}
 				>
-					<FaAngleRight /> {choice.content}
+					{!editable && <FaAngleRight />} {choice.content}
 				</Link>
 			</li>
 		)
