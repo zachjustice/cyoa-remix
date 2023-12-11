@@ -39,6 +39,7 @@ export default {
 					yellow: '#FFBE3F',
 					'yellow-muted': '#FFD262',
 					red: '#EF5A5A',
+					blue: '#429AFF',
 				},
 			},
 			fontFamily: {
