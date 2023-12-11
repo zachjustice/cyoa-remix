@@ -20,18 +20,21 @@ export const customTheme: CustomFlowbiteTheme = {
 	},
 	tabs: {
 		tablist: {
+			base: 'flex text-center',
 			styles: {
 				fullWidth:
 					'w-full text-sm font-medium shadow grid grid-flow-col dark:divide-gray-700 dark:text-gray-400 rounded-none',
+				pills:
+					'overflow-x-auto sm:flex-wrap border-t border-b border-night-400 py-2 font-medium text-sm text-gray-500 dark:text-gray-400 space-x-2',
 			},
 			tabitem: {
-				base: 'flex items-center justify-center p-4 text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:ring-1 focus:ring-accept-yellow focus:outline-none',
+				base: 'items-center whitespace-nowrap justify-center p-4 text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:ring-1 focus:ring-accept-yellow focus:outline-none',
 				styles: {
 					pills: {
 						base: '',
 						active: {
-							on: 'rounded-lg bg-accent-purple text-white',
-							off: 'rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white',
+							on: 'rounded-lg border border-night-400 bg-accent-purple text-white',
+							off: 'rounded-lg border border-night-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white',
 						},
 					},
 					fullWidth: {

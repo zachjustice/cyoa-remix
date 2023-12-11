@@ -111,7 +111,7 @@ function StoryList({ stories, user, children }: StoryListProps) {
 		<ul>
 			{stories?.map(story => {
 				return (
-					<li key={story.id}>
+					<li key={story.id} className="mb-4 border-b border-night-400 pb-4">
 						<div className="flex w-fit items-center gap-4">
 							<h2 className="text-body-md font-bold underline">
 								<Link to={`/stories/${story.id}/introduction`}>
@@ -131,7 +131,7 @@ function StoryList({ stories, user, children }: StoryListProps) {
 							)}
 						</div>
 						<p>{story.description}</p>
-						<p className="text-md md:text-md mb-6 text-neutral-400">
+						<p className="text-md md:text-md text-neutral-400">
 							By{' '}
 							<Link
 								to={`/users/${story.owner.username}`}
@@ -165,8 +165,8 @@ export default function GetStoriesRoute() {
 	)
 
 	return (
-		<main className="mx-auto h-full max-w-7xl px-8 py-8 md:rounded">
-			<h1 className="mb-8 text-h1">Stories</h1>
+		<main className="mx-auto h-full max-w-7xl px-4 py-8 sm:px-8">
+			<h1 className="mb-2 text-h1">Stories</h1>
 			{/* eslint-disable-next-line react/style-prop-object */}
 			<Tabs style="pills">
 				<Tabs.Item active title="Public Stories">
