@@ -119,6 +119,7 @@ function StoryList({ stories, user, children }: StoryListProps) {
 								</Link>
 							</h2>
 							{story.isPublic && <Badge color="dark">Public</Badge>}
+							{!story.isPublic && <Badge color="dark">Private</Badge>}
 							{story.owner.username === user?.username && (
 								<Badge color="indigo">Owner</Badge>
 							)}
