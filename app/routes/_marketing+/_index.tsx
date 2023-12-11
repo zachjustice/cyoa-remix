@@ -1,9 +1,36 @@
 import type { MetaFunction } from '@remix-run/node'
-import { demo, owl } from './logos/logos.ts'
+import { owl } from './logos/logos.ts'
+import {
+	step1,
+	step2,
+	step3,
+	step5,
+	step6,
+} from '~/routes/_marketing+/images/images.ts'
+import React from 'react'
 
 export const meta: MetaFunction = () => [
 	{ title: 'Choose Your Own Adventure!' },
 ]
+
+type TutorialStepProps = {
+	index: number
+	instructions: string
+	imgSrc: string
+	alt: string
+}
+
+function TutorialStep({ index, instructions, imgSrc, alt }: TutorialStepProps) {
+	return (
+		<li className="lg:flex">
+			<h3 className="text-2xl lg:w-1/2">
+				<b>Step {index}:</b> {instructions}
+				the story will be about.
+			</h3>
+			<img src={imgSrc} alt={alt} width={600} />
+		</li>
+	)
+}
 
 export default function Index() {
 	return (
@@ -35,46 +62,55 @@ export default function Index() {
 							<img
 								src={owl}
 								alt="Illustration of a pixel art owl"
-								className="mx-auto mt-8 w-full max-w-[10rem] md:max-w-[14rem]"
+								className="mx-auto mt-8 w-full max-w-[10rem] lg:max-w-[14rem]"
 							/>
 						</a>
 					</div>
-					<div className="pb-4 pt-16 text-center">
+					<div className="py-16 text-center">
 						<h2 className="text-h2">
-							<a href="/stories" className="text-2xl">
-								Getting{' '}
-								<a className="text-accent-purple underline" href="/stories/new">
-									started
-								</a>{' '}
-								is easy
-							</a>
+							Once you make an{' '}
+							<a className="text-accent-purple underline" href="/signup">
+								account,
+							</a>{' '}
+							getting{' '}
+							<a className="text-accent-purple underline" href="/stories/new">
+								started
+							</a>{' '}
+							is easy
 						</h2>
 					</div>
 					<div className="flex justify-center gap-8">
-						<div className="w-[250px]">
-							<img
-								alt="A screen recording demoing the functionality of this website."
-								src={demo}
-								width={504}
-								height={1064}
-							/>
-						</div>
 						<ul className="space-y-10">
-							<li>
-								<h3 className="text-2xl">
-									<b>Step 1:</b> Create a new story
-								</h3>
-							</li>
-							<li>
-								<h3 className="text-2xl">
-									<b>Step 2:</b> Write the first page
-								</h3>
-							</li>
-							<li>
-								<h3 className="text-2xl">
-									<b>Step 3:</b> Repeat!
-								</h3>
-							</li>
+							<TutorialStep
+								index={1}
+								instructions='Click "Write a Story," then enter the title of your story and brief description of what the story will be about.'
+								alt='Screenshot of the "New Story" screen with "The Ancient Forest" as the title and a description of the story.'
+								imgSrc={step1}
+							/>
+							<TutorialStep
+								index={2}
+								instructions='Click "Write the first page" to enter the first page of your story.'
+								imgSrc={step2}
+								alt='Screenshot of the "Story Introduction" screen with the information from the previous step saved. There are the buttons: "Write the first page," "Edit," and "Settings"'
+							/>
+							<TutorialStep
+								index={3}
+								instructions='Write the first page of the story and click "Save."'
+								imgSrc={step3}
+								alt='Screenshot of the "New Page" screen with text describing the first page of a fantasy story that ends with a question to prompt the reader.'
+							/>
+							<TutorialStep
+								index={4}
+								instructions="Enter the choices readers can next."
+								imgSrc={step5}
+								alt='Screenshot of the "Page Edit" screen with the text from the first page followed by the title "Your choices are:" followed by choices that the reder might select such "Wander through the forest. The trees are so beautiful." and "Curl into a ball and cry."'
+							/>
+							<TutorialStep
+								index={5}
+								instructions="Click one of the choices to continue the story, and repeat!"
+								imgSrc={step6}
+								alt='Screenshot of the "New Page" screen, however at the top of the page, the previous page text and the selected choice "Wander through the forest. The trees are so beautiful." are displayed in a collasible accordion component.'
+							/>
 						</ul>
 					</div>
 				</div>
