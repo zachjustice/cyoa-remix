@@ -4,8 +4,8 @@ import {
 	step1,
 	step2,
 	step3,
+	step4,
 	step5,
-	step6,
 } from '~/routes/_marketing+/images/images.ts'
 import React from 'react'
 
@@ -102,13 +102,13 @@ export default function Index() {
 							<TutorialStep
 								index={4}
 								instructions="Enter the choices readers can next."
-								imgSrc={step5}
+								imgSrc={step4}
 								alt='Screenshot of the "Page Edit" screen with the text from the first page followed by the title "Your choices are:" followed by choices that the reder might select such "Wander through the forest. The trees are so beautiful." and "Curl into a ball and cry."'
 							/>
 							<TutorialStep
 								index={5}
 								instructions="Click one of the choices to continue the story, and repeat!"
-								imgSrc={step6}
+								imgSrc={step5}
 								alt='Screenshot of the "New Page" screen, however at the top of the page, the previous page text and the selected choice "Wander through the forest. The trees are so beautiful." are displayed in a collasible accordion component.'
 							/>
 						</ul>
