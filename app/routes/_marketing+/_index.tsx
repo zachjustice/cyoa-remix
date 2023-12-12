@@ -22,10 +22,9 @@ type TutorialStepProps = {
 
 function TutorialStep({ index, instructions, imgSrc, alt }: TutorialStepProps) {
 	return (
-		<li className="lg:flex">
-			<h3 className="text-2xl lg:w-1/2">
+		<li className="border-b lg:flex">
+			<h3 className="lg:w-1/2">
 				<b>Step {index}:</b> {instructions}
-				the story will be about.
 			</h3>
 			<img src={imgSrc} alt={alt} width={600} />
 		</li>
@@ -67,7 +66,7 @@ export default function Index() {
 						</a>
 					</div>
 					<div className="py-16 text-center">
-						<h2 className="text-h2">
+						<h2 className="text-2xl">
 							Once you make an{' '}
 							<a className="text-accent-purple underline" href="/signup">
 								account,
@@ -79,7 +78,7 @@ export default function Index() {
 							is easy
 						</h2>
 					</div>
-					<div className="flex justify-center gap-8">
+					<div className="flex justify-center gap-8 text-body-md">
 						<ul className="space-y-10">
 							<TutorialStep
 								index={1}

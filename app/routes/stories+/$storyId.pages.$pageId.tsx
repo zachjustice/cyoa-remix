@@ -1,7 +1,6 @@
 import { type Choice, type Page } from '@prisma/client'
 import { type DataFunctionArgs, json } from '@remix-run/node'
 import { useLoaderData, useParams, useSearchParams } from '@remix-run/react'
-import { clsx } from 'clsx'
 import invariant from 'tiny-invariant'
 import EditableChoice from '~/components/EditableChoice.tsx'
 import { EditIconLink } from '~/components/EditIcon.tsx'
@@ -118,12 +117,7 @@ export default function GetPageRoute() {
 						</ButtonLink>
 					))}
 			</div>
-			<div
-				className={clsx('flex gap-2', {
-					'mb-6': editMode,
-					'mb-2': !editMode,
-				})}
-			>
+			<div className="flex gap-2">
 				{canEditPage && editMode && (
 					<EditIconLink to="edit" variant="outline" />
 				)}

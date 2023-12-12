@@ -7,8 +7,9 @@ import Check from '~/components/Check.tsx'
 import Xmark from '~/components/Xmark.tsx'
 import { requireUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
-import { ButtonLink, ErrorList, Field, Button } from '~/utils/forms.tsx'
+import { Button, ButtonLink, ErrorList, Field } from '~/utils/forms.tsx'
 import { requireStoryEditor } from '~/utils/permissions.server.ts'
+import { FaTrashAlt } from 'react-icons/fa/index.js'
 
 export const ChoiceEditorSchema = z.object({
 	id: z.string().optional(),
@@ -96,6 +97,7 @@ type ChoiceEditorProps = {
 		content?: string
 		parentPageId: string
 		storyId: string
+		nextPageId?: string | null
 	}
 }
 
@@ -141,32 +143,47 @@ export function ChoiceEditor(props: ChoiceEditorProps) {
 					/>
 					<ErrorList errors={form.errors} id={form.errorId} />
 				</div>
-				<div className="flex gap-2">
-					<div>
-						<Button
-							size="xs"
-							color="primary"
-							status={
-								choiceEditorFetcher.state === 'submitting'
-									? 'pending'
-									: choiceEditorFetcher.data?.status ?? 'idle'
-							}
-							type="submit"
-							disabled={choiceEditorFetcher.state !== 'idle'}
-						>
-							<Check />
-						</Button>
+				<div className="flex justify-between">
+					<div className="flex gap-2">
+						<div>
+							<Button
+								size="xs"
+								color="primary"
+								status={
+									choiceEditorFetcher.state === 'submitting'
+										? 'pending'
+										: choiceEditorFetcher.data?.status ?? 'idle'
+								}
+								type="submit"
+								disabled={choiceEditorFetcher.state !== 'idle'}
+							>
+								<Check />
+							</Button>
+						</div>
+						<div>
+							<ButtonLink
+								size="xs"
+								color="secondary"
+								to={`/stories/${choice.storyId}/pages/${choice.parentPageId}/?editPage=true`}
+								type="reset"
+							>
+								<Xmark />
+							</ButtonLink>
+						</div>
 					</div>
-					<div>
-						<ButtonLink
-							size="xs"
-							color="secondary"
-							to={`/stories/${choice.storyId}/pages/${choice.parentPageId}/?editPage=true`}
-							type="reset"
-						>
-							<Xmark />
-						</ButtonLink>
-					</div>
+					{choice.id && (
+						<div>
+							<ButtonLink
+								size="xs"
+								color="danger"
+								aria-label="delete this choice; disabled if the choice points to another page."
+								to={`/stories/${choice.storyId}/pages/${choice.parentPageId}/choices/${choice.id}/delete`}
+								disabled={!!choice.nextPageId}
+							>
+								<FaTrashAlt size={26} />
+							</ButtonLink>
+						</div>
+					)}
 				</div>
 			</div>
 		</choiceEditorFetcher.Form>

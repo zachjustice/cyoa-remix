@@ -191,28 +191,7 @@ export function PageEditor(props: PageEditorProps) {
 			/>
 			<ErrorList errors={form.errors} id={form.errorId} />
 			<div className="flex justify-between gap-4">
-				{page?.id && canDeletePage && (
-					<div className="flex">
-						<ButtonLink
-							size="sm"
-							color="danger"
-							to={`/stories/${page.storyId}/pages/${page.id}/delete`}
-						>
-							Delete
-						</ButtonLink>
-					</div>
-				)}
 				<div className="flex gap-4">
-					{page?.id && (
-						<ButtonLink
-							size="sm"
-							color="secondary"
-							type="reset"
-							to={`/stories/${page.storyId}/pages/${page.id}`}
-						>
-							Cancel
-						</ButtonLink>
-					)}
 					<Button
 						size="sm"
 						color="primary"
@@ -226,7 +205,28 @@ export function PageEditor(props: PageEditorProps) {
 					>
 						Save
 					</Button>
+					{page?.id && (
+						<ButtonLink
+							size="sm"
+							color="secondary"
+							type="reset"
+							to={`/stories/${page.storyId}/pages/${page.id}`}
+						>
+							Cancel
+						</ButtonLink>
+					)}
 				</div>
+				{page?.id && canDeletePage && (
+					<div className="flex">
+						<ButtonLink
+							size="sm"
+							color="danger"
+							to={`/stories/${page.storyId}/pages/${page.id}/delete`}
+						>
+							Delete
+						</ButtonLink>
+					</div>
+				)}
 			</div>
 		</pageEditorFetcher.Form>
 	)
