@@ -19,6 +19,13 @@ export async function loader({ params, request }: DataFunctionArgs) {
 		select: {
 			id: true,
 			content: true,
+			nextChoices: {
+				select: {
+					id: true,
+					content: true,
+					nextPageId: true,
+				}
+			}
 		},
 	})
 

@@ -57,9 +57,43 @@ export function Field({
 			/>
 			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
 			<label htmlFor={id} {...labelProps} />
-			<div className="px-4 pb-3 pt-1">
-				{errorId ? <ErrorList id={errorId} errors={errors} /> : null}
-			</div>
+			{errors &&
+				<div className="px-4 pb-3 pt-1">
+					 {errorId ? <ErrorList id={errorId} errors={errors} /> : null}
+				</div>
+			}
+		</div>
+	)
+}
+
+
+
+export function SimpleField({
+						  labelProps,
+						  inputProps,
+						  className,
+						  errorId,
+					  }: {
+	labelProps: Omit<JSX.IntrinsicElements['label'], 'className'>
+	inputProps: Omit<JSX.IntrinsicElements['input'], 'className'>
+	errors?: ListOfErrors
+	className?: string
+	errorId?: string
+}) {
+	const fallbackId = useId()
+	const id = inputProps.id ?? fallbackId
+	return (
+		<div className={clsx(styles.field, className)} style={{minHeight: 0}}>
+			<input
+				id={id}
+				aria-invalid={errorId ? true : undefined}
+				aria-describedby={errorId}
+				placeholder=" "
+				{...inputProps}
+				className="h-16 w-full rounded-lg border border-night-400 bg-night-700 px-4 pt-4 text-body-xs caret-white outline-none focus:border-accent-purple disabled:bg-night-400"
+			/>
+			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
+			<label htmlFor={id} {...labelProps} />
 		</div>
 	)
 }
