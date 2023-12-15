@@ -11,7 +11,7 @@ import { requireStoryEditor } from '~/utils/permissions.server.ts'
 
 export const PageEditorSchema = z.object({
 	id: z.string().optional(),
-	content: z.string().min(1),
+	pageContent: z.string().min(1),
 	parentChoiceId: z.string().optional(),
 	storyId: z.string(),
 })
@@ -42,7 +42,7 @@ export async function action({ request }: DataFunctionArgs) {
 
 	let page: { id: string }
 
-	const { content, id, parentChoiceId, storyId } = submission.value
+	const { pageContent, id, parentChoiceId, storyId } = submission.value
 
 	await requireStoryEditor(storyId, userId)
 
@@ -65,7 +65,7 @@ export async function action({ request }: DataFunctionArgs) {
 		page = await prisma.page.update({
 			where: { id },
 			data: {
-				content: content,
+				content: pageContent,
 			},
 			select: {
 				id: true,
@@ -82,7 +82,7 @@ export async function action({ request }: DataFunctionArgs) {
 				nextPage: {
 					create: {
 						owner: { connect: { id: userId } },
-						content: content,
+						content: pageContent,
 					},
 				},
 			},
@@ -116,7 +116,7 @@ export async function action({ request }: DataFunctionArgs) {
 				firstPage: {
 					create: {
 						owner: { connect: { id: userId } },
-						content: content,
+						content: pageContent,
 					},
 				},
 			},
@@ -154,7 +154,7 @@ export function PageEditor(props: PageEditorProps) {
 			return parse(formData, { schema: PageEditorSchema })
 		},
 		defaultValue: {
-			content: page?.content,
+			pageContent: page?.content,
 		},
 		shouldRevalidate: 'onBlur',
 	})
@@ -181,13 +181,13 @@ export function PageEditor(props: PageEditorProps) {
 			<TextareaField
 				className="no-required-asterisk"
 				labelProps={{
-					htmlFor: fields.content.id,
+					htmlFor: fields.pageContent.id,
 					children: prompt,
 				}}
 				textareaProps={{
-					...conform.textarea(fields.content),
+					...conform.textarea(fields.pageContent),
 				}}
-				errors={fields.content.errors}
+				errors={fields.pageContent.errors}
 			/>
 			<ErrorList errors={form.errors} id={form.errorId} />
 			<div className="flex justify-between gap-4">
