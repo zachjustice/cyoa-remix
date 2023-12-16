@@ -99,7 +99,7 @@ export async function action({ request }: DataFunctionArgs) {
 
 	const submission = parse(formData, {
 		schema: AddReaderFormSchema,
-		acceptMultipleErrors: () => true,
+		// acceptMultipleErrors: () => true,
 	})
 
 	if (submission.intent !== 'submit') {

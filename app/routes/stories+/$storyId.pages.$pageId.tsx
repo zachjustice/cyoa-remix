@@ -112,7 +112,7 @@ export default function GetPageRoute() {
 							Done
 						</ButtonLink>
 					) : (
-						<ButtonLink className="h-fit w-fit" to="?editPage=true">
+						<ButtonLink className="h-fit w-fit" to="edit">
 							Edit
 						</ButtonLink>
 					))}

@@ -25,7 +25,7 @@ export async function action({ request }: DataFunctionArgs) {
 
 	const submission = parse(formData, {
 		schema: ChoiceEditorSchema,
-		acceptMultipleErrors: () => true,
+		// acceptMultipleErrors: () => true,
 	})
 
 	if (submission.intent !== 'submit') {
