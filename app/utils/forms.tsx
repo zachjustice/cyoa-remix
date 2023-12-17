@@ -58,7 +58,7 @@ export function Field({
 			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
 			<label htmlFor={id} {...labelProps} />
 			{errors && (
-				<div className="px-4 pb-3 pt-1">
+				<div className="px-4 pt-1">
 					{errorId ? <ErrorList id={errorId} errors={errors} /> : null}
 				</div>
 			)}

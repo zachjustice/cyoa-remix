@@ -17,15 +17,18 @@ import { prisma } from '~/utils/db.server.ts'
 import {
 	Button,
 	ButtonLink,
+	type ButtonStatus,
 	ErrorList,
 	SimpleField,
 	TextareaField,
 } from '~/utils/forms.tsx'
 import { requireStoryEditor } from '~/utils/permissions.server.ts'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { type ViewedChoice } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
-import { FaMinusCircle } from 'react-icons/fa/index.js'
 import { BsArrowReturnRight } from 'react-icons/bs/index.js'
+import { logJSON } from '~/utils/logging.ts'
+import Xmark from '~/components/Xmark.tsx'
+import { clsx } from 'clsx'
 
 const ChoiceSchema = z.object({
 	id: z.string().optional(),
@@ -157,42 +160,11 @@ async function createOrSavePage(
 	return story.firstPageId
 }
 
-export async function action({ request }: DataFunctionArgs) {
-	const userId = await requireUserId(request)
-	const formData = await request.formData()
-
-	const submission = parse(formData, {
-		schema: PageEditorSchema,
-	})
-
-	if (submission.intent !== 'submit') {
-		return json({ status: 'idle', submission } as const)
-	}
-
-	if (!submission.value) {
-		return json(
-			{
-				status: 'error',
-				submission,
-			} as const,
-			{ status: 400 },
-		)
-	}
-
-	const { pageContent, id, parentChoiceId, storyId, choices } = submission.value
-	const pageId = await createOrSavePage(
-		pageContent,
-		id,
-		parentChoiceId,
-		storyId,
-		choices,
-		userId,
-		submission,
-	)
-
-	await requireStoryEditor(storyId, userId)
-
-	// Update Choices
+async function updateChoices(
+	userId: string,
+	pageId: string,
+	choices: z.infer<typeof ChoiceSchema>[] | undefined,
+) {
 	for (const { id: choiceId, content, nextPageId } of choices || []) {
 		if (choiceId) {
 			await prisma.choice.update({
@@ -221,6 +193,46 @@ export async function action({ request }: DataFunctionArgs) {
 			})
 		}
 	}
+}
+
+export async function action({ request }: DataFunctionArgs) {
+	const userId = await requireUserId(request)
+	const formData = await request.formData()
+
+	const submission = parse(formData, {
+		schema: PageEditorSchema,
+		errorMap: (issue, ctx) => ({ message: issue.message || 'Error' }),
+	})
+
+	if (submission.intent !== 'submit') {
+		return json({ status: 'idle', submission } as const)
+	}
+
+	if (!submission.value) {
+		return json(
+			{
+				status: 'error',
+				submission,
+			} as const,
+			{ status: 400 },
+		)
+	}
+
+	const { pageContent, id, parentChoiceId, storyId, choices } = submission.value
+	logJSON('choices', choices)
+
+	await requireStoryEditor(storyId, userId)
+	const pageId = await createOrSavePage(
+		pageContent,
+		id,
+		parentChoiceId,
+		storyId,
+		choices,
+		userId,
+		submission,
+	)
+
+	await updateChoices(userId, pageId, choices)
 
 	if (id) {
 		// Saving changes on a pre-existing page; stay on the page
@@ -250,6 +262,7 @@ export function PageEditor(props: PageEditorProps) {
 	const pageEditorFetcher = useFetcher<typeof action>()
 	const navigate = useNavigate()
 	const goBack = () => navigate(-1)
+	logJSON(page)
 
 	const [form, fields] = useForm({
 		id: 'page-editor',
@@ -326,7 +339,6 @@ export function PageEditor(props: PageEditorProps) {
 					}}
 					errors={fields.pageContent.errors}
 				/>
-				<ErrorList errors={form.errors} id={form.errorId} />
 
 				<div className="mb-6 flex items-center gap-4 border-b border-night-400 pb-6">
 					<Subtitle>Choices</Subtitle>
@@ -343,10 +355,7 @@ export function PageEditor(props: PageEditorProps) {
 
 				<ul>
 					{choices.map((choice, index) => (
-						<li
-							key={choice.key}
-							className="mb-6 space-y-4 border-b border-night-400 pb-4"
-						>
+						<li key={choice.key} className="mb-6 border-b border-night-400">
 							<ChoiceFieldset
 								config={choice}
 								index={index}
@@ -367,7 +376,9 @@ export function PageEditor(props: PageEditorProps) {
 							size="sm"
 							color="primary"
 							status={
-								pageEditorFetcher.state === 'submitting' ? 'pending' : 'idle'
+								pageEditorFetcher.state === 'submitting'
+									? 'pending'
+									: (pageEditorFetcher.data?.status as ButtonStatus) ?? 'idle'
 							}
 							type="submit"
 							disabled={pageEditorFetcher.state !== 'idle'}
@@ -400,14 +411,15 @@ type ChoiceFieldsetProps = {
 
 function ChoiceFieldset({ config, index, name }: ChoiceFieldsetProps) {
 	const ref = useRef<HTMLFieldSetElement>(null)
-	// Both useFieldset / useFieldList accept form or fieldset ref
 	const { id, content, nextPageId } = useFieldset(ref, config)
-	console.log(id.defaultValue, content.defaultValue, nextPageId.defaultValue)
+	const [enterNextPageId, setNextPageId] = useState(false)
+
+	const [choiceContent, setChoiceContent] = useState(content.defaultValue)
 
 	return (
-		<fieldset ref={ref}>
+		<fieldset ref={ref} className="mb-5">
 			<input type="hidden" name={id.name} value={id.defaultValue} />
-			<div className="mb-4 flex items-center gap-2">
+			<div className="mb-2 flex items-center gap-2">
 				<SimpleField
 					className="no-required-asterisk w-full"
 					labelProps={{
@@ -416,41 +428,66 @@ function ChoiceFieldset({ config, index, name }: ChoiceFieldsetProps) {
 					}}
 					inputProps={{
 						...conform.input(content),
+						onChange: e => setChoiceContent(e.target.value),
 					}}
 				/>
 
 				<button
 					{...list.remove(name, { index })}
 					disabled={!!nextPageId.defaultValue}
-					className="disabled:text-night-400"
+					className="text-accent-red hover:text-accent-yellow disabled:text-night-400"
 				>
-					<FaMinusCircle aria-setsize={24} size={24} />
+					<Xmark />
 				</button>
 			</div>
-			{/*{nextPageId.defaultValue ? (*/}
+
+			<ErrorList id={content.errorId} errors={content.errors} />
+
 			<div className="flex items-center gap-2">
-				<BsArrowReturnRight size={24} />
+				<BsArrowReturnRight className="text-night-200" size={24} />
 				<SimpleField
-					className="no-required-asterisk w-full"
+					className={clsx('w-full', {
+						hidden: !enterNextPageId,
+					})}
 					labelProps={{
 						htmlFor: nextPageId.id,
-						children: `Next Page Id...`,
+						children: `Enter Page Id`,
 					}}
 					inputProps={{
 						...conform.input(nextPageId),
 					}}
 				/>
-				<FaMinusCircle aria-setsize={24} size={24} />
+				{nextPageId.defaultValue && !enterNextPageId && (
+					<span id={nextPageId.id} className="italic text-night-200">
+						{nextPageId.defaultValue}
+					</span>
+				)}
+				{(nextPageId.defaultValue || enterNextPageId) && (
+					<button
+						{...list.replace(name, {
+							index,
+							defaultValue: {
+								id: id.defaultValue,
+								content: choiceContent,
+								nextPageId: undefined,
+							},
+						})}
+						className="text-accent-red hover:text-accent-yellow disabled:text-night-400"
+					>
+						<Xmark />
+					</button>
+				)}
+				{!nextPageId.defaultValue && !enterNextPageId && (
+					<Button
+						className="whitespace-nowrap"
+						onClick={() => setNextPageId(!enterNextPageId)}
+					>
+						Link page
+					</Button>
+				)}
 			</div>
-			{/*) : (*/}
-			{/*    <div className='flex gap-2 items-center'>*/}
-			{/*        <BsArrowReturnRight size={24}/>*/}
-			{/*        <Button>*/}
-			{/*            Add page*/}
-			{/*        </Button>*/}
-			{/*    </div>*/}
-			{/*)}*/}
-			<span>{content.error || nextPageId.error}</span>
+
+			<ErrorList id={nextPageId.errorId} errors={nextPageId.errors} />
 		</fieldset>
 	)
 }

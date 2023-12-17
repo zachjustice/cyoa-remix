@@ -20,7 +20,6 @@ export const ChoiceEditorSchema = z.object({
 
 export async function action({ request }: DataFunctionArgs) {
 	const userId = await requireUserId(request)
-
 	const formData = await request.formData()
 
 	const submission = parse(formData, {
