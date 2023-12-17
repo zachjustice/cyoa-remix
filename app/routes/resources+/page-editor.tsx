@@ -26,7 +26,6 @@ import { requireStoryEditor } from '~/utils/permissions.server.ts'
 import { useRef, useState } from 'react'
 import { type ViewedChoice } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
 import { BsArrowReturnRight } from 'react-icons/bs/index.js'
-import { logJSON } from '~/utils/logging.ts'
 import Xmark from '~/components/Xmark.tsx'
 import { clsx } from 'clsx'
 
@@ -61,27 +60,53 @@ export const PageEditorSchema = z.object({
 	choices: z
 		.array(ChoiceSchema)
 		.superRefine(async (choices, ctx) => {
-			const originalChoices = await prisma.choice.findMany({
-				where: { id: { in: choices.map(c => c.id).filter(Boolean) } },
-				select: {
-					id: true,
-					nextPageId: true,
-					parentPageId: true,
-				},
+			// TODO: get the pageId from the form instead of making a DB query.
+			// TODO: only run this validation on form submit
+			/**
+			 * TODO: better error messaging when the user:
+			 *   1. deletes linked page
+			 *   2. deletes the associated choice
+			 *   3. saves the form
+			 *   4. this validation fails and the error message is not displayed
+			 */
+			const { parentPageId } = await prisma.choice.findUniqueOrThrow({
+				where: { id: choices[0].id },
+				select: { parentPageId: true },
 			})
 
+			const { nextChoices: originalChoices } =
+				await prisma.page.findUniqueOrThrow({
+					where: { id: parentPageId },
+					select: {
+						nextChoices: {
+							select: {
+								id: true,
+								parentPageId: true,
+								nextPageId: true,
+							},
+						},
+					},
+				})
+
+			const choiceIds = (choices || []).map(c => c.id)
 			const nextPageIds = (choices || []).map(c => c.nextPageId).filter(Boolean)
 			const nextPageIdsToDelete = originalChoices
 				.map(c => c.nextPageId)
 				.filter(Boolean)
 				.filter(originalNextPageId => !nextPageIds.includes(originalNextPageId))
 
-			logJSON(
-				'originalNextChoices',
-				originalChoices.map(c => c.nextPageId).filter(Boolean),
+			// Add the next page id's for deleted choices
+			nextPageIdsToDelete.concat(
+				originalChoices
+					.filter(c => !choiceIds.includes(c.id))
+					.map(c => c.nextPageId)
+					.filter(Boolean),
 			)
-			logJSON('nextPageIds', nextPageIds)
-			logJSON('nextPageIdsToDelete', nextPageIdsToDelete)
+
+			if (nextPageIdsToDelete.length === 0) {
+				// Nothing to validate; escape early
+				return true
+			}
 
 			const choicesUsingNextPageIds = await prisma.choice.findMany({
 				where: {
