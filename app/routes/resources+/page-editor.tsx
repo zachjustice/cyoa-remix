@@ -33,7 +33,24 @@ import { clsx } from 'clsx'
 const ChoiceSchema = z.object({
 	id: z.string().optional(),
 	content: z.string(),
-	nextPageId: z.string().optional(),
+	nextPageId: z
+		.string()
+		.optional()
+		.refine(
+			async nextPageId => {
+				if (!nextPageId) {
+					return false
+				}
+				return prisma.page.findUnique({
+					where: { id: nextPageId },
+					select: { id: true },
+				})
+			},
+			{
+				message:
+					'Page Id does not exist. Make sure the page id is valid by copy and pasting from the URL.',
+			},
+		),
 })
 
 export const PageEditorSchema = z.object({
@@ -199,9 +216,10 @@ export async function action({ request }: DataFunctionArgs) {
 	const userId = await requireUserId(request)
 	const formData = await request.formData()
 
-	const submission = parse(formData, {
+	const submission = await parse(formData, {
 		schema: PageEditorSchema,
 		errorMap: (issue, ctx) => ({ message: issue.message || 'Error' }),
+		async: true,
 	})
 
 	if (submission.intent !== 'submit') {
@@ -487,7 +505,11 @@ function ChoiceFieldset({ config, index, name }: ChoiceFieldsetProps) {
 				)}
 			</div>
 
-			<ErrorList id={nextPageId.errorId} errors={nextPageId.errors} />
+			<ErrorList
+				extraListClassName="pl-8"
+				id={nextPageId.errorId}
+				errors={nextPageId.errors}
+			/>
 		</fieldset>
 	)
 }

@@ -14,14 +14,16 @@ export type ListOfErrors = Array<string | null | undefined> | null | undefined
 export function ErrorList({
 	id,
 	errors,
+	extraListClassName,
 }: {
 	errors?: ListOfErrors
 	id?: string
+	extraListClassName?: string
 }) {
 	const errorsToRender = errors?.filter(Boolean)
 	if (!errorsToRender?.length) return null
 	return (
-		<ul id={id} className="space-y-1">
+		<ul id={id} className={clsx('space-y-1', extraListClassName)}>
 			{errorsToRender.map(e => (
 				<li key={e} className="text-[10px] text-accent-red">
 					{e}
