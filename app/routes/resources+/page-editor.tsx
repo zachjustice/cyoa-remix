@@ -35,11 +35,10 @@ const ChoiceSchema = z.object({
 	content: z.string(),
 	nextPageId: z
 		.string()
-		.optional()
 		.refine(
 			async nextPageId => {
 				if (!nextPageId) {
-					return false
+					return true
 				}
 				return prisma.page.findUnique({
 					where: { id: nextPageId },
@@ -50,7 +49,8 @@ const ChoiceSchema = z.object({
 				message:
 					'Page Id does not exist. Make sure the page id is valid by copy and pasting from the URL.',
 			},
-		),
+		)
+		.optional(),
 })
 
 export const PageEditorSchema = z.object({
@@ -58,7 +58,58 @@ export const PageEditorSchema = z.object({
 	pageContent: z.string().min(1),
 	parentChoiceId: z.string().optional(),
 	storyId: z.string(),
-	choices: z.array(ChoiceSchema).optional(),
+	choices: z
+		.array(ChoiceSchema)
+		.superRefine(async (choices, ctx) => {
+			const originalChoices = await prisma.choice.findMany({
+				where: { id: { in: choices.map(c => c.id).filter(Boolean) } },
+				select: {
+					id: true,
+					nextPageId: true,
+					parentPageId: true,
+				},
+			})
+
+			const nextPageIds = (choices || []).map(c => c.nextPageId).filter(Boolean)
+			const nextPageIdsToDelete = originalChoices
+				.map(c => c.nextPageId)
+				.filter(Boolean)
+				.filter(originalNextPageId => !nextPageIds.includes(originalNextPageId))
+
+			logJSON(
+				'originalNextChoices',
+				originalChoices.map(c => c.nextPageId).filter(Boolean),
+			)
+			logJSON('nextPageIds', nextPageIds)
+			logJSON('nextPageIdsToDelete', nextPageIdsToDelete)
+
+			const choicesUsingNextPageIds = await prisma.choice.findMany({
+				where: {
+					nextPageId: { in: nextPageIdsToDelete },
+				},
+			})
+
+			const invalidNextPageIds = choicesUsingNextPageIds.reduce(
+				(acc, { parentPageId, nextPageId }) => {
+					invariant(!!nextPageId, 'nextPageId is null')
+					acc[nextPageId] = acc[nextPageId] ? acc[nextPageId] + 1 : 1
+					return acc
+				},
+				{} as Record<string, number>,
+			)
+
+			Object.entries(invalidNextPageIds).forEach(([nextPageId]) => {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					path: [
+						originalChoices.findIndex(c => c.nextPageId === nextPageId),
+						'nextPageId',
+					],
+					message: `The linked page must be deleted before unlinking it from this choice. This choice is the only reference to the linked page: ${nextPageId}`,
+				})
+			})
+		})
+		.optional(),
 })
 
 async function createOrSavePage(
@@ -237,9 +288,9 @@ export async function action({ request }: DataFunctionArgs) {
 	}
 
 	const { pageContent, id, parentChoiceId, storyId, choices } = submission.value
-	logJSON('choices', choices)
 
 	await requireStoryEditor(storyId, userId)
+
 	const pageId = await createOrSavePage(
 		pageContent,
 		id,
@@ -280,7 +331,6 @@ export function PageEditor(props: PageEditorProps) {
 	const pageEditorFetcher = useFetcher<typeof action>()
 	const navigate = useNavigate()
 	const goBack = () => navigate(-1)
-	logJSON(page)
 
 	const [form, fields] = useForm({
 		id: 'page-editor',

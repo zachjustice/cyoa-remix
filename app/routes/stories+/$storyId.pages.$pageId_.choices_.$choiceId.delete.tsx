@@ -60,7 +60,6 @@ export async function action({ params, request }: DataFunctionArgs) {
 
 	const submission = await parse(formData, {
 		schema: DeleteChoiceSchema,
-		acceptMultipleErrors: () => true,
 		async: true,
 	})
 
