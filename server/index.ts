@@ -123,7 +123,7 @@ app.use(
 		crossOriginEmbedderPolicy: false,
 		contentSecurityPolicy: {
 			// NOTE: Remove reportOnly when you're ready to enforce this CSP
-			reportOnly: true,
+			// reportOnly: true,
 			directives: {
 				'connect-src': [
 					MODE === 'development' ? 'ws:' : null,
@@ -135,7 +135,7 @@ app.use(
 				'img-src': ["'self'", 'data:'],
 				'script-src': [
 					"'strict-dynamic'",
-					"'self'",
+					// "'self'",
 					// @ts-expect-error
 					(_, res) => `'nonce-${res.locals.cspNonce}'`,
 				],

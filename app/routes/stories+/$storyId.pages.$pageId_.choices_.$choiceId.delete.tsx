@@ -96,7 +96,6 @@ export default function DeleteChoiceRoute() {
 	const { choice } = useLoaderData<typeof loader>()
 
 	const data = useActionData<typeof action>()
-	console.log(JSON.stringify(data))
 	const error = data?.submission?.error?.choiceId
 
 	return (

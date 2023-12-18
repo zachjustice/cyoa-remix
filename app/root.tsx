@@ -90,12 +90,12 @@ export default function App() {
 	const nonce = useNonce()
 	const { user } = data
 	return (
-		<html lang="en" className="dark h-full">
+		<html lang="en" className="h-full">
 			<head>
 				<Meta />
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
-				<ThemeModeScript />
+				<ThemeModeScript nonce={nonce} />
 				<Links />
 			</head>
 			<Flowbite theme={{ theme: customTheme }}>

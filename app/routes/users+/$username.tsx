@@ -60,16 +60,8 @@ export default function UsernameIndex() {
 						Joined {data.userJoinedDisplay}
 					</p>
 					<div className="mt-10 flex gap-4">
-						{isLoggedInUser ? (
+						{isLoggedInUser && (
 							<>
-								<ButtonLink
-									to="stories"
-									color="primary"
-									size="sm"
-									prefetch="intent"
-								>
-									My Stories
-								</ButtonLink>
 								<ButtonLink
 									to="/settings/profile"
 									color="secondary"
@@ -79,15 +71,6 @@ export default function UsernameIndex() {
 									Edit profile
 								</ButtonLink>
 							</>
-						) : (
-							<ButtonLink
-								to="stories"
-								color="primary"
-								size="sm"
-								prefetch="intent"
-							>
-								{userDisplayName}'s Stories
-							</ButtonLink>
 						)}
 					</div>
 				</div>

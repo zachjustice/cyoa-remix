@@ -41,15 +41,6 @@ export function UserDropdown() {
 						</Link>
 					</DropdownMenu.Item>
 					<DropdownMenu.Item asChild>
-						<Link
-							prefetch="intent"
-							to={`/users/${user.username}/stories`}
-							className="px-7 py-5 outline-none hover:bg-night-500 radix-highlighted:bg-night-500"
-						>
-							My Stories
-						</Link>
-					</DropdownMenu.Item>
-					<DropdownMenu.Item asChild>
 						<Form
 							action="/logout"
 							method="POST"

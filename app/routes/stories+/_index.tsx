@@ -158,11 +158,6 @@ export default function GetStoriesRoute() {
 	const { stories, storiesOwnedByUser, storiesReadingAndEditing } =
 		useLoaderData<LoaderDataShape>()
 	const user = useOptionalUser()
-	console.log(
-		stories?.length,
-		storiesOwnedByUser?.length,
-		storiesReadingAndEditing?.length,
-	)
 
 	return (
 		<main className="mx-auto h-full max-w-7xl px-4 py-8 sm:px-8">

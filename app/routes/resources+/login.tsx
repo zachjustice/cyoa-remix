@@ -1,6 +1,6 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import { json, redirect, type DataFunctionArgs } from '@remix-run/node'
+import { type DataFunctionArgs, json, redirect } from '@remix-run/node'
 import { Link, useFetcher } from '@remix-run/react'
 import { AuthorizationError } from 'remix-auth'
 import { FormStrategy } from 'remix-auth-form'
@@ -23,7 +23,6 @@ export async function action({ request }: DataFunctionArgs) {
 	const formData = await request.clone().formData()
 	const submission = parse(formData, {
 		schema: LoginFormSchema,
-		acceptMultipleErrors: () => true,
 	})
 	if (!submission.value || submission.intent !== 'submit') {
 		return json(
@@ -48,8 +47,8 @@ export async function action({ request }: DataFunctionArgs) {
 					submission: {
 						...submission,
 						error: {
-							// show authorization error as a form level error message.
-							'': error.message,
+							...submission.error,
+							'': [error.message],
 						},
 					},
 				} as const,

@@ -26,7 +26,6 @@ export async function action({ request }: DataFunctionArgs) {
 
 	const submission = parse(formData, {
 		schema: StoryEditorSchema,
-		acceptMultipleErrors: () => true,
 	})
 
 	if (submission.intent !== 'submit') {

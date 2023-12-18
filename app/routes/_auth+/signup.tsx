@@ -147,7 +147,7 @@ export async function action({ request }: DataFunctionArgs) {
 			)
 
 			submission['error'] = {
-				email: "Something broke! We're taking a look.",
+				email: ["Something broke! We're taking a look."],
 			}
 		}
 

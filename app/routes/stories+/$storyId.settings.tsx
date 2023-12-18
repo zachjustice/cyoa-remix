@@ -99,7 +99,6 @@ export async function action({ request }: DataFunctionArgs) {
 
 	const submission = parse(formData, {
 		schema: AddReaderFormSchema,
-		// acceptMultipleErrors: () => true,
 	})
 
 	if (submission.intent !== 'submit') {
@@ -123,17 +122,11 @@ export async function action({ request }: DataFunctionArgs) {
 		operation,
 	} = submission.value
 	const storyMemberUsername = rawStoryMemberUsername?.trim()
-	console.log('oopsie', JSON.stringify(submission.value))
 
 	if (
 		permission === StoryPermissions.PrivateStory ||
 		permission === StoryPermissions.PublicStory
 	) {
-		console.log(
-			'updating isPublic',
-			permission,
-			permission === StoryPermissions.PublicStory,
-		)
 		await prisma.story.update({
 			where: {
 				id: storyId,

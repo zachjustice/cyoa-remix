@@ -38,7 +38,7 @@ export default function Index() {
 				<div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
 					<div className="space-y-4 text-center">
 						<h1 className="text-h1">The world's largest MMO-CCYOAG</h1>
-						<p className="flex justify-center gap-2 text-2xl">
+						<div className="flex justify-center gap-2 text-2xl">
 							<p className="first-letter:underline">Massive</p>
 							<p className="first-letter:underline">Multiplayer</p>
 							<p className="first-letter:underline">Online</p>
@@ -48,7 +48,7 @@ export default function Index() {
 							<p className="first-letter:underline">Own</p>
 							<p className="first-letter:underline">Adventure</p>
 							<p className="first-letter:underline">Game</p>
-						</p>
+						</div>
 						<p className="text-2xl">
 							Explore collaborative{' '}
 							<a className="text-accent-purple underline" href="/stories">

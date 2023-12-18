@@ -28,6 +28,8 @@ import { type ViewedChoice } from '~/routes/stories+/$storyId.pages.$pageId.tsx'
 import { BsArrowReturnRight } from 'react-icons/bs/index.js'
 import Xmark from '~/components/Xmark.tsx'
 import { clsx } from 'clsx'
+import { FaInfoCircle } from 'react-icons/fa/index.js'
+import { Tooltip } from '~/components/Tooltip.tsx'
 
 const ChoiceSchema = z.object({
 	id: z.string().optional(),
@@ -69,8 +71,15 @@ export const PageEditorSchema = z.object({
 			 *   3. saves the form
 			 *   4. this validation fails and the error message is not displayed
 			 */
+
+			const anyChoiceId = choices.find(c => c.id)?.id
+			if (!anyChoiceId) {
+				// If there's no choice id, then we're creating a new page and this validation is unneeded
+				return true
+			}
+
 			const { parentPageId } = await prisma.choice.findUniqueOrThrow({
-				where: { id: choices[0].id },
+				where: { id: anyChoiceId },
 				select: { parentPageId: true },
 			})
 
@@ -571,12 +580,18 @@ function ChoiceFieldset({ config, index, name }: ChoiceFieldsetProps) {
 					</button>
 				)}
 				{!nextPageId.defaultValue && !enterNextPageId && (
-					<Button
-						className="whitespace-nowrap"
-						onClick={() => setNextPageId(!enterNextPageId)}
-					>
-						Link page
-					</Button>
+					<>
+						<Button
+							className="whitespace-nowrap"
+							onClick={() => setNextPageId(!enterNextPageId)}
+						>
+							Link page
+						</Button>
+						<Tooltip
+							content="Enter the Page ID for the page to which this choice should lead."
+							icon={FaInfoCircle}
+						/>
+					</>
 				)}
 			</div>
 

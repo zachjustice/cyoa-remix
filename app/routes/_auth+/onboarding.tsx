@@ -113,7 +113,6 @@ export async function action({ request }: DataFunctionArgs) {
 				return !existingUser
 			},
 		}),
-		acceptMultipleErrors: () => true,
 		async: true,
 	})
 	if (submission.intent !== 'submit') {
