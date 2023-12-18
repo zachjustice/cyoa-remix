@@ -135,8 +135,8 @@ export default function GetStoryRoute() {
 		'line-clamp-2 block rounded-l my-2 py-2 pl-8 pr-6 text-base lg:text-xl hover:bg-accent-yellow hover:text-night-700'
 	const isActiveClass = 'bg-accent-purple'
 	return (
-		<div className="relative flex h-full w-full">
-			<main className="order-2 w-full px-10 py-12 md:rounded">
+		<div className="relative flex h-fit min-h-full w-full">
+			<main className="order-2 h-fit min-h-full w-full px-10 py-12 md:rounded">
 				<p className="mb-4">
 					<a href="/stories" className="italic">
 						Home
@@ -150,7 +150,7 @@ export default function GetStoryRoute() {
 				</p>
 				<Outlet />
 			</main>
-			<div className="order-1 h-full">
+			<div className="order-1 flex grow">
 				<Sidebar>
 					<h1 className="mb-2 mr-2 text-h2">{story.title}</h1>
 					<p className="mb-2 mr-2">Table of Contents</p>
