@@ -24,7 +24,7 @@ export default function StorySettingsUserDropDown({
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger asChild>
 				<div className="flex items-center">
-					<PiDotsThreeCircleVerticalFill className="hover: ml-2 h-8 w-8 rounded-full text-color-primary text-color-subtitle hover:cursor-pointer" />
+					<PiDotsThreeCircleVerticalFill className="ml-2 h-8 w-8 rounded-full text-color-primary hover:cursor-pointer hover:text-color-subtitle" />
 				</div>
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Portal>
