@@ -56,7 +56,7 @@ export default function UsernameIndex() {
 					<div className="flex flex-wrap items-center justify-center gap-4">
 						<h1 className="text-center text-h2">{userDisplayName}</h1>
 					</div>
-					<p className="mt-2 text-center text-night-200">
+					<p className="mt-2 text-center  text-color-subtitle">
 						Joined {data.userJoinedDisplay}
 					</p>
 					<div className="mt-10 flex gap-4">

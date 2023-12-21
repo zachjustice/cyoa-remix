@@ -446,7 +446,7 @@ export function PageEditor(props: PageEditorProps) {
 					<Subtitle>Choices</Subtitle>
 					{/* TODO manually re-creating the Flowbite button as a shitty workaround to make adding choices to this list work. Using the FlowbiteButton wrapper doesn't work */}
 					<button
-						className="group relative flex items-center justify-center rounded-lg border border-night-400 p-0.5 text-center font-medium text-white hover:bg-accent-yellow hover:text-night-700 focus:z-10 focus:bg-accent-yellow focus:text-night-700 focus:outline-none focus:ring-2 focus:ring-blue-300 active:bg-accent-yellow-muted dark:focus:ring-blue-800"
+						className="group relative flex items-center justify-center rounded-lg border border-night-400 p-0.5 text-center font-medium text-color-primary hover:bg-accent-secondary hover:text-color-primary-inverted focus:z-10 focus:bg-accent-secondary focus:text-color-primary-inverted focus:outline-none focus:ring-2 focus:ring-blue-300 active:bg-accent-secondary-muted dark:focus:ring-blue-800"
 						{...list['insert'](fields.choices.name, { defaultValue: 'Enter' })}
 					>
 						<span className="flex items-center rounded-md px-3 py-1.5 text-sm transition-all duration-200">
@@ -537,7 +537,7 @@ function ChoiceFieldset({ config, index, name }: ChoiceFieldsetProps) {
 				<button
 					{...list.remove(name, { index })}
 					disabled={!!nextPageId.defaultValue}
-					className="text-accent-red hover:text-accent-yellow disabled:text-night-400"
+					className="text-accent-alert hover:text-accent-secondary disabled:text-night-400"
 				>
 					<Xmark />
 				</button>
@@ -546,7 +546,7 @@ function ChoiceFieldset({ config, index, name }: ChoiceFieldsetProps) {
 			<ErrorList id={content.errorId} errors={content.errors} />
 
 			<div className="flex items-center gap-2">
-				<BsArrowReturnRight className="text-night-200" size={24} />
+				<BsArrowReturnRight className=" text-color-subtitle" size={24} />
 				<SimpleField
 					className={clsx('w-full', {
 						hidden: !enterNextPageId,
@@ -560,7 +560,7 @@ function ChoiceFieldset({ config, index, name }: ChoiceFieldsetProps) {
 					}}
 				/>
 				{nextPageId.defaultValue && !enterNextPageId && (
-					<span id={nextPageId.id} className="italic text-night-200">
+					<span id={nextPageId.id} className="italic  text-color-subtitle">
 						{nextPageId.defaultValue}
 					</span>
 				)}
@@ -574,7 +574,7 @@ function ChoiceFieldset({ config, index, name }: ChoiceFieldsetProps) {
 								nextPageId: undefined,
 							},
 						})}
-						className="text-accent-red hover:text-accent-yellow disabled:text-night-400"
+						className="text-accent-alert hover:text-accent-secondary disabled:text-night-400"
 					>
 						<Xmark />
 					</button>

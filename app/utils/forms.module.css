@@ -12,7 +12,7 @@
 .field textarea + label,
 .textareaField input + label,
 .textareaField textarea + label {
-	@apply absolute left-0 origin-top-left translate-x-4 text-body-xs text-night-200 transition-transform;
+	@apply absolute left-0 origin-top-left translate-x-4 text-body-xs  text-color-subtitle transition-transform;
 }
 
 .field input:required + label:after,
@@ -46,11 +46,11 @@
 }
 
 .checkboxField button[aria-checked='true'] {
-	@apply border-accent-pink bg-accent-pink;
+	@apply border-accent-highlight bg-accent-highlight;
 }
 
 .field input[aria-invalid='true'],
 .textareaField textarea[aria-invalid='true'],
 .checkboxField button[aria-invalid='true'] {
-	@apply border-accent-red;
+	@apply border-accent-alert;
 }

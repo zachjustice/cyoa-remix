@@ -36,7 +36,7 @@ export default function Index() {
 							<h1 className="text-center text-2xl font-extrabold tracking-tight sm:text-2xl lg:text-2xl">
 								<a href="/stories">Choose Your Own Adventure!</a>
 							</h1>
-							<div className="mx-auto mt-6 max-w-lg text-center text-xl text-white sm:max-w-3xl">
+							<div className="mx-auto mt-6 max-w-lg text-center text-xl text-color-primary sm:max-w-3xl">
 								<p>
 									Explore collaborative{' '}
 									<a className="underline" href="/stories">
@@ -73,7 +73,7 @@ export default function Index() {
 				</div>
 
 				<div className="relative mx-auto max-w-7xl rounded-xl p-8 sm:px-6 lg:px-8">
-					<div className="flex flex-nowrap gap-4 overflow-auto  rounded-lg bg-gray-100 p-6 leading-6 text-white lg:items-center lg:justify-center">
+					<div className="flex flex-nowrap gap-4 overflow-auto  rounded-lg bg-gray-100 p-6 leading-6 text-color-primary lg:items-center lg:justify-center">
 						<StorySnippet>
 							You wake up and find yourself in the middle of a large forest.
 							Ancient trees stand all around you. The forest is quiet except for

@@ -267,7 +267,7 @@ export default function StorySettingsRoute() {
 									value={StoryPermissions.PublicStory}
 									defaultChecked={isPublic}
 								/>
-								<Label htmlFor="public" className="text-white">
+								<Label htmlFor="public" className="text-color-primary">
 									Everyone can read
 								</Label>
 							</div>
@@ -278,7 +278,7 @@ export default function StorySettingsRoute() {
 									value={StoryPermissions.PrivateStory}
 									defaultChecked={!isPublic}
 								/>
-								<Label htmlFor="private" className="text-white">
+								<Label htmlFor="private" className="text-color-primary">
 									Onlv selected readers and editors
 								</Label>
 							</div>
@@ -380,7 +380,7 @@ export default function StorySettingsRoute() {
 											className="flex flex-grow items-center gap-2 py-2 pl-2 pr-4 outline-none hover:bg-night-400 focus:bg-night-400 radix-state-open:bg-night-400"
 										>
 											<img
-												className="h-8 w-8 rounded-full bg-accent-purple-muted object-cover"
+												className="h-8 w-8 rounded-full bg-accent-primary-muted object-cover"
 												alt={`user avatar for ${storyMember.user.username}`}
 												src={getUserImgSrc(storyMember.user.imageId)}
 											/>

@@ -51,7 +51,7 @@ export default function Index() {
 						</div>
 						<p className="text-2xl">
 							Explore collaborative{' '}
-							<a className="text-accent-purple underline" href="/stories">
+							<a className="text-accent-primary underline" href="/stories">
 								choose-your-own-adventure stories
 							</a>{' '}
 							from every genre.
@@ -68,11 +68,11 @@ export default function Index() {
 					<div className="py-16 text-center">
 						<h2 className="text-2xl">
 							Once you make an{' '}
-							<a className="text-accent-purple underline" href="/signup">
+							<a className="text-accent-primary underline" href="/signup">
 								account,
 							</a>{' '}
 							getting{' '}
-							<a className="text-accent-purple underline" href="/stories/new">
+							<a className="text-accent-primary underline" href="/stories/new">
 								started
 							</a>{' '}
 							is easy

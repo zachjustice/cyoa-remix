@@ -106,7 +106,7 @@ export default function DeleteChoiceRoute() {
 						This choice cannot be deleted because the choice leads to another{' '}
 						<a
 							href={`/stories/${storyId}/pages/${pageId}`}
-							className="text-accent-purple underline"
+							className="text-accent-primary underline"
 						>
 							page
 						</a>
@@ -143,7 +143,7 @@ export default function DeleteChoiceRoute() {
 					</Button>
 				</div>
 			</form>
-			{error && <p className="py-2 text-accent-red">{error}</p>}
+			{error && <p className="py-2 text-accent-alert">{error}</p>}
 		</>
 	)
 }

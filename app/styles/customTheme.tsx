@@ -33,15 +33,15 @@ export const customTheme: CustomFlowbiteTheme = {
 					pills: {
 						base: '',
 						active: {
-							on: 'rounded-lg border border-night-400 bg-accent-purple text-white',
-							off: 'rounded-lg border border-night-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white',
+							on: 'rounded-lg border border-night-400 bg-accent-primary text-color-primary',
+							off: 'rounded-lg border border-night-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-color-primary',
 						},
 					},
 					fullWidth: {
 						base: 'ml-0 first:ml-0 w-full first:rounded-tl-lg last:rounded-tr-lg flex border-b-2 border-night-200',
 						active: {
-							on: 'active font-bold bg-accent-purple hover:text-white dark:hover:text-white dark:bg-night-800 dark:hover:bg-accent-purple',
-							off: 'p-4 text-white bg-accent-purple-muted hover:bg-accent-purple dark:bg-night-700 dark:text-white',
+							on: 'active font-bold bg-accent-primary hover:text-color-primary dark:hover:text-color-primary dark:bg-night-800 dark:hover:bg-accent-primary',
+							off: 'p-4 text-color-primary bg-accent-primary-muted hover:bg-accent-primary dark:bg-night-700 dark:text-color-primary',
 						},
 					},
 				},
@@ -50,19 +50,19 @@ export const customTheme: CustomFlowbiteTheme = {
 	},
 	toggleSwitch: {
 		root: {
-			label: 'ml-3 text-sm font-medium text-white dark:text-gray-300',
+			label: 'ml-3 text-sm font-medium text-color-primary dark:text-gray-300',
 		},
 	},
 	button: {
 		color: {
 			default:
-				'border-[1.5px] border-night-400 bg-night-700 hover:border-accent-purple focus:border-accent-purple active:border-accent-purple-lighter',
+				'border-[1.5px] border-night-400 bg-night-700 hover:border-accent-primary focus:border-accent-primary active:border-accent-primary-lighter',
 			secondary:
-				'border-[1.5px] border-night-400 bg-night-700 hover:border-accent-purple focus:border-accent-purple active:border-accent-purple-lighter',
+				'border-[1.5px] border-night-400 bg-night-700 hover:border-accent-primary focus:border-accent-primary active:border-accent-primary-lighter',
 			primary:
-				'text-white border border-transparent focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 bg-accent-purple hover:bg-accent-yellow hover:text-night-700 focus:bg-accent-yellow focus:text-night-700 active:bg-accent-yellow-muted',
+				'text-color-primary border border-transparent focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 bg-accent-primary hover:bg-accent-secondary hover:text-color-primary-inverted focus:bg-accent-secondary focus:text-color-primary-inverted active:bg-accent-secondary-muted',
 			danger:
-				'bg-accent-red hover:bg-accent-yellow hover:text-night-700 focus:bg-accent-yellow focus:text-night-700 active:bg-accent-yellow-muted',
+				'bg-accent-alert hover:bg-accent-secondary hover:text-color-primary-inverted focus:bg-accent-secondary focus:text-color-primary-inverted active:bg-accent-secondary-muted',
 		},
 	},
 	sidebar: {
@@ -75,7 +75,7 @@ export const customTheme: CustomFlowbiteTheme = {
 			list: 'space-y-2 py-2 list-none',
 		},
 		item: {
-			base: 'no-underline flex items-center rounded-lg p-2 text-lg font-normal text-white hover:bg-accent-purple dark:text-white dark:hover:bg-gray-700',
+			base: 'no-underline flex items-center rounded-lg p-2 text-lg font-normal text-color-primary hover:bg-accent-primary dark:text-color-primary dark:hover:bg-gray-700',
 		},
 		itemGroup: {
 			base: 'list-none border-t border-gray-200 pt-3 first:mt-0 first:border-t-0 first:pt-0 dark:border-gray-700',

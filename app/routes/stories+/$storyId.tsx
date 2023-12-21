@@ -132,8 +132,8 @@ export default function GetStoryRoute() {
 	}, [deletedPageId, dispatch])
 
 	const navLinkDefaultClassName =
-		'line-clamp-2 block rounded-l my-2 py-2 pl-8 pr-6 text-base lg:text-xl hover:bg-accent-yellow hover:text-night-700'
-	const isActiveClass = 'bg-accent-purple'
+		'line-clamp-2 block rounded-l my-2 py-2 pl-8 pr-6 text-base lg:text-xl hover:bg-accent-secondary hover:text-color-primary-inverted'
+	const isActiveClass = 'bg-accent-primary'
 	return (
 		<div className="relative flex h-fit min-h-full w-full">
 			<main className="order-2 h-fit min-h-full w-full px-10 py-12 md:rounded">

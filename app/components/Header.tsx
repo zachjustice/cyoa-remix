@@ -51,7 +51,7 @@ const Header = function ({ user }: HeaderProps) {
 						<button
 							aria-controls="sidebar"
 							aria-expanded="true"
-							className="mr-2 cursor-pointer rounded p-2 text-2xl text-gray-200 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:ring-2 focus:ring-gray-100 active:text-gray-900  dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:ring-gray-700 md:hidden"
+							className="mr-2 cursor-pointer rounded p-2 text-2xl text-gray-200 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:ring-2 focus:ring-gray-100 active:text-gray-900  dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-color-primary dark:focus:bg-gray-700 dark:focus:ring-gray-700 md:hidden"
 							onClick={() => setOpenOnSmallScreens(!isOpenOnSmallScreens)}
 						>
 							{isOpenOnSmallScreens ? <Xmark /> : <FaBook />}
@@ -59,14 +59,14 @@ const Header = function ({ user }: HeaderProps) {
 					)}
 					<Navbar.Brand href="/">
 						<img alt="Owl" height="30" src={owlIcon} width="30" />
-						<span className="text-md hidden px-3 font-semibold dark:text-white xs:flex sm:text-xl">
+						<span className="text-md hidden px-3 font-semibold dark:text-color-primary xs:flex sm:text-xl">
 							Choose Your Own Adventure!
 						</span>
 					</Navbar.Brand>
 
 					{/* Navbar hamburger-menu toggle for smaller screens*/}
 					<button
-						className="cursor-pointer rounded p-2 text-2xl text-gray-200 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:ring-2 focus:ring-gray-100 active:text-gray-900  dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:ring-gray-700 md:hidden"
+						className="cursor-pointer rounded p-2 text-2xl text-gray-200 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:ring-2 focus:ring-gray-100 active:text-gray-900  dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-color-primary dark:focus:bg-gray-700 dark:focus:ring-gray-700 md:hidden"
 						onClick={() => setOpen(!isOpen)}
 					>
 						{isOpen ? <Xmark /> : <HamburgerMenu />}

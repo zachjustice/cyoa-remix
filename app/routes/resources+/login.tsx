@@ -168,7 +168,7 @@ export function InlineLogin({
 					</div>
 				</loginFetcher.Form>
 				<div className="flex items-center justify-center gap-2 pt-6">
-					<span className="text-night-200">New here?</span>
+					<span className=" text-color-subtitle">New here?</span>
 					<Link to="/signup">Create an account</Link>
 				</div>
 			</div>

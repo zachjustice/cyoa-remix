@@ -14,6 +14,12 @@ export default {
 				xs: '375px',
 			},
 			colors: {
+				// for text color i.e. `text-color-primary`
+				color: {
+					primary: '#FFFFFF',
+					subtitle: '#AAAAAA',
+					'primary-inverted': '#090909',
+				},
 				night: {
 					100: '#DADADA',
 					200: '#AAAAAA',
@@ -33,13 +39,15 @@ export default {
 					700: '#6A44FF',
 				},
 				accent: {
-					purple: '#6A44FF',
-					'purple-muted': '#9696E0',
-					pink: '#F183FF',
-					yellow: '#FFBE3F',
-					'yellow-muted': '#FFD262',
 					red: '#EF5A5A',
 					blue: '#429AFF',
+
+					primary: '#6A44FF',
+					'primary-muted': '#9696E0',
+					highlight: '#F183FF',
+					secondary: '#FFBE3F',
+					'secondary-muted': '#FFD262',
+					alert: '#EF5A5A',
 				},
 			},
 			fontFamily: {
