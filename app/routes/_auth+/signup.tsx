@@ -183,7 +183,7 @@ export default function SignupRoute() {
 				<div className="text-center">
 					<img src="" alt="" />
 					<h1 className="mt-44 text-h1">Great!</h1>
-					<p className="mt-3 text-body-md  text-color-subtitle">
+					<p className="mt-3 text-body-md text-color-subtitle">
 						Check your email for a link to continue.
 					</p>
 				</div>
@@ -191,7 +191,7 @@ export default function SignupRoute() {
 				<>
 					<div className="text-center">
 						<h1 className="text-h1">Let's start your journey!</h1>
-						<p className="mt-3 text-body-md  text-color-subtitle">
+						<p className="mt-3 text-body-md text-color-subtitle">
 							Please enter your email.
 						</p>
 					</div>

@@ -560,7 +560,7 @@ function ChoiceFieldset({ config, index, name }: ChoiceFieldsetProps) {
 					}}
 				/>
 				{nextPageId.defaultValue && !enterNextPageId && (
-					<span id={nextPageId.id} className="italic  text-color-subtitle">
+					<span id={nextPageId.id} className="italic text-color-subtitle">
 						{nextPageId.defaultValue}
 					</span>
 				)}

@@ -12,7 +12,7 @@
 .field textarea + label,
 .textareaField input + label,
 .textareaField textarea + label {
-	@apply absolute left-0 origin-top-left translate-x-4 text-body-xs  text-color-subtitle transition-transform;
+	@apply absolute left-0 origin-top-left translate-x-4 text-body-xs text-color-subtitle transition-transform;
 }
 
 .field input:required + label:after,

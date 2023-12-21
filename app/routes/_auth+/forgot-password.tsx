@@ -145,7 +145,7 @@ export default function SignupRoute() {
 					<div className="text-center">
 						<img src="" alt="" />
 						<h1 className="mt-44 text-h1">Check your email</h1>
-						<p className="mt-3 text-body-md  text-color-subtitle">
+						<p className="mt-3 text-body-md text-color-subtitle">
 							Instructions have been sent to the email address on file.
 						</p>
 					</div>
@@ -153,7 +153,7 @@ export default function SignupRoute() {
 					<>
 						<div className="text-center">
 							<h1 className="text-h1">Forgot Password</h1>
-							<p className="mt-3 text-body-md  text-color-subtitle">
+							<p className="mt-3 text-body-md text-color-subtitle">
 								No worries, we'll send you reset instructions.
 							</p>
 						</div>

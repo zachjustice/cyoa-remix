@@ -171,7 +171,7 @@ export function CheckboxField({
 				<label
 					htmlFor={id}
 					{...labelProps}
-					className="text-body-xs  text-color-subtitle"
+					className="text-body-xs text-color-subtitle"
 				/>
 			</div>
 			<div className="px-4 pb-3 pt-1">
