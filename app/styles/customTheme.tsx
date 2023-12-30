@@ -12,7 +12,7 @@ export const customTheme: CustomFlowbiteTheme = {
 	},
 	navbar: {
 		root: {
-			base: 'bg-night-700 px-2 py-2.5 dark:border-gray-700 dark:bg-gray-800 sm:px-4',
+			base: 'bg-white px-2 py-2.5 sm:px-4 border-b-2 border-night-200 dark:bg-night-700',
 			inner: {
 				base: 'mx-auto flex flex-wrap items-center justify-between',
 			},
@@ -25,7 +25,7 @@ export const customTheme: CustomFlowbiteTheme = {
 				fullWidth:
 					'w-full text-sm font-medium shadow grid grid-flow-col dark:divide-gray-700 dark:text-gray-400 rounded-none',
 				pills:
-					'overflow-x-auto sm:flex-wrap border-t border-b border-night-400 py-2 font-medium text-sm text-gray-500 dark:text-gray-400 space-x-2',
+					'overflow-x-auto sm:flex-wrap border-t border-b border-night-200 py-2 font-medium text-sm text-gray-500 dark:text-gray-400 space-x-2',
 			},
 			tabitem: {
 				base: 'items-center whitespace-nowrap justify-center p-4 text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:ring-1 focus:ring-accept-yellow focus:outline-none',
@@ -54,22 +54,25 @@ export const customTheme: CustomFlowbiteTheme = {
 		},
 	},
 	button: {
+		base: 'group flex items-stretch items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none',
 		color: {
 			default:
-				'border-[1.5px] border-night-400 bg-night-700 hover:border-accent-primary focus:border-accent-primary active:border-accent-primary-lighter',
+				'border-[1.5px] border-night-200 focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-color-primary dark:border-night-400 dark:bg-night-700',
 			secondary:
-				'border-[1.5px] border-night-400 bg-night-700 hover:border-accent-primary focus:border-accent-primary active:border-accent-primary-lighter',
+				'border-[1.5px] border-night-400 dark:bg-night-700 hover:border-accent-primary focus:border-accent-primary active:border-accent-primary-lighter focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-night-700 dark:hover:text-color-primary',
 			primary:
 				'text-color-primary border border-transparent focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 bg-accent-primary hover:bg-accent-secondary hover:text-color-primary-inverted focus:bg-accent-secondary focus:text-color-primary-inverted active:bg-accent-secondary-muted',
 			danger:
 				'bg-accent-alert hover:bg-accent-secondary hover:text-color-primary-inverted focus:bg-accent-secondary focus:text-color-primary-inverted active:bg-accent-secondary-muted',
 		},
+		inner: {
+			base: 'flex items-center transition-all duration-200',
+		},
 	},
 	sidebar: {
 		root: {
-			base: 'h-full bg-night-700',
-			inner:
-				'h-full overflow-y-auto overflow-x-hidden rounded bg-night-700 pl-4 py-4 dark:bg-gray-800',
+			base: 'h-full bg-white dark:bg-night-700',
+			inner: 'h-full overflow-y-auto overflow-x-hidden rounded pl-4 py-4',
 		},
 		collapse: {
 			list: 'space-y-2 py-2 list-none',
@@ -78,7 +81,7 @@ export const customTheme: CustomFlowbiteTheme = {
 			base: 'no-underline flex items-center rounded-lg p-2 text-lg font-normal text-color-primary hover:bg-accent-primary dark:text-color-primary dark:hover:bg-gray-700',
 		},
 		itemGroup: {
-			base: 'list-none border-t border-gray-200 pt-3 first:mt-0 first:border-t-0 first:pt-0 dark:border-gray-700',
+			base: 'list-none border-t border-gray-200 pt-3 first:mt-0 first:border-t-0 first:pt-0',
 		},
 	},
 }

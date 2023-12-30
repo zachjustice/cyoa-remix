@@ -2,6 +2,8 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { Form, Link, useSubmit } from '@remix-run/react'
 import { getUserImgSrc } from '~/utils/misc.ts'
 import { useUser } from '~/hooks/useUser.ts'
+import { customTheme } from '~/styles/customTheme.tsx'
+import { clsx } from 'clsx'
 
 export function UserDropdown() {
 	const user = useUser()
@@ -13,15 +15,21 @@ export function UserDropdown() {
 					to={`/users/${user.username}`}
 					// this is for progressive enhancement
 					onClick={e => e.preventDefault()}
-					className="flex items-center gap-2 rounded-full bg-night-500 py-2 pl-2 pr-4 outline-none hover:bg-night-400 focus:bg-night-400 radix-state-open:bg-night-400"
+					className={clsx(
+						customTheme.button?.base,
+						customTheme.button?.color?.secondary,
+						'rounded-lg',
+					)}
 				>
-					<img
-						className="h-8 w-8 rounded-full object-cover"
-						alt={user.name ?? user.username}
-						src={getUserImgSrc(user.imageId)}
-					/>
-					<span className="text-body-sm font-bold">
-						{user.name ?? user.username}
+					<span className={clsx(customTheme.button?.inner?.base, 'px-2')}>
+						<img
+							className="mr-2 h-8 w-8 rounded-full object-cover"
+							alt={user.name ?? user.username}
+							src={getUserImgSrc(user.imageId)}
+						/>
+						<span className="text-body-sm font-bold">
+							{user.name ?? user.username}
+						</span>
 					</span>
 				</Link>
 			</DropdownMenu.Trigger>
@@ -29,13 +37,13 @@ export function UserDropdown() {
 				<DropdownMenu.Content
 					sideOffset={8}
 					align="start"
-					className="flex flex-col rounded-xl bg-[#323232]"
+					className="flex flex-col rounded-xl border-2 border-night-400"
 				>
 					<DropdownMenu.Item asChild>
 						<Link
 							prefetch="intent"
 							to={`/users/${user.username}`}
-							className="rounded-t-xl px-7 py-5 outline-none hover:bg-night-500 radix-highlighted:bg-night-500"
+							className="rounded-t-xl bg-white px-7 py-5 outline-none radix-highlighted:bg-day-300 dark:bg-night-700 dark:radix-highlighted:bg-night-500"
 						>
 							Profile
 						</Link>
@@ -44,7 +52,7 @@ export function UserDropdown() {
 						<Form
 							action="/logout"
 							method="POST"
-							className="rounded-b-xl px-7 py-5 outline-none radix-highlighted:bg-night-500"
+							className="rounded-b-xl bg-white px-7 py-5 outline-none radix-highlighted:bg-day-300 dark:bg-night-700 dark:radix-highlighted:bg-night-500"
 							onClick={e => submit(e.currentTarget)}
 						>
 							<button type="submit">Logout</button>

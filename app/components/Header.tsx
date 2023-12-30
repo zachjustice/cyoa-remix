@@ -44,7 +44,7 @@ const Header = function ({ user }: HeaderProps) {
 	}, [])
 
 	return (
-		<header className="sticky top-0 z-20 w-full border-b-2 border-night-400 bg-night-700">
+		<header className="sticky top-0 z-20 w-full">
 			<div className="container mx-auto max-w-7xl">
 				<Navbar fluid>
 					{isPageWithSidebar && (
@@ -79,7 +79,7 @@ const Header = function ({ user }: HeaderProps) {
 						})}
 					>
 						<div className="mt-4 flex flex-col space-y-6 md:mt-0 md:flex-row md:gap-6 md:space-y-0">
-							<ButtonLink color="default" to="/stories">
+							<ButtonLink color="secondary" to="/stories">
 								Stories
 							</ButtonLink>
 							{user && (
@@ -87,7 +87,11 @@ const Header = function ({ user }: HeaderProps) {
 									Write a Story
 								</ButtonLink>
 							)}
-							{!user && <ButtonLink to="/login">Log In</ButtonLink>}
+							{!user && (
+								<ButtonLink color="secondary" to="/login">
+									Log In
+								</ButtonLink>
+							)}
 							{user ? (
 								<UserDropdown />
 							) : (

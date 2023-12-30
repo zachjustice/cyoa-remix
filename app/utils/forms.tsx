@@ -244,12 +244,7 @@ export function Button<T extends ElementType = 'button'>(
 
 export function ButtonLink(props: ButtonProps<typeof Link>) {
 	// eslint-disable-next-line jsx-a11y/anchor-has-content
-	return (
-		<Button
-			as={Link}
-			{...props} /*className={getButtonClassName({ size, variant })}*/
-		/>
-	)
+	return <Button as={Link} {...props} />
 }
 
 export function LabelButton({

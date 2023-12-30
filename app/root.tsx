@@ -14,7 +14,7 @@ import {
 	ScrollRestoration,
 	useLoaderData,
 } from '@remix-run/react'
-import { Flowbite, ThemeModeScript } from 'flowbite-react'
+import { DarkThemeToggle, Flowbite, ThemeModeScript } from 'flowbite-react'
 import { StoryActivityProvider } from '~/context/story-activity-context.tsx'
 import Header from './components/Header.tsx'
 import { SidebarProvider } from './context/sidebar-context.tsx'
@@ -100,7 +100,7 @@ export default function App() {
 			</head>
 			<Flowbite theme={{ theme: customTheme }}>
 				<SidebarProvider>
-					<body className="flex h-screen flex-col justify-between bg-night-700 text-color-primary">
+					<body className="flex h-screen flex-col justify-between bg-white text-color-primary-inverted dark:bg-night-700 dark:text-color-primary">
 						<Header user={user} />
 						<div id="main-content" className="h-full">
 							<StoryActivityProvider>
@@ -109,7 +109,7 @@ export default function App() {
 						</div>
 						<div className="container mx-auto flex justify-end">
 							{/*<ThemeSwitch />*/}
-							{/*<DarkThemeToggle />*/}
+							<DarkThemeToggle />
 						</div>
 						<ScrollRestoration nonce={nonce} />
 						<Scripts nonce={nonce} />

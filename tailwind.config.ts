@@ -44,9 +44,9 @@ export default {
 
 					primary: '#6A44FF',
 					'primary-muted': '#9696E0',
-					highlight: '#F183FF',
 					secondary: '#FFBE3F',
 					'secondary-muted': '#FFD262',
+					highlight: '#F183FF',
 					alert: '#EF5A5A',
 				},
 			},

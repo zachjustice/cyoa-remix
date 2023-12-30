@@ -108,11 +108,11 @@ export default function GetPageRoute() {
 				<h2 className="pb-4 text-h2">Page {pageNumber}</h2>
 				{canEditPage &&
 					(editMode ? (
-						<ButtonLink className="h-fit w-fit" to="#">
+						<ButtonLink color="secondary" className="h-fit w-fit" to="#">
 							Done
 						</ButtonLink>
 					) : (
-						<ButtonLink className="h-fit w-fit" to="edit">
+						<ButtonLink color="secondary" className="h-fit w-fit" to="edit">
 							Edit
 						</ButtonLink>
 					))}
