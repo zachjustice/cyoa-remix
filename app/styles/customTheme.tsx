@@ -33,8 +33,8 @@ export const customTheme: CustomFlowbiteTheme = {
 					pills: {
 						base: '',
 						active: {
-							on: 'rounded-lg border border-night-400 bg-accent-primary text-color-primary',
-							off: 'rounded-lg border border-night-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-color-primary',
+							on: 'rounded-lg border border-accent-primary bg-accent-primary text-color-primary',
+							off: 'rounded-lg border border-night-200 hover:border-accent-primary',
 						},
 					},
 					fullWidth: {

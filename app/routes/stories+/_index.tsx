@@ -111,7 +111,7 @@ function StoryList({ stories, user, children }: StoryListProps) {
 		<ul>
 			{stories?.map(story => {
 				return (
-					<li key={story.id} className="mb-4 border-b border-night-400 pb-4">
+					<li key={story.id} className="mb-4 border-b border-night-200 pb-4">
 						<div className="flex w-fit items-center gap-4">
 							<h2 className="text-body-md font-bold underline">
 								<Link to={`/stories/${story.id}/introduction`}>
