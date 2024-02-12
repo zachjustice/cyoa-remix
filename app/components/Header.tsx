@@ -44,7 +44,7 @@ const Header = function ({ user }: HeaderProps) {
 	}, [])
 
 	return (
-		<header className="sticky top-0 z-20 w-full">
+		<header className="sticky top-0 z-20 w-full border-b-2 border-night-200">
 			<div className="container mx-auto max-w-7xl">
 				<Navbar fluid>
 					{isPageWithSidebar && (
