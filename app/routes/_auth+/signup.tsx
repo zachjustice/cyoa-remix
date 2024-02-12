@@ -1,12 +1,11 @@
 import {
-	json,
-	redirect,
 	type DataFunctionArgs,
+	json,
 	type MetaFunction,
+	redirect,
 } from '@remix-run/node'
-import { Link, useFetcher } from '@remix-run/react'
+import { useFetcher } from '@remix-run/react'
 import { z } from 'zod'
-import { GeneralErrorBoundary } from '~/components/error-boundary.tsx'
 import { prisma } from '~/utils/db.server.ts'
 import { sendEmail } from '~/utils/email.server.ts'
 import { decrypt, encrypt } from '~/utils/encryption.server.ts'
@@ -17,6 +16,7 @@ import { getDomainUrl } from '~/utils/misc.server.ts'
 import { commitSession, getSession } from '~/utils/session.server.ts'
 import { emailSchema } from '~/utils/user-validation.ts'
 import { isObjectEmpty } from '~/utils/validation-utils.ts'
+import { HaveAnAccount } from '~/components/HaveAnAccount.tsx'
 
 export const onboardingEmailSessionKey = 'onboardingToken'
 const onboardingTokenQueryParam = 'token'
@@ -225,17 +225,10 @@ export default function SignupRoute() {
 						</Button>
 					</signupFetcher.Form>
 					<div className="flex items-center justify-center gap-2 pt-6">
-						<span className=" text-color-subtitle">
-							Already have an account?
-						</span>
-						<Link to="/login">Log in</Link>
+						<HaveAnAccount />
 					</div>
 				</>
 			)}
 		</div>
 	)
-}
-
-export function ErrorBoundary() {
-	return <GeneralErrorBoundary />
 }

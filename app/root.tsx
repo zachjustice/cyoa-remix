@@ -102,12 +102,12 @@ export default function App() {
 				<SidebarProvider>
 					<body className="flex h-full flex-col justify-between bg-white text-color-primary-inverted dark:bg-night-700 dark:text-color-primary">
 						<Header user={user} />
-						<div id="main-content" className="h-full">
+						<div id="main-content" className="h-full min-h-fit">
 							<StoryActivityProvider>
 								<Outlet />
 							</StoryActivityProvider>
 						</div>
-						<div className="absolute bottom-0 right-0 p-2">
+						<div className="fixed bottom-0 right-0 p-2">
 							<DarkThemeToggle />
 						</div>
 						<ScrollRestoration nonce={nonce} />
