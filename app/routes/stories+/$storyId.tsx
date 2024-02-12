@@ -142,10 +142,6 @@ export default function GetStoryRoute() {
 						Home
 					</a>
 					{' > '}
-					<a href={`/users/${story.owner.username}`} className="italic">
-						{story.owner.username}
-					</a>
-					{' > '}
 					{story.title}
 				</p>
 				<Outlet />
