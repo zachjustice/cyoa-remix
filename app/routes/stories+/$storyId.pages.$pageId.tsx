@@ -123,7 +123,9 @@ export default function GetPageRoute() {
 				)}
 				<p className="preserve-whitespace">{page.content}</p>
 			</div>
-			<h3 className="mb-2 mt-4 text-xl font-bold">Your choices are:</h3>
+			<h3 className="mb-2 mt-4 text-xl font-bold">
+				{page?.nextChoices?.length ? 'Your choices are:' : ''}
+			</h3>
 			<ul className="ml-2 space-y-4" key={page.id}>
 				{page.nextChoices.map(choice => {
 					return (

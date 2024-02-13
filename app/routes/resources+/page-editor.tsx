@@ -397,7 +397,9 @@ export function PageEditor(props: PageEditorProps) {
 	return (
 		<div className="mb-12 h-fit space-y-4">
 			<div className="flex items-center justify-between">
-				<h1 className="text-h1">Edit Page</h1>
+				<h1 className="text-h2 sm:text-h1">
+					{page.id ? 'Edit Page' : 'New Page'}
+				</h1>
 				<>
 					{page?.id ? (
 						<ButtonLink

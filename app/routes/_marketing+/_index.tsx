@@ -6,6 +6,7 @@ import { GiBookmarklet } from 'react-icons/gi/index.js'
 import { step2 } from '~/routes/_marketing+/images/images.ts'
 import { TbBooks } from 'react-icons/tb/index.js'
 import { HaveAnAccount } from '~/components/HaveAnAccount.tsx'
+import { useOptionalUser } from '~/hooks/useUser.ts'
 
 export const meta: MetaFunction = () => [
 	{ title: 'Choose Your Own Adventure!' },
@@ -30,6 +31,8 @@ function Blurb({
 }
 
 export default function Index() {
+	const optionalUser = useOptionalUser()
+
 	return (
 		<main className="relative min-h-screen sm:items-center sm:justify-center">
 			<div className="relative sm:pt-12">
@@ -42,21 +45,41 @@ export default function Index() {
 							Write your own story or create together with friends.
 						</p>
 					</div>
-					<div className="pt-8 text-center">
-						<ButtonLink className="mx-auto w-40" to="/signup" color="primary">
-							Start for Free
-						</ButtonLink>
-					</div>
-					<div className="flex items-center justify-center gap-2">
-						<HaveAnAccount />
-					</div>
-					<div className="flex flex-col justify-center gap-8 py-5 text-body-md">
-						<img
-							className="border-2"
-							src={step2}
-							alt='The "New Story" page of this application.'
-						/>
-					</div>
+					{optionalUser ? (
+						<>
+							<div className="pt-8 text-center">
+								<ButtonLink
+									className="mx-auto w-40"
+									to="/stories"
+									color="primary"
+								>
+									Stories
+								</ButtonLink>
+							</div>
+						</>
+					) : (
+						<>
+							<div className="pt-8 text-center">
+								<ButtonLink
+									className="mx-auto w-40"
+									to="/signup"
+									color="primary"
+								>
+									Start for Free
+								</ButtonLink>
+							</div>
+							<div className="flex items-center justify-center gap-2">
+								<HaveAnAccount />
+							</div>
+							<div className="flex flex-col justify-center gap-8 py-5 text-body-md">
+								<img
+									className="border-2"
+									src={step2}
+									alt='The "New Story" page of this application.'
+								/>
+							</div>
+						</>
+					)}
 					<div className="flex flex-col justify-center gap-8 py-5 text-body-md">
 						<Blurb
 							Icon={<GiBookmarklet />}
