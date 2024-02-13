@@ -44,7 +44,7 @@ const Header = function ({ user }: HeaderProps) {
 	}, [])
 
 	return (
-		<header className="sticky top-0 z-20 w-full border-b-2 border-night-200">
+		<header className="sticky top-0 z-20 w-full border-b-[1px] border-night-200">
 			<div className="container mx-auto max-w-7xl">
 				<Navbar fluid>
 					{isPageWithSidebar && (
@@ -78,7 +78,7 @@ const Header = function ({ user }: HeaderProps) {
 							hidden: !isOpen,
 						})}
 					>
-						<div className="mt-4 flex flex-col space-y-6 md:mt-0 md:flex-row md:gap-6 md:space-y-0">
+						<div className="my-4 flex flex-col space-y-6 md:my-0 md:flex-row md:gap-6 md:space-y-0">
 							<ButtonLink color="secondary" to="/stories">
 								Stories
 							</ButtonLink>
