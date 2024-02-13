@@ -1,6 +1,6 @@
 import { Navbar } from 'flowbite-react'
 import { useSidebarContext } from '~/context/sidebar-context.tsx'
-import { UserDropdown } from '~/components/UserDropDown.tsx'
+import { UserDropdown, UserProfileButton } from '~/components/UserDropDown.tsx'
 import { ButtonLink } from '~/utils/forms.tsx'
 import { type User } from '@prisma/client'
 import { owlIcon } from '~/routes/_marketing+/logos/logos.ts'
@@ -17,6 +17,12 @@ type HeaderProps = {
 
 const Header = function ({ user }: HeaderProps) {
 	const location = isBrowser() ? window.location.pathname : '/'
+	const vw = isBrowser()
+		? Math.max(
+				document.documentElement.clientWidth || 0,
+				window.innerWidth || 0,
+		  )
+		: 0
 	const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
 		useSidebarContext()
 	const [isOpen, setOpen] = useState(false)
@@ -93,7 +99,11 @@ const Header = function ({ user }: HeaderProps) {
 								</ButtonLink>
 							)}
 							{user ? (
-								<UserDropdown />
+								vw > 768 ? (
+									<UserDropdown />
+								) : (
+									<UserProfileButton />
+								)
 							) : (
 								<ButtonLink to="/signup" color="primary">
 									Sign Up

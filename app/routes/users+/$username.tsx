@@ -1,5 +1,5 @@
 import { json, type DataFunctionArgs, type MetaFunction } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Form, useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
 import { GeneralErrorBoundary } from '~/components/error-boundary.tsx'
 import { Spacer } from '~/components/spacer.tsx'
@@ -7,6 +7,8 @@ import { prisma } from '~/utils/db.server.ts'
 import { ButtonLink } from '~/utils/forms.tsx'
 import { getUserImgSrc } from '~/utils/misc.ts'
 import { useOptionalUser } from '~/hooks/useUser.ts'
+import { Simulate } from 'react-dom/test-utils'
+import submit = Simulate.submit
 
 export async function loader({ params }: DataFunctionArgs) {
 	invariant(params.username, 'Missing username')
@@ -37,7 +39,7 @@ export default function UsernameIndex() {
 		<div className="container mx-auto mb-48 mt-36 flex flex-col items-center justify-center">
 			<Spacer size="4xs" />
 
-			<div className="container mx-auto flex flex-col items-center rounded-3xl bg-night-500 p-12">
+			<div className="container mx-auto flex flex-col items-center rounded-xl bg-night-500 p-12">
 				<div className="relative w-52">
 					<div className="absolute -top-40">
 						<div className="relative">
@@ -70,6 +72,20 @@ export default function UsernameIndex() {
 								>
 									Edit profile
 								</ButtonLink>
+
+								<Form
+									action="/logout"
+									method="POST"
+									className="active:border-accent-primary-lighter group relative flex items-center justify-center rounded-lg border-night-400 bg-accent-alert p-0.5 text-center font-medium hover:border-accent-primary hover:bg-gray-100 focus:z-10 focus:border-accent-primary focus:bg-gray-100 focus:outline-none focus:ring-2 active:bg-gray-100 dark:hover:bg-night-700 dark:hover:text-color-primary"
+									onClick={e => submit(e.currentTarget)}
+								>
+									<button
+										className="flex items-center rounded-md px-3 py-1.5 text-sm transition-all duration-200"
+										type="submit"
+									>
+										Logout
+									</button>
+								</Form>
 							</>
 						)}
 					</div>

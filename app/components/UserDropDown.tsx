@@ -5,33 +5,39 @@ import { useUser } from '~/hooks/useUser.ts'
 import { customTheme } from '~/styles/customTheme.tsx'
 import { clsx } from 'clsx'
 
+export function UserProfileButton() {
+	const user = useUser()
+	return (
+		<Link
+			to={`/users/${user.username}`}
+			// this is for progressive enhancement
+			className={clsx(
+				customTheme.button?.base,
+				customTheme.button?.color?.secondary,
+				'rounded-lg',
+			)}
+		>
+			<span className={clsx(customTheme.button?.inner?.base, 'px-2')}>
+				<img
+					className="mr-2 h-8 w-8 rounded-full object-cover"
+					alt={user.name ?? user.username}
+					src={getUserImgSrc(user.imageId)}
+				/>
+				<span className="text-body-sm font-bold">
+					{user.name ?? user.username}
+				</span>
+			</span>
+		</Link>
+	)
+}
+
 export function UserDropdown() {
 	const user = useUser()
 	const submit = useSubmit()
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger asChild>
-				<Link
-					to={`/users/${user.username}`}
-					// this is for progressive enhancement
-					onClick={e => e.preventDefault()}
-					className={clsx(
-						customTheme.button?.base,
-						customTheme.button?.color?.secondary,
-						'rounded-lg',
-					)}
-				>
-					<span className={clsx(customTheme.button?.inner?.base, 'px-2')}>
-						<img
-							className="mr-2 h-8 w-8 rounded-full object-cover"
-							alt={user.name ?? user.username}
-							src={getUserImgSrc(user.imageId)}
-						/>
-						<span className="text-body-sm font-bold">
-							{user.name ?? user.username}
-						</span>
-					</span>
-				</Link>
+				<UserProfileButton />
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Portal>
 				<DropdownMenu.Content
