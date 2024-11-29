@@ -74,7 +74,7 @@ export const customTheme: CustomFlowbiteTheme = {
 	sidebar: {
 		root: {
 			base: 'h-full bg-white dark:bg-night-primary',
-			inner: 'h-full overflow-y-auto overflow-x-hidden rounded pl-4 py-4',
+			inner: 'h-full overflow-y-auto overflow-x-hidden rounded',
 		},
 		collapse: {
 			list: 'space-y-2 py-2 list-none',
@@ -83,7 +83,7 @@ export const customTheme: CustomFlowbiteTheme = {
 			base: 'no-underline flex items-center rounded-lg p-2 text-lg font-normal text-color-primary hover:bg-accent-primary dark:text-color-primary dark:hover:bg-gray-700',
 		},
 		itemGroup: {
-			base: 'list-none border-t border-gray-200 pt-3 first:mt-0 first:border-t-0 first:pt-0',
+			base: 'list-none pt-3 first:mt-0 first:pt-0',
 		},
 	},
 }

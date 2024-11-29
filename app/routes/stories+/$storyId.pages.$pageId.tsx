@@ -126,7 +126,7 @@ export default function GetPageRoute() {
 			<h3 className="mb-2 mt-4 text-xl font-bold">
 				{page?.nextChoices?.length ? 'Your choices are:' : ''}
 			</h3>
-			<ul className="ml-2 space-y-4" key={page.id}>
+			<ul className="ml-2 space-y-2" key={page.id}>
 				{page.nextChoices.map(choice => {
 					return (
 						<EditableChoice

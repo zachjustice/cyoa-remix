@@ -61,7 +61,7 @@ export default function EditableChoice(props: ChoiceProps) {
 				)}
 				<Link
 					to={link}
-					className={clsx('hover:text- flex items-center', {
+					className={clsx('flex items-center hover:underline', {
 						[styles.selectedChoice]: isChosen,
 					})}
 					onClick={() => onClickHandler(pageId, choice)}

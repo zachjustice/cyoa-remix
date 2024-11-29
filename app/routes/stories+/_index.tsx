@@ -117,7 +117,10 @@ function StoryList({ stories, user, children }: StoryListProps) {
 					>
 						<div className="flex w-fit items-center gap-4">
 							<h2 className="text-body-md font-bold text-accent-primary">
-								<Link to={`/stories/${story.id}/introduction`}>
+								<Link
+									to={`/stories/${story.id}/introduction`}
+									className="hover:underline"
+								>
 									{story.title}
 								</Link>
 							</h2>

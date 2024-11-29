@@ -10,6 +10,7 @@ import { clsx } from 'clsx'
 import invariant from 'tiny-invariant'
 import { getUserId } from '~/utils/auth.server.ts'
 import { prisma } from '~/utils/db.server.ts'
+import { LuTriangleRight } from 'react-icons/lu/index.js'
 import {
 	deletedPage,
 	usePageHistory,
@@ -132,7 +133,7 @@ export default function GetStoryRoute() {
 	}, [deletedPageId, dispatch])
 
 	const navLinkDefaultClassName =
-		'line-clamp-2 block rounded-l my-2 py-2 pl-8 pr-6 text-base lg:text-xl hover:bg-accent-secondary hover:text-color-primary-inverted'
+		'rounded-l my-2 py-2 pl-8 pr-6 text-base flex gap-2 hover:bg-accent-secondary hover:text-color-primary-inverted'
 	const isActiveClass = 'bg-accent-primary'
 	return (
 		<div className="relative flex h-fit min-h-full w-full">
@@ -148,8 +149,7 @@ export default function GetStoryRoute() {
 			</main>
 			<div className="order-1 flex grow">
 				<Sidebar>
-					<h1 className="mb-2 mr-2 text-h2">{story.title}</h1>
-					<p className="mb-2 mr-2">Table of Contents</p>
+					<p className="mr-2 pl-8 pt-3">Table of Contents</p>
 					<Sidebar.ItemGroup>
 						<NavLink
 							to={`/stories/${story.id}/introduction`}
@@ -174,6 +174,7 @@ export default function GetStoryRoute() {
 										})
 									}
 								>
+									<LuTriangleRight className="mt-1" />
 									Page {index + 1}
 								</NavLink>
 							)
