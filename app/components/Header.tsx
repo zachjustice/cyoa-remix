@@ -50,7 +50,7 @@ const Header = function ({ user }: HeaderProps) {
 	}, [])
 
 	return (
-		<header className="sticky top-0 z-20 w-full border-b-[1px] border-night-200">
+		<header className="border-day-border sticky top-0 z-20 w-full border-b-[1px] dark:border-night-border">
 			<div className="container mx-auto max-w-7xl">
 				<Navbar fluid>
 					{isPageWithSidebar && (

@@ -19,7 +19,7 @@ const Sidebar: FC<SidebarProps> = function ({ children, className }) {
 	return (
 		<div
 			className={classNames(
-				'absolute top-0 z-10 h-full overflow-auto border-r-2 border-night-200 md:sticky md:!block',
+				'border-day-border absolute top-0 z-10 h-full overflow-auto border-r-2 dark:border-night-border md:sticky md:!block',
 				{
 					hidden: !isSidebarOpenOnSmallScreens,
 				},

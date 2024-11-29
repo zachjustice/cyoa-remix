@@ -42,7 +42,7 @@
 }
 
 .checkboxField button[aria-checked='false'] {
-	@apply border-night-400 bg-white dark:bg-night-700;
+	@apply border-night-400 bg-white dark:bg-night-primary;
 }
 
 .checkboxField button[aria-checked='true'] {

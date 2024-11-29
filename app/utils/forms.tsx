@@ -55,7 +55,7 @@ export function Field({
 				aria-describedby={errorId}
 				placeholder=" "
 				{...inputProps}
-				className="h-16 w-full rounded-lg border border-night-400 px-4 pt-4 text-body-xs outline-none focus:border-accent-primary disabled:bg-night-400 dark:bg-night-700 dark:caret-white"
+				className="h-16 w-full rounded-lg border border-night-400 px-4 pt-4 text-body-xs outline-none focus:border-accent-primary disabled:bg-night-400 dark:bg-night-primary dark:caret-white"
 			/>
 			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
 			<label htmlFor={id} {...labelProps} />
@@ -89,7 +89,7 @@ export function SimpleField({
 				aria-describedby={errorId}
 				placeholder=" "
 				{...inputProps}
-				className="h-16 w-full rounded-lg border border-night-400 px-4 pt-4 text-body-xs caret-white outline-none focus:border-accent-primary disabled:bg-night-400 dark:bg-night-700"
+				className="h-16 w-full rounded-lg border border-night-400 px-4 pt-4 text-body-xs caret-white outline-none focus:border-accent-primary disabled:bg-night-400 dark:bg-night-primary"
 			/>
 			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
 			<label htmlFor={id} {...labelProps} />
@@ -119,7 +119,7 @@ export function TextareaField({
 				aria-describedby={errorId}
 				placeholder=" "
 				{...textareaProps}
-				className="h-48 w-full rounded-lg border border-night-400 px-4 pt-8 text-body-xs caret-white outline-none focus:border-accent-primary disabled:bg-night-400 dark:bg-night-700"
+				className="h-48 w-full rounded-lg border border-night-400 px-4 pt-8 text-body-xs caret-white outline-none focus:border-accent-primary disabled:bg-night-400 dark:bg-night-primary"
 			/>
 			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
 			<label htmlFor={id} {...labelProps} />

@@ -371,7 +371,7 @@ export default function StorySettingsRoute() {
 								{storyOwnerAndStoryMembers?.storyMembers.map(storyMember => (
 									<li
 										key={storyMember.user.id}
-										className="mb-1 flex justify-between border-t border-night-200 pt-1"
+										className="border-day-border mb-1 flex justify-between border-t pt-1 dark:border-night-border"
 									>
 										<Link
 											to={`/users/${storyMember.user.username}`}

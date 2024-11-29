@@ -28,6 +28,11 @@ export default {
 					500: '#1E1E20',
 					600: '#141414',
 					700: '#090909',
+					// use bg-night-primary instead of bg-gray-950
+					primary: '#030712', // gray-950
+					'primary-highlight': '#111827', // gray-900
+					subtitle: '#9198A1',
+					border: '#1f2937', // gray-800
 				},
 				day: {
 					100: '#F7F5FF',
@@ -37,6 +42,9 @@ export default {
 					500: '#9696E0',
 					600: '#9999CC',
 					700: '#6A44FF',
+					primary: '#FFFFFF',
+					'primary-highlight': '#f1f5f9',
+					subtitle: '#59636E',
 				},
 				accent: {
 					red: '#EF5A5A',

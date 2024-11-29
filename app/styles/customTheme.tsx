@@ -12,36 +12,38 @@ export const customTheme: CustomFlowbiteTheme = {
 	},
 	navbar: {
 		root: {
-			base: 'bg-white px-2 py-2.5 sm:px-4 dark:bg-night-700',
+			base: 'bg-day-primary-highlight px-2 py-2.5 sm:px-4 dark:bg-night-primary-highlight',
 			inner: {
 				base: 'mx-auto flex flex-wrap items-center justify-between',
 			},
 		},
 	},
 	tabs: {
+		base: 'flex flex-col',
+		tabpanel: '',
 		tablist: {
 			base: 'flex text-center',
 			styles: {
 				fullWidth:
 					'w-full text-sm font-medium shadow grid grid-flow-col dark:divide-gray-700 dark:text-gray-400 rounded-none',
 				pills:
-					'overflow-x-auto sm:flex-wrap border-t border-b border-night-200 py-2 font-medium text-sm text-gray-500 dark:text-gray-400 space-x-2',
+					'overflow-x-auto sm:flex-wrap bg-day-primary-highlight border rounded-t border-day-border dark:border-night-border p-4 text-gray-500 dark:text-dark-subtitle dark:bg-night-primary-highlight space-x-2',
 			},
 			tabitem: {
-				base: 'items-center whitespace-nowrap justify-center p-4 text-sm font-medium first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:ring-1 focus:ring-accept-yellow focus:outline-none',
+				base: 'items-center whitespace-nowrap justify-center p-4 text-sm font-medium leading-[0] first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:ring-1 focus:ring-accept-yellow focus:outline-none',
 				styles: {
 					pills: {
 						base: '',
 						active: {
 							on: 'rounded-lg border border-accent-primary bg-accent-primary text-color-primary',
-							off: 'rounded-lg border border-night-200 hover:border-accent-primary',
+							off: 'rounded-lg border border-day-border dark:border-night-border hover:border-accent-primary',
 						},
 					},
 					fullWidth: {
-						base: 'ml-0 first:ml-0 w-full first:rounded-tl-lg last:rounded-tr-lg flex border-b-2 border-night-200',
+						base: 'ml-0 first:ml-0 w-full first:rounded-t-lg last:rounded-tr-lg flex border-b-2 border-day-border dark:border-night-border',
 						active: {
 							on: 'active font-bold bg-accent-primary hover:text-color-primary dark:hover:text-color-primary dark:bg-night-800 dark:hover:bg-accent-primary',
-							off: 'p-4 text-color-primary bg-accent-primary-muted hover:bg-accent-primary dark:bg-night-700 dark:text-color-primary',
+							off: 'p-4 text-color-primary bg-accent-primary-muted hover:bg-accent-primary dark:bg-night-primary dark:text-color-primary',
 						},
 					},
 				},
@@ -57,9 +59,9 @@ export const customTheme: CustomFlowbiteTheme = {
 		base: 'group flex items-stretch items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none',
 		color: {
 			default:
-				'border-[1.5px] border-night-200 focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-color-primary dark:border-night-400 dark:bg-night-700',
+				'border-[1.5px] border-day-border focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-color-primary dark:border-night-border dark:bg-night-primary',
 			secondary:
-				'border-[1.5px] border-night-400 dark:bg-night-700 hover:border-accent-primary focus:border-accent-primary active:border-accent-primary-lighter focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-night-700 dark:hover:text-color-primary',
+				'border-[1.5px] border-night-400 dark:bg-night-primary hover:border-accent-primary focus:border-accent-primary active:border-accent-primary-lighter focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-night-700 dark:hover:text-color-primary',
 			primary:
 				'text-color-primary border border-transparent focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 bg-accent-primary hover:bg-accent-secondary hover:text-color-primary-inverted focus:bg-accent-secondary focus:text-color-primary-inverted active:bg-accent-secondary-muted',
 			danger:
@@ -71,7 +73,7 @@ export const customTheme: CustomFlowbiteTheme = {
 	},
 	sidebar: {
 		root: {
-			base: 'h-full bg-white dark:bg-night-700',
+			base: 'h-full bg-white dark:bg-night-primary',
 			inner: 'h-full overflow-y-auto overflow-x-hidden rounded pl-4 py-4',
 		},
 		collapse: {

@@ -43,13 +43,13 @@ export function UserDropdown() {
 				<DropdownMenu.Content
 					sideOffset={8}
 					align="start"
-					className="flex flex-col rounded-xl border-[1px] border-night-200"
+					className="border-day-border flex flex-col rounded-xl border-[1px] dark:border-night-border"
 				>
 					<DropdownMenu.Item asChild>
 						<Link
 							prefetch="intent"
 							to={`/users/${user.username}`}
-							className="rounded-t-xl bg-white px-7 py-5 outline-none radix-highlighted:bg-day-300 dark:bg-night-700 dark:radix-highlighted:bg-night-500"
+							className="rounded-t-xl bg-white px-7 py-5 outline-none radix-highlighted:bg-day-300 dark:bg-night-primary dark:radix-highlighted:bg-night-500"
 						>
 							Profile
 						</Link>
@@ -58,7 +58,7 @@ export function UserDropdown() {
 						<Form
 							action="/logout"
 							method="POST"
-							className="rounded-b-xl bg-white px-7 py-5 outline-none radix-highlighted:bg-day-300 dark:bg-night-700 dark:radix-highlighted:bg-night-500"
+							className="rounded-b-xl bg-white px-7 py-5 outline-none radix-highlighted:bg-day-300 dark:bg-night-primary dark:radix-highlighted:bg-night-500"
 							onClick={e => submit(e.currentTarget)}
 						>
 							<button type="submit">Logout</button>
