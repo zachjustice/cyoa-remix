@@ -446,7 +446,7 @@ export function PageEditor(props: PageEditorProps) {
 						className="group relative flex items-center justify-center rounded-lg border border-night-400 p-0.5 text-center font-medium hover:bg-accent-secondary hover:text-color-primary-inverted focus:z-10 focus:bg-accent-secondary focus:text-color-primary-inverted focus:outline-none focus:ring-2 focus:ring-blue-300 active:bg-accent-secondary-muted dark:text-color-primary dark:focus:ring-blue-800"
 						{...list['insert'](fields.choices.name, { defaultValue: 'Enter' })}
 					>
-						<span className="flex items-center rounded-md px-3 py-1.5 text-button transition-all duration-200">
+						<span className="flex items-center rounded-md px-3 py-1.5 text-sm transition-all duration-200">
 							Add Choice
 						</span>
 					</button>

@@ -12,7 +12,7 @@ export const customTheme: CustomFlowbiteTheme = {
 	},
 	navbar: {
 		root: {
-			base: 'bg-day-primary-highlight px-2 py-2.5 sm:px-4 dark:bg-night-primary-highlight',
+			base: 'px-2 py-2.5 sm:px-4 ',
 			inner: {
 				base: 'mx-auto flex flex-wrap items-center justify-between',
 			},
