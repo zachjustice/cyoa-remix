@@ -397,9 +397,7 @@ export function PageEditor(props: PageEditorProps) {
 	return (
 		<div className="mb-12 h-fit space-y-4">
 			<div className="flex items-center justify-between">
-				<h1 className="text-h2 sm:text-h1">
-					{page.id ? 'Edit Page' : 'New Page'}
-				</h1>
+				<h1 className="text-h2">{page.id ? 'Edit Page' : 'New Page'}</h1>
 				<>
 					{page?.id ? (
 						<ButtonLink
@@ -429,9 +427,6 @@ export function PageEditor(props: PageEditorProps) {
 					value={page?.parentChoiceId}
 				/>
 				<input name="storyId" type="hidden" value={page.storyId} />
-				<div className="mb-2">
-					<Subtitle>Page</Subtitle>
-				</div>
 				<TextareaField
 					className="no-required-asterisk"
 					labelProps={{
@@ -477,7 +472,7 @@ export function PageEditor(props: PageEditorProps) {
 				<div className="flex justify-between gap-4">
 					<div className="flex gap-4">
 						<Button
-							size="sm"
+							size="md"
 							color="primary"
 							status={
 								pageEditorFetcher.state === 'submitting'
@@ -493,7 +488,7 @@ export function PageEditor(props: PageEditorProps) {
 					{page?.id && canDeletePage && (
 						<div className="flex">
 							<ButtonLink
-								size="sm"
+								size="md"
 								color="danger"
 								to={`/stories/${page.storyId}/pages/${page.id}/delete`}
 							>

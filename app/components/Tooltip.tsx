@@ -9,7 +9,7 @@ type TooltipProps = {
 export function Tooltip(props: TooltipProps) {
 	return (
 		<FlowbitTooltip content={props.content}>
-			<props.icon className="text-[1.25rem] hover:text-color-subtitle" />
+			<props.icon className="text-[1.25rem] text-day-subtitle hover:text-color-subtitle dark:text-night-subtitle" />
 		</FlowbitTooltip>
 	)
 }

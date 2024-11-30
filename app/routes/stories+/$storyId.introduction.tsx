@@ -59,7 +59,7 @@ export default function GetStoryIntroductionRoute() {
 									? `/stories/${story.id}/pages/${story.firstPageId}/`
 									: `/stories/${story.id}/pages/new/`
 							}
-							size="sm"
+							size="md"
 							color="primary"
 							type="submit"
 							onClick={() => {}}
@@ -77,7 +77,7 @@ export default function GetStoryIntroductionRoute() {
 
 					{canEditPage && (
 						<ButtonLink
-							size="sm"
+							size="md"
 							color="secondary"
 							to={`/stories/${story.id}/edit`}
 						>
@@ -86,7 +86,7 @@ export default function GetStoryIntroductionRoute() {
 					)}
 					{canEditStorySettings && (
 						<ButtonLink
-							size="sm"
+							size="md"
 							color="secondary"
 							to={`/stories/${story.id}/settings`}
 						>
