@@ -242,56 +242,66 @@ export default function StorySettingsRoute() {
 		shouldRevalidate: 'onBlur',
 	})
 
+	const commonStyles =
+		'p-4 pl-6 border-t-0 border-[1px] rounded-b border-day-border dark:border-night-border'
 	return (
 		<div className="space-y-6">
 			<h1 className="text-h1">Settings</h1>
 			{/* eslint-disable-next-line react/style-prop-object */}
 			<Tabs style="pills">
 				<Tabs.Item active title="Visibility">
-					<h2 className="text-h4">Manage Visibility</h2>
-					<form method="POST" className="space-y-4">
-						<input name="storyId" type="hidden" value={storyId} />
-						<input
-							name="operation"
-							type="hidden"
-							value={StorySettingsOperations.Update}
-						/>
-						<fieldset className="flex max-w-md flex-col gap-4">
-							<legend className="mb-4">
-								Can everyone read or only selected readers and editors?
-							</legend>
-							<div className="flex items-center gap-2">
-								<Radio
-									id="public"
-									name="permission"
-									value={StoryPermissions.PublicStory}
-									defaultChecked={isPublic}
-								/>
-								<Label htmlFor="public" className="text-color-primary">
-									Everyone can read
-								</Label>
+					<div className={commonStyles}>
+						<h2 className="text-h4">Manage Visibility</h2>
+						<form method="POST" className="space-y-4">
+							<input name="storyId" type="hidden" value={storyId} />
+							<input
+								name="operation"
+								type="hidden"
+								value={StorySettingsOperations.Update}
+							/>
+							<fieldset className="flex max-w-md flex-col gap-4">
+								<legend className="mb-4">
+									Can everyone read or only selected readers and editors?
+								</legend>
+								<div className="flex items-center gap-2">
+									<Radio
+										id="public"
+										name="permission"
+										value={StoryPermissions.PublicStory}
+										defaultChecked={isPublic}
+									/>
+									<Label
+										htmlFor="public"
+										className="text-color-primary-inverted dark:text-color-primary"
+									>
+										Everyone can read
+									</Label>
+								</div>
+								<div className="flex items-center gap-2">
+									<Radio
+										id="private"
+										name="permission"
+										value={StoryPermissions.PrivateStory}
+										defaultChecked={!isPublic}
+									/>
+									<Label
+										htmlFor="public"
+										className="text-color-primary-inverted dark:text-color-primary"
+									>
+										Onlv selected readers and editors
+									</Label>
+								</div>
+							</fieldset>
+							<div className="flex items-center gap-4">
+								<Button type="submit" color="primary">
+									Save Settings
+								</Button>
 							</div>
-							<div className="flex items-center gap-2">
-								<Radio
-									id="private"
-									name="permission"
-									value={StoryPermissions.PrivateStory}
-									defaultChecked={!isPublic}
-								/>
-								<Label htmlFor="private" className="text-color-primary">
-									Onlv selected readers and editors
-								</Label>
-							</div>
-						</fieldset>
-						<div className="flex items-center gap-4">
-							<Button type="submit" color="primary">
-								Save Settings
-							</Button>
-						</div>
-					</form>
+						</form>
+					</div>
 				</Tabs.Item>
 				<Tabs.Item title="Readers & Editors">
-					<div className="space-y-4">
+					<div className={commonStyles}>
 						<div className="flex gap-4">
 							<h2 className="text-h4">Manage Readers and Editors</h2>
 							<Tooltip
