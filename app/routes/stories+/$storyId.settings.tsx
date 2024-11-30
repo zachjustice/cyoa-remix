@@ -302,7 +302,7 @@ export default function StorySettingsRoute() {
 				</Tabs.Item>
 				<Tabs.Item title="Readers & Editors">
 					<div className={commonStyles}>
-						<div className="flex gap-4">
+						<div className="mb-4 flex gap-4">
 							<h2 className="text-h4">Manage Readers and Editors</h2>
 							<Tooltip
 								content="This section controls the readers and editors for this story."
@@ -345,7 +345,7 @@ export default function StorySettingsRoute() {
 									</div>
 									<div className="align-middle">
 										<Button
-											size="lg"
+											size="md"
 											color="primary"
 											status={
 												addStoryMemberForm.state === 'submitting'
@@ -394,7 +394,7 @@ export default function StorySettingsRoute() {
 												alt={`user avatar for ${storyMember.user.username}`}
 												src={getUserImgSrc(storyMember.user.imageId)}
 											/>
-											<span className="text-body-sm">
+											<span className="text-button">
 												{storyMember.user.username}
 											</span>
 											{storyMember.permission.name === 'story/edit' && (

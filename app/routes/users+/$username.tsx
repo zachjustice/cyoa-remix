@@ -61,13 +61,13 @@ export default function UsernameIndex() {
 					<p className="mt-2 text-center text-color-subtitle">
 						Joined {data.userJoinedDisplay}
 					</p>
-					<div className="mt-10 flex gap-4">
+					<div className="mt-10 space-y-4 ">
 						{isLoggedInUser && (
 							<>
 								<ButtonLink
 									to="/settings/profile"
 									color="secondary"
-									size="sm"
+									size="md"
 									prefetch="intent"
 								>
 									Edit profile

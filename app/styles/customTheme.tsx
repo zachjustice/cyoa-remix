@@ -59,9 +59,9 @@ export const customTheme: CustomFlowbiteTheme = {
 		base: 'group flex items-stretch items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none',
 		color: {
 			default:
-				'border-[1.5px] border-day-border focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-color-primary dark:border-night-border dark:bg-night-primary',
+				'border-[1px] border-day-border focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-color-primary dark:border-night-border dark:bg-night-primary',
 			secondary:
-				'border-[1.5px] border-night-400 dark:bg-night-primary hover:border-accent-primary focus:border-accent-primary active:border-accent-primary-lighter focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-night-700 dark:hover:text-color-primary',
+				'border-[1px] border-night-400 dark:bg-night-primary hover:border-accent-primary focus:border-accent-primary active:border-accent-primary-lighter focus:bg-gray-100 hover:bg-gray-100 active:bg-gray-100 dark:hover:bg-night-700 dark:hover:text-color-primary',
 			primary:
 				'text-color-primary border border-transparent focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 bg-accent-primary hover:bg-accent-secondary hover:text-color-primary-inverted focus:bg-accent-secondary focus:text-color-primary-inverted active:bg-accent-secondary-muted',
 			danger:
@@ -69,6 +69,13 @@ export const customTheme: CustomFlowbiteTheme = {
 		},
 		inner: {
 			base: 'flex items-center transition-all duration-200',
+		},
+		size: {
+			xs: 'text-xs leading-[0.5rem] px-2 py-1',
+			sm: 'text-sm leading-[0.5rem] px-3 py-1.5',
+			md: 'text-sm leading-[1rem] px-4 py-2',
+			lg: 'text-base leading-[1rem] px-5 py-2.5',
+			xl: 'text-base leading-[1rem] px-6 py-3',
 		},
 	},
 	sidebar: {

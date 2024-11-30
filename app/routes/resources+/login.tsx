@@ -135,7 +135,7 @@ export function InlineLogin({
 						<div>
 							<Link
 								to="/forgot-password"
-								className="text-body-xs font-semibold"
+								className="text-button font-semibold hover:underline"
 							>
 								Forgot password?
 							</Link>
@@ -168,8 +168,10 @@ export function InlineLogin({
 					</div>
 				</loginFetcher.Form>
 				<div className="flex items-center justify-center gap-2 pt-6">
-					<span className=" text-color-subtitle">New here?</span>
-					<Link to="/signup">Create an account</Link>
+					<span className="text-color-subtitle">New here?</span>
+					<Link to="/signup" className="hover:underline">
+						Create an account
+					</Link>
 				</div>
 			</div>
 		</div>

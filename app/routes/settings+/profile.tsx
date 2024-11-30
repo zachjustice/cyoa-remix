@@ -163,7 +163,7 @@ export default function EditUserProfile() {
 				>
 					Profile
 				</Link>
-				<span className=" text-color-subtitle">▶️</span>
+				<span className=" text-color-subtitle">{'>'}</span>
 				<span>Edit Profile</span>
 			</div>
 			<div className="mt-16 flex flex-col gap-12">
@@ -253,7 +253,7 @@ export default function EditUserProfile() {
 					<div className="mt-3 flex justify-center">
 						<Button
 							type="submit"
-							size="md-wide"
+							size="md"
 							color="primary"
 							status={isSubmitting ? 'pending' : actionData?.status ?? 'idle'}
 						>

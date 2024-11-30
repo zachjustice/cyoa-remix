@@ -193,7 +193,7 @@ export default function SignupRoute() {
 						</forgotPassword.Form>
 					</>
 				)}
-				<Link to="/login" className="mt-11 text-center text-body-sm font-bold">
+				<Link to="/login" className="mt-11 text-center text-button font-bold">
 					Back to Login
 				</Link>
 			</div>

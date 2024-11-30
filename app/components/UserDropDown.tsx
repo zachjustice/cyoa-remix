@@ -19,7 +19,9 @@ export function UserProfileButton() {
 		>
 			<span className={clsx(customTheme.button?.inner?.base, 'px-2')}>
 				<img
-					className="mr-2 h-8 w-8 rounded-full object-cover"
+					className={clsx('mr-2 h-8 w-8 rounded-full object-cover', {
+						'dark:bg-night-400': !user.imageId,
+					})}
 					alt={user.name ?? user.username}
 					src={getUserImgSrc(user.imageId)}
 				/>

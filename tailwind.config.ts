@@ -96,7 +96,7 @@ export default {
 				/** 18px size / 24px high / semibold */
 				caption: ['1.125rem', { lineHeight: '1.5rem', fontWeight: '600' }],
 				/** 12px size / 16px high / bold */
-				button: ['0.75rem', { lineHeight: '1rem', fontWeight: '700' }],
+				button: ['0.875rem', { lineHeight: '0.5rem', fontWeight: '700' }],
 			},
 		},
 	},
