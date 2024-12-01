@@ -100,9 +100,9 @@ export default function App() {
 			</head>
 			<Flowbite theme={{ theme: customTheme }}>
 				<SidebarProvider>
-					<body className="flex h-screen flex-col bg-white text-color-primary-inverted dark:bg-night-primary dark:text-color-primary">
+					<body className="flex h-screen w-screen flex-col bg-white text-color-primary-inverted dark:bg-night-primary dark:text-color-primary">
 						<Header user={user} />
-						<div id="main-content" className="flex h-full">
+						<div id="main-content" className="flex h-full w-full">
 							<StoryActivityProvider>
 								<Outlet />
 							</StoryActivityProvider>

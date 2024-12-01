@@ -19,10 +19,10 @@ export const customTheme: CustomFlowbiteTheme = {
 		},
 	},
 	tabs: {
-		base: 'flex flex-col',
+		base: 'flex flex-1 w-full flex-col',
 		tabpanel: '',
 		tablist: {
-			base: 'flex text-center',
+			base: 'flex flex-col md:flex-row text-center gap-4',
 			styles: {
 				fullWidth:
 					'w-full text-sm font-medium shadow grid grid-flow-col dark:divide-gray-700 dark:text-gray-400 rounded-none',
