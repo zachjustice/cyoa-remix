@@ -103,7 +103,7 @@ export default function GetPageRoute() {
 	const pageNumber = 1 + pageHistory.findIndex(p => p.id === page.id)
 
 	return (
-		<div className="max-w-6xl">
+		<div className="border-day-border h-full w-full max-w-2xl rounded border-[1px] bg-day-primary-highlight p-8 dark:border-night-border dark:bg-night-primary-highlight">
 			<div className="flex gap-8">
 				<h2 className="pb-4 text-h2">Page {pageNumber}</h2>
 				{canEditPage &&
