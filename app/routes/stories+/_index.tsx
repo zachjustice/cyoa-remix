@@ -168,7 +168,7 @@ export default function GetStoriesRoute() {
 	const user = useOptionalUser()
 
 	return (
-		<main className="mx-auto h-full w-full max-w-5xl md:p-4">
+		<main className="mx-auto h-full w-full max-w-2xl p-4">
 			<h1 className="mb-2 text-h1">Stories</h1>
 			{/* eslint-disable-next-line react/style-prop-object */}
 			<Tabs style="pills">

@@ -19,7 +19,7 @@ export const customTheme: CustomFlowbiteTheme = {
 		},
 	},
 	tabs: {
-		base: 'flex flex-1 w-full flex-col',
+		base: 'flex flex-1 w-full flex-col pb-10',
 		tabpanel: '',
 		tablist: {
 			base: 'flex flex-col md:flex-row text-center gap-4',
