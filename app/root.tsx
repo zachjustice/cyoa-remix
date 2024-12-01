@@ -90,7 +90,7 @@ export default function App() {
 	const nonce = useNonce()
 	const { user } = data
 	return (
-		<html lang="en" className="h-screen">
+		<html lang="en">
 			<head>
 				<Meta />
 				<meta charSet="utf-8" />
@@ -100,9 +100,9 @@ export default function App() {
 			</head>
 			<Flowbite theme={{ theme: customTheme }}>
 				<SidebarProvider>
-					<body className="flex h-full flex-col justify-between bg-white text-color-primary-inverted dark:bg-night-primary dark:text-color-primary">
+					<body className="flex h-screen flex-col bg-white text-color-primary-inverted dark:bg-night-primary dark:text-color-primary">
 						<Header user={user} />
-						<div id="main-content" className="h-full min-h-fit">
+						<div id="main-content" className="flex h-full">
 							<StoryActivityProvider>
 								<Outlet />
 							</StoryActivityProvider>

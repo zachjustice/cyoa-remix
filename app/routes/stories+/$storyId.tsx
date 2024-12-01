@@ -133,11 +133,56 @@ export default function GetStoryRoute() {
 	}, [deletedPageId, dispatch])
 
 	const navLinkDefaultClassName =
-		'rounded-l my-2 py-2 pl-8 pr-6 text-base flex gap-2 hover:bg-accent-secondary hover:text-color-primary-inverted'
+		'rounded-l py-2 pl-8 pr-6 text-base flex gap-2 hover:bg-accent-secondary hover:text-color-primary-inverted'
 	const isActiveClass = 'bg-accent-primary'
 	return (
-		<div className="relative flex h-fit min-h-full w-full">
-			<main className="order-2 h-fit min-h-full w-full px-10 py-12 md:rounded">
+		<div className="relative flex h-full w-full flex-1 overflow-hidden">
+			<Sidebar>
+				<p className="mr-2 pl-8 pt-3">Table of Contents</p>
+				<Sidebar.ItemGroup>
+					<NavLink
+						to={`/stories/${story.id}/introduction`}
+						className={({ isActive }) =>
+							clsx(navLinkDefaultClassName, {
+								[isActiveClass]: isActive,
+							})
+						}
+					>
+						Introduction
+					</NavLink>
+					{pageHistory.map((page, index) => {
+						return (
+							<NavLink
+								key={`/stories/${story.id}/pages/${page.id}`}
+								to={`/stories/${story.id}/pages/${page.id}${
+									editPage ? '?editPage=true' : ''
+								}`}
+								className={({ isActive }) =>
+									clsx(navLinkDefaultClassName, {
+										[isActiveClass]: isActive,
+									})
+								}
+							>
+								<LuTriangleRight className="mt-1" />
+								Page {index + 1}
+							</NavLink>
+						)
+					})}
+					{location.pathname.includes('/pages/new') && (
+						<NavLink
+							to={`/stories/${story.id}/pages/new`}
+							className={({ isActive }) =>
+								clsx(navLinkDefaultClassName, {
+									[isActiveClass]: isActive,
+								})
+							}
+						>
+							{canAddPage ? 'New Page' : 'The End'}
+						</NavLink>
+					)}
+				</Sidebar.ItemGroup>
+			</Sidebar>
+			<main className="flex h-full w-full flex-col overflow-y-auto px-4 py-12 md:px-10 ">
 				<p className="mb-4">
 					<a href="/stories" className="italic">
 						Home
@@ -147,53 +192,6 @@ export default function GetStoryRoute() {
 				</p>
 				<Outlet />
 			</main>
-			<div className="order-1 flex grow">
-				<Sidebar>
-					<p className="mr-2 pl-8 pt-3">Table of Contents</p>
-					<Sidebar.ItemGroup>
-						<NavLink
-							to={`/stories/${story.id}/introduction`}
-							className={({ isActive }) =>
-								clsx(navLinkDefaultClassName, {
-									[isActiveClass]: isActive,
-								})
-							}
-						>
-							Introduction
-						</NavLink>
-						{pageHistory.map((page, index) => {
-							return (
-								<NavLink
-									key={`/stories/${story.id}/pages/${page.id}`}
-									to={`/stories/${story.id}/pages/${page.id}${
-										editPage ? '?editPage=true' : ''
-									}`}
-									className={({ isActive }) =>
-										clsx(navLinkDefaultClassName, {
-											[isActiveClass]: isActive,
-										})
-									}
-								>
-									<LuTriangleRight className="mt-1" />
-									Page {index + 1}
-								</NavLink>
-							)
-						})}
-						{location.pathname.includes('/pages/new') && (
-							<NavLink
-								to={`/stories/${story.id}/pages/new`}
-								className={({ isActive }) =>
-									clsx(navLinkDefaultClassName, {
-										[isActiveClass]: isActive,
-									})
-								}
-							>
-								{canAddPage ? 'New Page' : 'The End'}
-							</NavLink>
-						)}
-					</Sidebar.ItemGroup>
-				</Sidebar>
-			</div>
 		</div>
 	)
 }

@@ -50,7 +50,7 @@ const Header = function ({ user }: HeaderProps) {
 	}, [])
 
 	return (
-		<header className="border-day-border sticky top-0 z-20 w-full border-b-[1px] bg-day-primary-highlight dark:border-night-border dark:bg-night-primary-highlight">
+		<header className="border-day-border flex w-full items-center border-b-[1px] bg-day-primary-highlight dark:border-night-border dark:bg-night-primary-highlight">
 			<div className="container mx-auto max-w-7xl">
 				<Navbar fluid>
 					{isPageWithSidebar && (
@@ -85,16 +85,20 @@ const Header = function ({ user }: HeaderProps) {
 						})}
 					>
 						<div className="my-4 flex flex-col space-y-6 md:my-0 md:flex-row md:gap-6 md:space-y-0">
-							<ButtonLink color="secondary" to="/stories">
+							<ButtonLink size="md" color="secondary" to="/stories">
 								Stories
 							</ButtonLink>
 							{user && (
-								<ButtonLink gradientDuoTone="purpleToBlue" to="/stories/new">
+								<ButtonLink
+									size="md"
+									gradientDuoTone="purpleToBlue"
+									to="/stories/new"
+								>
 									Write a Story
 								</ButtonLink>
 							)}
 							{!user && (
-								<ButtonLink color="secondary" to="/login">
+								<ButtonLink size="md" color="secondary" to="/login">
 									Log In
 								</ButtonLink>
 							)}
@@ -105,7 +109,7 @@ const Header = function ({ user }: HeaderProps) {
 									<UserProfileButton />
 								)
 							) : (
-								<ButtonLink to="/signup" color="primary">
+								<ButtonLink size="md" to="/signup" color="primary">
 									Sign Up
 								</ButtonLink>
 							)}

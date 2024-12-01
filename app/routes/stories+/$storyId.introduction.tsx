@@ -51,7 +51,7 @@ export default function GetStoryIntroductionRoute() {
 				<p className="preserve-whitespace text-sm md:text-lg">
 					{story.description}
 				</p>
-				<div className="mt-10 flex gap-4 whitespace-nowrap">
+				<div className="mt-10 flex flex-col gap-4 whitespace-nowrap md:flex-row">
 					{pageHistory.length === 0 ? (
 						<ButtonLink
 							to={
