@@ -35,7 +35,7 @@ export default function GetStoryIntroductionRoute() {
 	}, [pageHistory, currentStory?.id, params.storyId, dispatch, story])
 
 	return (
-		<div className="flex h-full flex-col">
+		<div className="border-day-border flex h-fit w-full max-w-2xl flex-col rounded border-[1px] bg-day-primary-highlight p-8 dark:border-night-border dark:bg-night-primary-highlight">
 			<div className="flex-grow">
 				<h2 className="text-h2 ">{story.title}</h2>
 				<p className="text-md md:text-md mb-2 lg:mb-6">
